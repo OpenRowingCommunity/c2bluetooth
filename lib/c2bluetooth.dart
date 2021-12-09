@@ -12,5 +12,6 @@ class WorkoutSummary {
   final int elapsedTime;
 
   WorkoutSummary.fromBytes(Uint8List data)
-      : elapsedTime = data.sublist(4, 7).buffer.asByteData().getUint64(0);
+      : elapsedTime =
+            data.sublist(4, 7).buffer.asByteData().getUint64(0, Endian.little);
 }
