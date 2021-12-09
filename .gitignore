@@ -33,3 +33,8 @@ build/
 pubspec.lock
 
 
+
+
+## Custom stuff
+
+coverage/
