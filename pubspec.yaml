@@ -12,7 +12,9 @@ dependencies:
     sdk: flutter
   
   flutter_ble_lib:
-    path: ../FlutterBleLib 
+    git:
+      url: git@github.com:dotintent/FlutterBleLib.git
+      ref: master
 
 dev_dependencies:
   flutter_test:
