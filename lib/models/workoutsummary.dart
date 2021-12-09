@@ -18,4 +18,11 @@ class WorkoutSummary {
         elapsedTime = bytesToInt(data.sublist(4, 7), Endian.little),
         distance = bytesToInt(data.sublist(7, 10), Endian.little),
         avgSPM = bytesToInt(data.sublist(10, 11), Endian.little);
+  @override
+  String toString() => "WorkoutSummary ("
+      "Date: $date, "
+      "Time: $time, "
+      "elapsedTime: $elapsedTime, "
+      "distance: $distance, "
+      "avgSPM: $avgSPM)";
 }
