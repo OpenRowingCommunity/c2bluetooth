@@ -53,6 +53,7 @@ class Ergometer {
     return peripheral!
         .monitorCharacteristic(Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID,
             Identifiers.C2_ROWING_END_OF_WORKOUT_SUMMARY_CHARACTERISTIC_UUID)
-        .asyncMap((datapoint) => datapoint.read().then((dp) => WorkoutSummary.fromBytes(dp)));
+        .asyncMap((datapoint) =>
+            datapoint.read().then((dp) => WorkoutSummary.fromBytes(dp)));
   }
 }
