@@ -11,6 +11,13 @@ class WorkoutSummary {
   final int elapsedTime;
   final int distance;
   final int avgSPM;
+  // final int endHeartRate;
+  // final int avgHeartRate;
+  // final int minHeartRate;
+  // final int maxHeartRate;
+  // final int avg_drag_factor;
+  // final int recoveryHeartRate; //this is sent as an amended packet later. zero is not valid
+  // final int workoutType;
 
   WorkoutSummary.fromBytes(Uint8List data)
       : date = bytesToInt(data.sublist(0, 2), Endian.little),
