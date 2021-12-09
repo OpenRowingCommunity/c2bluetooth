@@ -1,10 +1,13 @@
 library c2bluetooth;
 
+import 'dart:typed_data';
+
 /// A Calculator.
 class Calculator {
   /// Returns [value] plus 1.
   int addOne(int value) => value + 1;
 }
+
 class WorkoutSummary {
   final int elapsedTime;
 
