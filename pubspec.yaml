@@ -10,6 +10,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  
+  flutter_ble_lib:
+    path: ../FlutterBleLib 
 
 dev_dependencies:
   flutter_test:
