@@ -10,8 +10,11 @@ class Calculator {
 
 class WorkoutSummary {
   final int elapsedTime;
+  final int distance;
 
   WorkoutSummary.fromBytes(Uint8List data)
       : elapsedTime =
-            data.sublist(4, 7).buffer.asByteData().getUint64(0, Endian.little);
+            data.sublist(4, 7).buffer.asByteData().getUint64(0, Endian.little),
+        distance =
+            data.sublist(7, 10).buffer.asByteData().getUint64(0, Endian.little);
 }
