@@ -23,6 +23,10 @@ class ErgBleManager {
   Future<void> stopErgScan() {
     return manager.stopPeripheralScan();
   }
+
+  Future<void> destroy() {
+    return manager.destroyClient();
+  }
 }
 
 class Ergometer {
