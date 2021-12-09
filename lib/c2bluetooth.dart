@@ -8,6 +8,9 @@ class Calculator {
   int addOne(int value) => value + 1;
 }
 
+/// Processes the raw byte data from workout summary characteristics into easily accessible fields
+///
+/// This takes care of dealing with byte endianness, combining multiple high and low bytes .etc so that applications using the data only have to deal with flutter [int] types
 class WorkoutSummary {
   final int elapsedTime;
   final int distance;
