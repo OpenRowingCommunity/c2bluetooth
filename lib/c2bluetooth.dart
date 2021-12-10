@@ -31,6 +31,8 @@ class ErgBleManager {
 class Ergometer {
   Peripheral? _peripheral;
 
+  String get name => _peripheral?.name ?? "Unknown";
+
   Ergometer.fromPeripheral(Peripheral peripheral) {
     this._peripheral = peripheral;
   }
