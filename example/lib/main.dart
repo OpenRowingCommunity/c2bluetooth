@@ -133,6 +133,7 @@ class _SimpleErgViewState extends State<SimpleErgView> {
       setState(() {
         displayText = "distance: ${summary.distance}";
         displayText2 = "datetime: ${summary.timestamp}";
+        displayText3 = "sr: ${summary.avgSPM}";
       });
     });
   }
