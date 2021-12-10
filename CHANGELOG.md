@@ -1,3 +1,4 @@
-## 0.0.1
+## v0.1.0
 
-* TODO: Describe initial release.
+* Internal release to CrewLAB team for testing prior to public release
+
