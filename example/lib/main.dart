@@ -60,11 +60,10 @@ class _SimpleErgViewState extends State<SimpleErgView> {
 
     scanSub = bleManager.startErgScan().listen((erg) {
       //Scan one peripheral and stop scanning
-      print(
-          "Scanned Peripheral ${erg.peripheral!.name}, RSSI ${erg.peripheral!.rssi}");
+      print("Scanned Peripheral ${erg.name}");
 
-      var pepname = erg.peripheral!.name;
-      if (pepname != null && pepname.contains("PM5")) {
+      var pepname = erg.name;
+      if (pepname.contains("PM5")) {
         targetDevice = erg;
         setState(() {
           displayText = "Found an erg";
