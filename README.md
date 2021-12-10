@@ -66,7 +66,7 @@ await myErg.connectAndDiscover();
 ```
 
 ### Getting workout summaries
-To get data from the erg, use one of the methods available in the `Ergometer` class. Currently this is only `monitorForWorkoutSummary()`. This is a stream that returns a `WorkoutSummary` object that allows you to access the data from a completed programmed workout (i.e. not "Just Row").
+To get data from the erg, use one of the methods available in the `Ergometer` class. Currently this is only `monitorForWorkoutSummary()`. This is a stream that returns a `WorkoutSummary` object that allows you to access the data from a completed workout (this includes programmed pieces as well as "Just row" pieces that are longer than 1 minute)
 
 ```dart
 myErg.monitorForWorkoutSummary().listen((workoutSummary) {
