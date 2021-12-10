@@ -26,5 +26,5 @@ DateTime timeFromBytes(Uint8List bytes) {
   int minutes = bytesToInt(bytes.sublist(2, 3));
   int hours = bytesToInt(bytes.sublist(3, 4));
 
-  return DateTime(year ~/ 2, month, day, hours, minutes);
+  return DateTime((year ~/ 2) + 2000, month, day, hours, minutes);
 }
