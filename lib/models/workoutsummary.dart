@@ -27,7 +27,7 @@ class WorkoutSummary {
   @override
   String toString() => "WorkoutSummary ("
       "Timestamp: $timestamp, "
-      "elapsedTime: $elapsedTime, "
+      "elapsedTime: $workTime, "
       "distance: $distance, "
       "avgSPM: $avgSPM)";
 }
