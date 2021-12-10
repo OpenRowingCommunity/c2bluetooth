@@ -132,8 +132,7 @@ class _SimpleErgViewState extends State<SimpleErgView> {
     targetDevice!.monitorForWorkoutSummary().listen((summary) {
       setState(() {
         displayText = "distance: ${summary.distance}";
-        displayText2 = "date: ${summary.date}";
-        displayText3 = "time: ${summary.time}";
+        displayText2 = "datetime: ${summary.timestamp}";
       });
     });
   }
