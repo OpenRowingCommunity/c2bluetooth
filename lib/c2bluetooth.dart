@@ -14,10 +14,9 @@ class ErgBleManager {
   }
 
   Stream<Ergometer> startErgScan() {
-    // TODO: filter by UUID
-    return manager
-        .startPeripheralScan()
-        .map((scanResult) => Ergometer.fromPeripheral(scanResult.peripheral));
+    return manager.startPeripheralScan(uuids: [
+      Identifiers.C2_ROWING_BASE_UUID
+    ]).map((scanResult) => Ergometer.fromPeripheral(scanResult.peripheral));
   }
 
   Future<void> stopErgScan() {
