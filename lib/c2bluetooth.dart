@@ -5,26 +5,26 @@ import 'package:c2bluetooth/constants.dart' as Identifiers;
 import 'package:flutter_ble_lib/flutter_ble_lib.dart';
 
 class ErgBleManager {
-  BleManager manager = BleManager();
+  BleManager _manager = BleManager();
 
   // ErgBleManager() {}
 
   void init() {
-    manager.createClient();
+    _manager.createClient();
   }
 
   Stream<Ergometer> startErgScan() {
-    return manager.startPeripheralScan(uuids: [
+    return _manager.startPeripheralScan(uuids: [
       Identifiers.C2_ROWING_BASE_UUID
     ]).map((scanResult) => Ergometer.fromPeripheral(scanResult.peripheral));
   }
 
   Future<void> stopErgScan() {
-    return manager.stopPeripheralScan();
+    return _manager.stopPeripheralScan();
   }
 
   Future<void> destroy() {
-    return manager.destroyClient();
+    return _manager.destroyClient();
   }
 }
 
