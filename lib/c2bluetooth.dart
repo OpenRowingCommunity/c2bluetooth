@@ -29,27 +29,27 @@ class ErgBleManager {
 }
 
 class Ergometer {
-  Peripheral? peripheral;
+  Peripheral? _peripheral;
 
   Ergometer.fromPeripheral(Peripheral peripheral) {
-    this.peripheral = peripheral;
+    this._peripheral = peripheral;
   }
 
   Future<void> connectAndDiscover() async {
-    if (peripheral == null) return;
+    if (_peripheral == null) return;
 
-    await peripheral!.connect();
-    await peripheral!.discoverAllServicesAndCharacteristics();
+    await _peripheral!.connect();
+    await _peripheral!.discoverAllServicesAndCharacteristics();
   }
 
   Future<void> disconnectOrCancel() async {
-    if (peripheral == null) return;
+    if (_peripheral == null) return;
 
-    return peripheral?.disconnectOrCancelConnection();
+    return _peripheral?.disconnectOrCancelConnection();
   }
 
   Stream<WorkoutSummary> monitorForWorkoutSummary() {
-    return peripheral!
+    return _peripheral!
         .monitorCharacteristic(Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID,
             Identifiers.C2_ROWING_END_OF_WORKOUT_SUMMARY_CHARACTERISTIC_UUID)
         .asyncMap((datapoint) =>
