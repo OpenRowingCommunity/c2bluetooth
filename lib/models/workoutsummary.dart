@@ -9,7 +9,7 @@ class WorkoutSummary {
   final int date;
   final int time;
   final int elapsedTime;
-  final int distance;
+  final double distance;
   final int avgSPM;
   // final int endHeartRate;
   // final int avgHeartRate;
@@ -23,7 +23,8 @@ class WorkoutSummary {
       : date = bytesToInt(data.sublist(0, 2), Endian.little),
         time = bytesToInt(data.sublist(2, 4), Endian.little),
         elapsedTime = bytesToInt(data.sublist(4, 7), Endian.little),
-        distance = bytesToInt(data.sublist(7, 10), Endian.little),
+        distance = bytesToInt(data.sublist(7, 10), Endian.little) /
+            10, //divide by 10 to convert to meters
         avgSPM = bytesToInt(data.sublist(10, 11), Endian.little);
   @override
   String toString() => "WorkoutSummary ("

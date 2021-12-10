@@ -8,6 +8,6 @@ void main() {
     final summary = WorkoutSummary.fromBytes(Uint8List.fromList(
         [0, 0, 0, 0, 128, 0, 0, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
     expect(summary.elapsedTime, 128);
-    expect(summary.distance, 255);
+    expect(summary.distance, 25.5);
   });
 }
