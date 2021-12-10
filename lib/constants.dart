@@ -1,5 +1,5 @@
-// "CE060031-43E5-11E4-916C-0800200C9A66" //C2 rowing general status characteristic
-// "CE060000 -43E5-11E4-916C-0800200C9A66" // cr2rowing base PM UUID
+const String C2_ROWING_BASE_UUID =
+    "CE060000-43E5-11E4-916C-0800200C9A66"; // cr2rowing base PM UUID
 
 // CE061800-43E5-11E4-916C-0800200C9A66 //GAP service UUID
 // CE062A00-43E5-11E4-916C-0800200C9A66 //GAP device name characteristic
