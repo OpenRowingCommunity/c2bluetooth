@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:c2bluetooth/c2bluetooth.dart';
 import 'package:flutter/material.dart';
 
@@ -41,6 +43,7 @@ class _SimpleErgViewState extends State<SimpleErgView> {
   ErgBleManager bleManager = ErgBleManager();
 
   Ergometer? targetDevice;
+  StreamSubscription<Ergometer>? scanSub;
 
   @override
   void initState() {
@@ -55,7 +58,7 @@ class _SimpleErgViewState extends State<SimpleErgView> {
       displayText = "Start Scanning";
     });
 
-    bleManager.startErgScan().listen((erg) {
+    scanSub = bleManager.startErgScan().listen((erg) {
       //Scan one peripheral and stop scanning
       print(
           "Scanned Peripheral ${erg.peripheral!.name}, RSSI ${erg.peripheral!.rssi}");
@@ -73,8 +76,8 @@ class _SimpleErgViewState extends State<SimpleErgView> {
   }
 
   stopScan() {
-    // scanSubScription?.cancel();
-    // scanSubScription = null;
+    scanSub?.cancel();
+    scanSub = null;
     bleManager.stopErgScan();
   }
 
