@@ -37,8 +37,46 @@ For the most bleeding-edge experience - or if you plan to make and test changes 
   c2bluetooth:
     path: ../c2bluetooth
 ```
+
 ## Usage
-TBD
+Similar to how the underlying bluetooth library works, pretty much everything begins with an instance of `ErgBleManager()`. For a complete example, see the [example app](example/)
+
+### Creating a manager
+
+```dart
+ErgBleManager bleManager = ErgBleManager();
+bleManager.init(); //ready to go!
+```
+### Scanning for devices
+Next, you need to start scanning for available devices. This uses a Stream that returns instances of the `Ergometer` class that represent
+```dart
+bleManager.startErgScan().listen((erg) {
+	//your code for detecting an erg here
+	// maybe show it to the user and let them pick which one to connect to?
+});
+```
+
+### Connecting to an erg
+Once you have the `Ergometer` instance for the erg you want to connect to, you can call `connectAndDiscover()` on it to connect.
+
+```dart
+await myErg.connectAndDiscover();
+```
+
+### Getting workout summaries
+To get data from the erg, use one of the methods available in the `Ergometer` class. Currently this is only `monitorForWorkoutSummary()`. This is a stream that returns a `WorkoutSummary` object that allows you to access the data from a completed programmed workout (i.e. not "Just Row").
+
+```dart
+myErg.monitorForWorkoutSummary().listen((workoutSummary) {
+  //do whatever here
+});
+```
+
+### Disconnecting
+When you are done, make sure to disconnect from your erg:
+```dart
+await myErg.disconnectOrCancel();
+```
 
 ## Unit Testing
 Tests can be run with `flutter test` or `flutter test --coverage` for coverage information.
