@@ -22,7 +22,7 @@ To install as a [git dependency](https://dart.dev/tools/pub/dependencies#git-pac
 ```yaml
   c2bluetooth:
     git:
-      url: git@github.com:CrewLab/c2bluetooth.git
+      url: git://github.com/CrewLab/c2bluetooth
       ref: v0.1.0
 ```
 
