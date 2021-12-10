@@ -9,4 +9,10 @@ void main() {
     expect(bytesToInt(bytes), 128);
     expect(bytesToInt(bytes, Endian.little), 2147483648);
   });
+
+  test('converting a time from bytes', () {
+    final bytes = Uint8List.fromList([156, 42, 1, 14]);
+    expect(timeFromBytes(bytes), DateTime(2021, 12, 9, 14, 1));
+    // expect(bytesToInt(bytes, Endian.little), 2147483648);
+  });
 }
