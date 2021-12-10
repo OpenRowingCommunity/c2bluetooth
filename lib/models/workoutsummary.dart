@@ -8,7 +8,7 @@ import '../helpers.dart';
 class WorkoutSummary {
   final DateTime timestamp;
   final int workTime;
-  final double distance;
+  final double workDistance;
   final int avgSPM;
   // final int endHeartRate;
   // final int avgHeartRate;
@@ -21,13 +21,13 @@ class WorkoutSummary {
   WorkoutSummary.fromBytes(Uint8List data)
       : timestamp = timeFromBytes(data.sublist(0, 4)),
         workTime = bytesToInt(data.sublist(4, 7), Endian.little),
-        distance = bytesToInt(data.sublist(7, 10), Endian.little) /
+        workDistance = bytesToInt(data.sublist(7, 10), Endian.little) /
             10, //divide by 10 to convert to meters
         avgSPM = bytesToInt(data.sublist(10, 11), Endian.little);
   @override
   String toString() => "WorkoutSummary ("
       "Timestamp: $timestamp, "
       "elapsedTime: $workTime, "
-      "distance: $distance, "
+      "distance: $workDistance, "
       "avgSPM: $avgSPM)";
 }
