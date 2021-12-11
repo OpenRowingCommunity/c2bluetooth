@@ -32,7 +32,7 @@ enum MachineType {
   ERGMACHINE_TYPE_NUM
 }
 
-extension MachineTypeValueExtension on MachineType {
+extension MachineTypeExtension on MachineType {
   int get value {
     switch (this) {
       case MachineType.ERGMACHINE_TYPE_STATIC_D:
@@ -156,7 +156,7 @@ enum WorkoutType {
   WORKOUTTYPE_NUM
 }
 
-extension WorkoutTypeValueExtension on WorkoutType {
+extension WorkoutTypeExtension on WorkoutType {
   int get value => this.index;
 
   WorkoutType fromInt(int i) => WorkoutType.values[i];
@@ -179,7 +179,7 @@ enum WorkoutState {
   WORKOUTSTATE_REARM,
 }
 
-extension WorkoutStateValueExtension on WorkoutState {
+extension WorkoutStateExtension on WorkoutState {
   int get value => this.index;
   WorkoutState fromInt(int i) => WorkoutState.values[i];
 }
@@ -220,7 +220,7 @@ enum RowingState {
   ROWINGSTATE_ACTIVE,
 }
 
-extension RowingStateValueExtension on RowingState {
+extension RowingStateExtension on RowingState {
   int get value => this.index;
   RowingState fromInt(int i) => RowingState.values[i];
 }
@@ -233,7 +233,7 @@ enum StrokeState {
   STROKESTATE_RECOVERY_STATE
 }
 
-extension StrokeStateValueExtension on StrokeState {
+extension StrokeStateExtension on StrokeState {
   int get value => this.index;
   StrokeState fromInt(int i) => StrokeState.values[i];
 }
@@ -247,7 +247,7 @@ enum GameId {
   APGLOBALS_GAMEID_CROSSTRAINING
 }
 
-extension GameIdValueExtension on GameId {
+extension GameIdExtension on GameId {
   int get value => this.index;
   GameId fromInt(int i) => GameId.values[i];
 }
