@@ -83,7 +83,7 @@ extension MachineTypeExtension on MachineType {
     }
   }
 
-  MachineType fromInt(int i) {
+  static MachineType fromInt(int i) {
     switch (i) {
       case 0:
         return MachineType.ERGMACHINE_TYPE_STATIC_D;
@@ -159,7 +159,7 @@ enum WorkoutType {
 extension WorkoutTypeExtension on WorkoutType {
   int get value => this.index;
 
-  WorkoutType fromInt(int i) => WorkoutType.values[i];
+  static WorkoutType fromInt(int i) => WorkoutType.values[i];
 }
 
 enum WorkoutState {
@@ -181,7 +181,7 @@ enum WorkoutState {
 
 extension WorkoutStateExtension on WorkoutState {
   int get value => this.index;
-  WorkoutState fromInt(int i) => WorkoutState.values[i];
+  static WorkoutState fromInt(int i) => WorkoutState.values[i];
 }
 
 enum IntervalType {
@@ -207,7 +207,7 @@ extension IntervalTypeExtension on IntervalType {
     return this.index;
   }
 
-  IntervalType fromInt(int i) {
+  static IntervalType fromInt(int i) {
     if (i == 255) {
       return IntervalType.INTERVALTYPE_NONE;
     }
@@ -222,7 +222,7 @@ enum RowingState {
 
 extension RowingStateExtension on RowingState {
   int get value => this.index;
-  RowingState fromInt(int i) => RowingState.values[i];
+  static RowingState fromInt(int i) => RowingState.values[i];
 }
 
 enum StrokeState {
@@ -235,7 +235,7 @@ enum StrokeState {
 
 extension StrokeStateExtension on StrokeState {
   int get value => this.index;
-  StrokeState fromInt(int i) => StrokeState.values[i];
+  static StrokeState fromInt(int i) => StrokeState.values[i];
 }
 
 enum GameId {
@@ -249,5 +249,5 @@ enum GameId {
 
 extension GameIdExtension on GameId {
   int get value => this.index;
-  GameId fromInt(int i) => GameId.values[i];
+  static GameId fromInt(int i) => GameId.values[i];
 }
