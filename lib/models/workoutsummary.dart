@@ -24,12 +24,12 @@ class WorkoutSummary {
             100, //divide by 100 to convert to seconds
         workDistance = bytesToInt(data.sublist(7, 10), Endian.little) /
             10, //divide by 10 to convert to meters
-        avgSPM = data.sublist(10, 11).first,
-        endHeartRate = data.sublist(11, 12).first,
-        avgHeartRate = data.sublist(12, 13).first,
-        minHeartRate = data.sublist(13, 14).first,
-        maxHeartRate = data.sublist(14, 15).first,
-        avgDragFactor = data.sublist(15, 16).first;
+        avgSPM = data.elementAt(10),
+        endHeartRate = data.elementAt(11),
+        avgHeartRate = data.elementAt(12),
+        minHeartRate = data.elementAt(13),
+        maxHeartRate = data.elementAt(14),
+        avgDragFactor = data.elementAt(15);
 
   @override
   String toString() => "WorkoutSummary ("
