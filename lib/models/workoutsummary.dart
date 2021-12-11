@@ -15,7 +15,8 @@ class WorkoutSummary {
   final int minHeartRate;
   final int maxHeartRate;
   final int avgDragFactor;
-  // final int recoveryHeartRate; //this is sent as an amended packet later. zero is not valid
+  //recoveryHeartRate is sent as an amended packet later. zero is not valid
+  int? recoveryHeartRate;
   // final int workoutType;
 
   WorkoutSummary.fromBytes(Uint8List data)
