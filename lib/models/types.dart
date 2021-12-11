@@ -2,6 +2,7 @@
 ///
 /// All of these enum types have extentions on them that add an additional `value` getter. In most cases this is equal to the index of that enum value, but sometimes it is used to specify a different value (like c-style enums allow you to do) in order to stay consistent with the C2 spec.
 /// The values from this `value` getter should NOT be used as an index and are intended for mapping between the values returned by the erg and their respective enumerations
+/// The extension also offers a `fromInt()` function that returns the enum whose value matches the provided integer. This is intended to be used when parsing these values from the bytes that are provided by the erg.
 library types;
 
 enum MachineType {
@@ -81,6 +82,61 @@ extension MachineTypeValueExtension on MachineType {
         return 227;
     }
   }
+
+  MachineType fromInt(int i) {
+    switch (i) {
+      case 0:
+        return MachineType.ERGMACHINE_TYPE_STATIC_D;
+      case 1:
+        return MachineType.ERGMACHINE_TYPE_STATIC_C;
+      case 2:
+        return MachineType.ERGMACHINE_TYPE_STATIC_A;
+      case 3:
+        return MachineType.ERGMACHINE_TYPE_STATIC_B;
+      case 5:
+        return MachineType.ERGMACHINE_TYPE_STATIC_E;
+      case 7:
+        return MachineType.ERGMACHINE_TYPE_STATIC_SIMULATOR;
+      case 8:
+        return MachineType.ERGMACHINE_TYPE_STATIC_DYNAMIC;
+      case 16:
+        return MachineType.ERGMACHINE_TYPE_SLIDES_A;
+      case 17:
+        return MachineType.ERGMACHINE_TYPE_SLIDES_B;
+      case 18:
+        return MachineType.ERGMACHINE_TYPE_SLIDES_C;
+      case 19:
+        return MachineType.ERGMACHINE_TYPE_SLIDES_D;
+      case 20:
+        return MachineType.ERGMACHINE_TYPE_SLIDES_E;
+      case 32:
+        return MachineType.ERGMACHINE_TYPE_SLIDES_DYNAMIC;
+      case 64:
+        return MachineType.ERGMACHINE_TYPE_STATIC_DYNO;
+      case 128:
+        return MachineType.ERGMACHINE_TYPE_STATIC_SKI;
+      case 143:
+        return MachineType.ERGMACHINE_TYPE_STATIC_SKI_SIMULATOR;
+      case 192:
+        return MachineType.ERGMACHINE_TYPE_BIKE;
+      case 193:
+        return MachineType.ERGMACHINE_TYPE_BIKE_ARMS;
+      case 194:
+        return MachineType.ERGMACHINE_TYPE_BIKE_NOARMS;
+      case 207:
+        return MachineType.ERGMACHINE_TYPE_BIKE_SIMULATOR;
+      case 224:
+        return MachineType.ERGMACHINE_TYPE_MULTIERG_ROW;
+      case 225:
+        return MachineType.ERGMACHINE_TYPE_MULTIERG_SKI;
+      case 226:
+        return MachineType.ERGMACHINE_TYPE_MULTIERG_BIKE;
+      case 227:
+        return MachineType.ERGMACHINE_TYPE_NUM;
+      default:
+        throw new FormatException("value $i has no matching MachineType");
+    }
+  }
 }
 
 enum WorkoutType {
@@ -102,6 +158,8 @@ enum WorkoutType {
 
 extension WorkoutTypeValueExtension on WorkoutType {
   int get value => this.index;
+
+  WorkoutType fromInt(int i) => WorkoutType.values[i];
 }
 
 enum WorkoutState {
@@ -123,6 +181,7 @@ enum WorkoutState {
 
 extension WorkoutStateValueExtension on WorkoutState {
   int get value => this.index;
+  WorkoutState fromInt(int i) => WorkoutState.values[i];
 }
 
 enum IntervalType {
@@ -147,6 +206,13 @@ extension IntervalTypeExtension on IntervalType {
     }
     return this.index;
   }
+
+  IntervalType fromInt(int i) {
+    if (i == 255) {
+      return IntervalType.INTERVALTYPE_NONE;
+    }
+    return IntervalType.values[i];
+  }
 }
 
 enum RowingState {
@@ -156,6 +222,7 @@ enum RowingState {
 
 extension RowingStateValueExtension on RowingState {
   int get value => this.index;
+  RowingState fromInt(int i) => RowingState.values[i];
 }
 
 enum StrokeState {
@@ -168,6 +235,7 @@ enum StrokeState {
 
 extension StrokeStateValueExtension on StrokeState {
   int get value => this.index;
+  StrokeState fromInt(int i) => StrokeState.values[i];
 }
 
 enum GameId {
@@ -181,4 +249,5 @@ enum GameId {
 
 extension GameIdValueExtension on GameId {
   int get value => this.index;
+  GameId fromInt(int i) => GameId.values[i];
 }
