@@ -10,11 +10,11 @@ class WorkoutSummary {
   final double workTime;
   final double workDistance;
   final int avgSPM;
-  // final int endHeartRate;
-  // final int avgHeartRate;
-  // final int minHeartRate;
-  // final int maxHeartRate;
-  // final int avg_drag_factor;
+  final int endHeartRate;
+  final int avgHeartRate;
+  final int minHeartRate;
+  final int maxHeartRate;
+  final int avgDragFactor;
   // final int recoveryHeartRate; //this is sent as an amended packet later. zero is not valid
   // final int workoutType;
 
@@ -24,7 +24,13 @@ class WorkoutSummary {
             100, //divide by 100 to convert to seconds
         workDistance = bytesToInt(data.sublist(7, 10), Endian.little) /
             10, //divide by 10 to convert to meters
-        avgSPM = bytesToInt(data.sublist(10, 11), Endian.little);
+        avgSPM = data.sublist(10, 11).first,
+        endHeartRate = data.sublist(11, 12).first,
+        avgHeartRate = data.sublist(12, 13).first,
+        minHeartRate = data.sublist(13, 14).first,
+        maxHeartRate = data.sublist(14, 15).first,
+        avgDragFactor = data.sublist(15, 16).first;
+
   @override
   String toString() => "WorkoutSummary ("
       "Timestamp: $timestamp, "
