@@ -1,48 +1,184 @@
-// Some of these use classes instead of enums as doxumented in
-// https://medium.com/@ra9r/overcoming-the-limitations-of-dart-enum-8866df8a1c47
-// because they need to be mapped to specific values
+/// This library defines the enum types specified in the Concept2 Bluetooth spec
+///
+/// All of these enum types have extentions on them that add an additional `value` getter. In most cases this is equal to the index of that enum value, but sometimes it is used to specify a different value (like c-style enums allow you to do) in order to stay consistent with the C2 spec.
+/// The values from this `value` getter should NOT be used as an index and are intended for mapping between the values returned by the erg and their respective enumerations
+library types;
 
-class MachineType {
-  final int _value;
+enum MachineType {
+  ERGMACHINE_TYPE_STATIC_D,
+  ERGMACHINE_TYPE_STATIC_C,
+  ERGMACHINE_TYPE_STATIC_A,
+  ERGMACHINE_TYPE_STATIC_B,
+  ERGMACHINE_TYPE_STATIC_E, // = 5,
+  ERGMACHINE_TYPE_STATIC_SIMULATOR, // = 7,
+  ERGMACHINE_TYPE_STATIC_DYNAMIC, // = 8,
+  ERGMACHINE_TYPE_SLIDES_A, // = 16,
+  ERGMACHINE_TYPE_SLIDES_B,
+  ERGMACHINE_TYPE_SLIDES_C,
+  ERGMACHINE_TYPE_SLIDES_D,
+  ERGMACHINE_TYPE_SLIDES_E,
+  ERGMACHINE_TYPE_SLIDES_DYNAMIC, // = 32,
+  ERGMACHINE_TYPE_STATIC_DYNO, // = 64,
+  ERGMACHINE_TYPE_STATIC_SKI, // = 128,
+  ERGMACHINE_TYPE_STATIC_SKI_SIMULATOR, //143
+  ERGMACHINE_TYPE_BIKE, // = 192,
+  ERGMACHINE_TYPE_BIKE_ARMS,
+  ERGMACHINE_TYPE_BIKE_NOARMS,
+  ERGMACHINE_TYPE_BIKE_SIMULATOR, // = 207,
+  ERGMACHINE_TYPE_MULTIERG_ROW, // = 224,
+  ERGMACHINE_TYPE_MULTIERG_SKI, //225
+  ERGMACHINE_TYPE_MULTIERG_BIKE, //226
+  ERGMACHINE_TYPE_NUM
+}
 
-  int get value => _value;
-  const MachineType._(this._value);
-  //value assumed
-  static const MachineType ERGMACHINE_TYPE_STATIC_D = MachineType._(0);
-  //value assumed
-  static const MachineType ERGMACHINE_TYPE_STATIC_C = MachineType._(1);
-  //value assumed
-  static const MachineType ERGMACHINE_TYPE_STATIC_A = MachineType._(2);
-  //value assumed
-  static const MachineType ERGMACHINE_TYPE_STATIC_B = MachineType._(3);
-  static const MachineType ERGMACHINE_TYPE_STATIC_E = MachineType._(5);
-  static const MachineType ERGMACHINE_TYPE_STATIC_SIMULATOR = MachineType._(7);
-  static const MachineType ERGMACHINE_TYPE_STATIC_DYNAMIC = MachineType._(8);
-  static const MachineType ERGMACHINE_TYPE_SLIDES_A = MachineType._(16);
-  //value assumed
-  static const MachineType ERGMACHINE_TYPE_SLIDES_B = MachineType._(17);
-  //value assumed
-  static const MachineType ERGMACHINE_TYPE_SLIDES_C = MachineType._(18);
-  //value assumed
-  static const MachineType ERGMACHINE_TYPE_SLIDES_D = MachineType._(19);
-  //value assumed
-  static const MachineType ERGMACHINE_TYPE_SLIDES_E = MachineType._(20);
-  static const MachineType ERGMACHINE_TYPE_SLIDES_DYNAMIC = MachineType._(32);
-  static const MachineType ERGMACHINE_TYPE_STATIC_DYNO = MachineType._(64);
-  static const MachineType ERGMACHINE_TYPE_STATIC_SKI = MachineType._(128);
-  static const MachineType ERGMACHINE_TYPE_STATIC_SKI_SIMULATOR =
-      MachineType._(143);
-  static const MachineType ERGMACHINE_TYPE_BIKE = MachineType._(192);
-  //value assumed
-  static const MachineType ERGMACHINE_TYPE_BIKE_ARMS = MachineType._(193);
-  //value assumed
-  static const MachineType ERGMACHINE_TYPE_BIKE_NOARMS = MachineType._(194);
-  static const MachineType ERGMACHINE_TYPE_BIKE_SIMULATOR = MachineType._(207);
-  static const MachineType ERGMACHINE_TYPE_MULTIERG_ROW = MachineType._(224);
-  //value assumed
-  static const MachineType ERGMACHINE_TYPE_MULTIERG_SKI = MachineType._(225);
-  //value assumed
-  static const MachineType ERGMACHINE_TYPE_MULTIERG_BIKE = MachineType._(226);
-  //value assumed
-  static const MachineType ERGMACHINE_TYPE_NUM = MachineType._(227);
+extension MachineTypeValueExtension on MachineType {
+  int get value {
+    switch (this) {
+      case MachineType.ERGMACHINE_TYPE_STATIC_D:
+      case MachineType.ERGMACHINE_TYPE_STATIC_C:
+      case MachineType.ERGMACHINE_TYPE_STATIC_A:
+      case MachineType.ERGMACHINE_TYPE_STATIC_B:
+        return this.index;
+      case MachineType.ERGMACHINE_TYPE_STATIC_E:
+        return 5;
+      case MachineType.ERGMACHINE_TYPE_STATIC_SIMULATOR:
+        return 7;
+      case MachineType.ERGMACHINE_TYPE_STATIC_DYNAMIC:
+        return 8;
+      case MachineType.ERGMACHINE_TYPE_SLIDES_A:
+        return 16;
+      case MachineType.ERGMACHINE_TYPE_SLIDES_B:
+        return 17;
+      case MachineType.ERGMACHINE_TYPE_SLIDES_C:
+        return 18;
+      case MachineType.ERGMACHINE_TYPE_SLIDES_D:
+        return 19;
+      case MachineType.ERGMACHINE_TYPE_SLIDES_E:
+        return 20;
+      case MachineType.ERGMACHINE_TYPE_SLIDES_DYNAMIC:
+        return 32;
+      case MachineType.ERGMACHINE_TYPE_STATIC_DYNO:
+        return 64;
+      case MachineType.ERGMACHINE_TYPE_STATIC_SKI:
+        return 128;
+      case MachineType.ERGMACHINE_TYPE_STATIC_SKI_SIMULATOR:
+        return 143;
+      case MachineType.ERGMACHINE_TYPE_BIKE:
+        return 192;
+      case MachineType.ERGMACHINE_TYPE_BIKE_ARMS:
+        return 193;
+      case MachineType.ERGMACHINE_TYPE_BIKE_NOARMS:
+        return 194;
+      case MachineType.ERGMACHINE_TYPE_BIKE_SIMULATOR:
+        return 207;
+      case MachineType.ERGMACHINE_TYPE_MULTIERG_ROW:
+        return 224;
+      case MachineType.ERGMACHINE_TYPE_MULTIERG_SKI:
+        return 225;
+      case MachineType.ERGMACHINE_TYPE_MULTIERG_BIKE:
+        return 226;
+      case MachineType.ERGMACHINE_TYPE_NUM:
+        return 227;
+    }
+  }
+}
+
+enum WorkoutType {
+  WORKOUTTYPE_JUSTROW_NOSPLITS,
+  WORKOUTTYPE_JUSTROW_SPLITS,
+  WORKOUTTYPE_FIXEDDIST_NOSPLITS,
+  WORKOUTTYPE_FIXEDDIST_SPLITS,
+  WORKOUTTYPE_FIXEDTIME_NOSPLITS,
+  WORKOUTTYPE_FIXEDTIME_SPLITS,
+  WORKOUTTYPE_FIXEDTIME_INTERVAL,
+  WORKOUTTYPE_FIXEDDIST_INTERVAL,
+  WORKOUTTYPE_VARIABLE_INTERVAL,
+  WORKOUTTYPE_VARIABLE_UNDEFINEDREST_INTERVAL,
+  WORKOUTTYPE_FIXED_CALORIE,
+  WORKOUTTYPE_FIXED_WATTMINUTES,
+  WORKOUTTYPE_FIXEDCALS_INTERVAL,
+  WORKOUTTYPE_NUM
+}
+
+extension WorkoutTypeValueExtension on WorkoutType {
+  int get value => this.index;
+}
+
+enum WorkoutState {
+  WORKOUTSTATE_WAITTOBEGIN,
+  WORKOUTSTATE_WORKOUTROW,
+  WORKOUTSTATE_COUNTDOWNPAUSE,
+  WORKOUTSTATE_INTERVALREST,
+  WORKOUTSTATE_INTERVALWORKTIME,
+  WORKOUTSTATE_INTERVALWORKDISTANCE,
+  WORKOUTSTATE_INTERVALRESTENDTOWORKTIME,
+  WORKOUTSTATE_INTERVALRESTENDTOWORKDISTANCE,
+  WORKOUTSTATE_INTERVALWORKTIMETOREST,
+  WORKOUTSTATE_INTERVALWORKDISTANCETOREST,
+  WORKOUTSTATE_WORKOUTEND,
+  WORKOUTSTATE_TERMINATE,
+  WORKOUTSTATE_WORKOUTLOGGED,
+  WORKOUTSTATE_REARM,
+}
+
+extension WorkoutStateValueExtension on WorkoutState {
+  int get value => this.index;
+}
+
+enum IntervalType {
+  INTERVALTYPE_TIME,
+  INTERVALTYPE_DIST,
+  INTERVALTYPE_REST,
+  INTERVALTYPE_TIMERESTUNDEFINED,
+  INTERVALTYPE_DISTANCERESTUNDEFINED,
+  INTERVALTYPE_RESTUNDEFINED,
+  INTERVALTYPE_CAL,
+  INTERVALTYPE_CALRESTUNDEFINED,
+  INTERVALTYPE_WATTMINUTE,
+  INTERVALTYPE_WATTMINUTERESTUNDEFINED,
+  INTERVALTYPE_NONE //overridden to 255 with the extenstion below
+
+}
+
+extension IntervalTypeExtension on IntervalType {
+  int get value {
+    if (this == IntervalType.INTERVALTYPE_NONE) {
+      return 255;
+    }
+    return this.index;
+  }
+}
+
+enum RowingState {
+  ROWINGSTATE_INACTIVE,
+  ROWINGSTATE_ACTIVE,
+}
+
+extension RowingStateValueExtension on RowingState {
+  int get value => this.index;
+}
+
+enum StrokeState {
+  STROKESTATE_WAITING_FOR_WHEEL_TO_REACH_MIN_SPEED_STATE,
+  STROKESTATE_WAITING_FOR_WHEEL_TO_ACCELERATE_STATE,
+  STROKESTATE_DRIVING_STATE,
+  STROKESTATE_DWELLING_AFTER_DRIVE_STATE,
+  STROKESTATE_RECOVERY_STATE
+}
+
+extension StrokeStateValueExtension on StrokeState {
+  int get value => this.index;
+}
+
+enum GameId {
+  APGLOBALS_GAMEID_NONE,
+  APGLOBALS_GAMEID_FISH,
+  APGLOBALS_GAMEID_DART,
+  APGLOBALS_GAMEID_TARGET_BASIC,
+  APGLOBALS_GAMEID_TARGET_ADVANCED,
+  APGLOBALS_GAMEID_CROSSTRAINING
+}
+
+extension GameIdValueExtension on GameId {
+  int get value => this.index;
 }
