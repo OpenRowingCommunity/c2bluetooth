@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import '../helpers.dart';
+import 'types.dart';
 
 /// Processes the raw byte data from workout summary characteristics into easily accessible fields
 ///
@@ -17,7 +18,7 @@ class WorkoutSummary {
   final int avgDragFactor;
   //recoveryHeartRate is sent as an amended packet later. zero is not valid
   int? recoveryHeartRate;
-  // final int workoutType;
+  final WorkoutType workoutType;
 
   WorkoutSummary.fromBytes(Uint8List data)
       : timestamp = timeFromBytes(data.sublist(0, 4)),
@@ -30,7 +31,8 @@ class WorkoutSummary {
         avgHeartRate = data.elementAt(12),
         minHeartRate = data.elementAt(13),
         maxHeartRate = data.elementAt(14),
-        avgDragFactor = data.elementAt(15);
+        avgDragFactor = data.elementAt(15),
+        workoutType = WorkoutTypeExtension.fromInt(data.elementAt(17));
 
   @override
   String toString() => "WorkoutSummary ("
