@@ -16,6 +16,7 @@ dependencies:
     git:
       url: https://github.com/dotintent/FlutterBleLib
       ref: develop
+  rxdart: ^0.27.3
 
 dev_dependencies:
   flutter_test:
