@@ -14,6 +14,8 @@ void main() {
       0,
       0,
       255,
+      0,
+      0,
       32,
       190,
       170,
@@ -26,14 +28,14 @@ void main() {
       0,
       0
     ]));
-    expect(summary.timestamp, DateTime(0, 0, 0, 0, 0));
+    expect(summary.timestamp, DateTime(2000, 0, 0, 0, 0));
     expect(summary.workTime, 1.28);
     expect(summary.workDistance, 25.5);
     expect(summary.avgSPM, 32);
     expect(summary.endHeartRate, 190);
     expect(summary.avgHeartRate, 170);
     expect(summary.minHeartRate, 68);
-    expect(summary.maxHeartRate, 192);
+    expect(summary.maxHeartRate, 190);
     expect(summary.avgDragFactor, 120);
   });
 }
