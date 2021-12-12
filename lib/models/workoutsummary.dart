@@ -19,6 +19,15 @@ class WorkoutSummary {
   //recoveryHeartRate is sent as an amended packet later. zero is not valid
   int? recoveryHeartRate;
   final WorkoutType workoutType;
+  final double avgPace;
+  IntervalType? intervalType;
+  int? intervalSize;
+  int? intervalCount;
+  int? totalCalories;
+  int? watts;
+  int? totalRestDistance;
+  int? intervalRestTime;
+  int? avgCalories;
 
   WorkoutSummary.fromBytes(Uint8List data)
       : timestamp = timeFromBytes(data.sublist(0, 4)),
@@ -32,7 +41,18 @@ class WorkoutSummary {
         minHeartRate = data.elementAt(13),
         maxHeartRate = data.elementAt(14),
         avgDragFactor = data.elementAt(15),
-        workoutType = WorkoutTypeExtension.fromInt(data.elementAt(17));
+        //recovery heart rate here
+        workoutType = WorkoutTypeExtension.fromInt(data.elementAt(17)),
+        avgPace = bytesToInt(data.sublist(18, 20), Endian.little) / 10,
+        //timestamp again
+        intervalType = IntervalTypeExtension.fromInt(data.elementAt(24)),
+        intervalSize = bytesToInt(data.sublist(25, 27), Endian.little),
+        intervalCount = data.elementAt(27),
+        totalCalories = bytesToInt(data.sublist(28, 30), Endian.little),
+        watts = bytesToInt(data.sublist(30, 32), Endian.little),
+        totalRestDistance = bytesToInt(data.sublist(32, 35), Endian.little),
+        intervalRestTime = bytesToInt(data.sublist(35, 37), Endian.little),
+        avgCalories = bytesToInt(data.sublist(37, 39), Endian.little);
 
   @override
   String toString() => "WorkoutSummary ("

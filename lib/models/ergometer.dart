@@ -1,6 +1,9 @@
+import 'dart:typed_data';
+
 import 'workoutsummary.dart';
 import 'package:c2bluetooth/constants.dart' as Identifiers;
 import 'package:flutter_ble_lib/flutter_ble_lib.dart';
+import 'package:rxdart/rxdart.dart';
 
 class Ergometer {
   Peripheral? _peripheral;
@@ -35,10 +38,27 @@ class Ergometer {
 
   /// Returns a stream of [WorkoutSummary] objects upon completion of any programmed piece or a "just row" piece that is longer than 1 minute.
   Stream<WorkoutSummary> monitorForWorkoutSummary() {
-    return _peripheral!
+    Stream<Uint8List> ws = _peripheral!
         .monitorCharacteristic(Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID,
             Identifiers.C2_ROWING_END_OF_WORKOUT_SUMMARY_CHARACTERISTIC_UUID)
-        .asyncMap((datapoint) =>
-            datapoint.read().then((dp) => WorkoutSummary.fromBytes(dp)));
+        .asyncMap((datapoint) => datapoint.read().then((dp) {
+              print(dp);
+              return dp;
+            }));
+    Stream<Uint8List> ws2 = _peripheral!
+        .monitorCharacteristic(Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID,
+            Identifiers.C2_ROWING_END_OF_WORKOUT_SUMMARY_CHARACTERISTIC2_UUID)
+        .asyncMap((datapoint) => datapoint.read().then((dp) {
+              print(dp);
+              return dp;
+            }));
+
+    return Rx.zip2(ws, ws2, (Uint8List a, Uint8List b) {
+      List<int> aL = a.toList();
+      aL.addAll(b.toList());
+      Uint8List tl = Uint8List.fromList(aL);
+      print(tl);
+      return WorkoutSummary.fromBytes(tl);
+    });
   }
 }
