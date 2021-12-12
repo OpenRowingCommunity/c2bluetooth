@@ -46,7 +46,8 @@ class WorkoutSummary {
         workoutType = WorkoutTypeExtension.fromInt(data.elementAt(17)),
         avgPace = bytesToInt(data.sublist(18, 20), Endian.little) / 10 {
     if (data.length > 20) {
-      //timestamp again
+      var timestamp2 = timeFromBytes(data.sublist(20, 24));
+      assert(timestamp == timestamp2);
       intervalType = IntervalTypeExtension.fromInt(data.elementAt(24));
       intervalSize = bytesToInt(data.sublist(25, 27), Endian.little);
       intervalCount = data.elementAt(27);
