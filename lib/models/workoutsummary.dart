@@ -3,9 +3,9 @@ import 'dart:typed_data';
 import '../helpers.dart';
 import 'types.dart';
 
-/// Processes the raw byte data from workout summary characteristics into easily accessible fields
+/// Represents a summary of a completed workout
 ///
-/// This takes care of dealing with byte endianness, combining multiple high and low bytes .etc so that applications using the data only have to deal with flutter [int] types
+/// This takes care of processesing the raw byte data from workout summary characteristics into easily accessible fields. This class also takes care of things like byte endianness, combining multiple high and low bytes .etc, allowing applications to access things in terms of flutter native types.
 class WorkoutSummary {
   final DateTime timestamp;
   final double workTime;
@@ -29,6 +29,7 @@ class WorkoutSummary {
   int? intervalRestTime;
   int? avgCalories;
 
+  /// Construct a WorkoutSummary from the bytes returned from the erg
   WorkoutSummary.fromBytes(Uint8List data)
       : timestamp = timeFromBytes(data.sublist(0, 4)),
         workTime = bytesToInt(data.sublist(4, 7), Endian.little) /
