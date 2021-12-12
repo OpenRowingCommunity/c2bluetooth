@@ -38,27 +38,20 @@ class Ergometer {
 
   /// Returns a stream of [WorkoutSummary] objects upon completion of any programmed piece or a "just row" piece that is longer than 1 minute.
   Stream<WorkoutSummary> monitorForWorkoutSummary() {
-    Stream<Uint8List> ws = _peripheral!
+    Stream<Uint8List> ws1 = _peripheral!
         .monitorCharacteristic(Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID,
             Identifiers.C2_ROWING_END_OF_WORKOUT_SUMMARY_CHARACTERISTIC_UUID)
-        .asyncMap((datapoint) => datapoint.read().then((dp) {
-              print(dp);
-              return dp;
-            }));
+        .asyncMap((datapoint) => datapoint.read());
+
     Stream<Uint8List> ws2 = _peripheral!
         .monitorCharacteristic(Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID,
             Identifiers.C2_ROWING_END_OF_WORKOUT_SUMMARY_CHARACTERISTIC2_UUID)
-        .asyncMap((datapoint) => datapoint.read().then((dp) {
-              print(dp);
-              return dp;
-            }));
+        .asyncMap((datapoint) => datapoint.read());
 
-    return Rx.zip2(ws, ws2, (Uint8List a, Uint8List b) {
-      List<int> aL = a.toList();
-      aL.addAll(b.toList());
-      Uint8List tl = Uint8List.fromList(aL);
-      print(tl);
-      return WorkoutSummary.fromBytes(tl);
+    return Rx.zip2(ws1, ws2, (Uint8List ws1Result, Uint8List ws2Result) {
+      List<int> combinedList = ws1Result.toList();
+      combinedList.addAll(ws2Result.toList());
+      return WorkoutSummary.fromBytes(Uint8List.fromList(combinedList));
     });
   }
 }
