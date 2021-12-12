@@ -44,16 +44,19 @@ class WorkoutSummary {
         avgDragFactor = data.elementAt(15),
         //recovery heart rate here
         workoutType = WorkoutTypeExtension.fromInt(data.elementAt(17)),
-        avgPace = bytesToInt(data.sublist(18, 20), Endian.little) / 10,
-        //timestamp again
-        intervalType = IntervalTypeExtension.fromInt(data.elementAt(24)),
-        intervalSize = bytesToInt(data.sublist(25, 27), Endian.little),
-        intervalCount = data.elementAt(27),
-        totalCalories = bytesToInt(data.sublist(28, 30), Endian.little),
-        watts = bytesToInt(data.sublist(30, 32), Endian.little),
-        totalRestDistance = bytesToInt(data.sublist(32, 35), Endian.little),
-        intervalRestTime = bytesToInt(data.sublist(35, 37), Endian.little),
-        avgCalories = bytesToInt(data.sublist(37, 39), Endian.little);
+        avgPace = bytesToInt(data.sublist(18, 20), Endian.little) / 10 {
+    if (data.length > 20) {
+      //timestamp again
+      intervalType = IntervalTypeExtension.fromInt(data.elementAt(24));
+      intervalSize = bytesToInt(data.sublist(25, 27), Endian.little);
+      intervalCount = data.elementAt(27);
+      totalCalories = bytesToInt(data.sublist(28, 30), Endian.little);
+      watts = bytesToInt(data.sublist(30, 32), Endian.little);
+      totalRestDistance = bytesToInt(data.sublist(32, 35), Endian.little);
+      intervalRestTime = bytesToInt(data.sublist(35, 37), Endian.little);
+      avgCalories = bytesToInt(data.sublist(37, 39), Endian.little);
+    }
+  }
 
   @override
   String toString() => "WorkoutSummary ("
