@@ -50,13 +50,17 @@ ErgBleManager bleManager = ErgBleManager();
 bleManager.init(); //ready to go!
 ```
 ### Scanning for devices
-Next, you need to start scanning for available devices. This uses a Stream that returns instances of the `Ergometer` class that represent
+Next, you need to start scanning for available devices. This uses a Stream that returns instances of the `Ergometer` class. Each of these instances represents an erg and can be saved 
 ```dart
 bleManager.startErgScan().listen((erg) {
-	//your code for detecting an erg here
-	// maybe show it to the user and let them pick which one to connect to?
+	//your code for detecting an erg here.
 });
 ```
+This block of code is where you can do things like:
+ - determine what erg(s) you want to work with (this can be based on name, user choice, or basicaly anything)
+ - store the erg instance somewhere more permanent, like a variable in a scope thats outside of this function (this allows you to access it after you stop scanning)
+ - call `bleManager.stopErgScan()` if you are done. For example, one way to immediately connect to the first erg found is to unconditionally call `stopErgScan` within this function. Don't forget to close the stream too!
+
 
 ### Connecting to an erg
 Once you have the `Ergometer` instance for the erg you want to connect to, you can call `connectAndDiscover()` on it to connect.
