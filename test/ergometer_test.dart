@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../lib/models/ergometer.dart';
+// import '../lib/models/ergometer.dart';
 
 void main() {
   test('instantiate from a peripheral', () {
