@@ -25,7 +25,7 @@ To install as a [git dependency](https://dart.dev/tools/pub/dependencies#git-pac
   c2bluetooth:
     git:
       url: https://github.com/CrewLab/c2bluetooth
-      ref: v0.1.0
+      ref: v0.1.1
 ```
 
 In this example, the value of the `ref` setting determines what branch/tag/commit it will use. this is useful if you want to lock your install to a particular version. If you want to use the bleeding-edge version, set this to `main`.
