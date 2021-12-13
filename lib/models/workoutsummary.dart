@@ -47,7 +47,10 @@ class WorkoutSummary {
         avgPace = bytesToInt(data.sublist(18, 20), Endian.little) / 10 {
     if (data.length > 20) {
       var timestamp2 = timeFromBytes(data.sublist(20, 24));
-      assert(timestamp == timestamp2);
+      if (timestamp != timestamp2) {
+        throw ArgumentError(
+            "Bytes passed to WorkoutSummary from multiple characteristics must have the same timestamp");
+      }
       intervalType = IntervalTypeExtension.fromInt(data.elementAt(24));
       intervalSize = bytesToInt(data.sublist(25, 27), Endian.little);
       intervalCount = data.elementAt(27);
