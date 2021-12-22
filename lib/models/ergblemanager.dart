@@ -1,5 +1,5 @@
 import 'package:c2bluetooth/constants.dart' as Identifiers;
-import 'package:flutter_ble_lib/flutter_ble_lib.dart';
+import 'package:flutter_ble_lib_ios_15/flutter_ble_lib.dart';
 import 'ergometer.dart';
 
 class ErgBleManager {
