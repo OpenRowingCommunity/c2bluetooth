@@ -1,9 +1,11 @@
+import 'package:c2bluetooth/backends/flutter_ble_lib.dart';
+import 'package:c2bluetooth/backends/interface/bluetoothclient.dart';
 import 'package:c2bluetooth/constants.dart' as Identifiers;
 import 'package:flutter_ble_lib_ios_15/flutter_ble_lib.dart';
 import 'ergometer.dart';
 
 class ErgBleManager {
-  BleManager _manager = BleManager();
+  BluetoothClient _manager = FlutterBleLibClient();
 
   /// perform set up to get the Bluetooth client ready to scan for devices
   void init() {

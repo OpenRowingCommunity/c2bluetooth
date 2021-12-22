@@ -8,6 +8,8 @@ import 'package:c2bluetooth/enums.dart';
 import '../helpers.dart';
 import 'workout.dart';
 import '../data/workoutsummary.dart';
+import 'package:c2bluetooth/backends/interface/bluetoothdevice.dart';
+
 import 'package:c2bluetooth/constants.dart' as Identifiers;
 import 'package:flutter_ble_lib_ios_15/flutter_ble_lib.dart';
 import 'package:rxdart/rxdart.dart';
@@ -15,7 +17,7 @@ import 'package:rxdart/rxdart.dart';
 enum ErgometerConnectionState { connecting, connected, disconnected }
 
 class Ergometer {
-  Peripheral _peripheral;
+  BluetoothDevice? _peripheral;
   Csafe? _csafeClient;
 
   /// Get the name of this erg. i.e. "PM5" + serial number
