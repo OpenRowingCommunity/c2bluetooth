@@ -64,7 +64,10 @@ class Ergometer {
     return _peripheral!
         .monitorCharacteristic(Identifiers.C2_ROWING_CONTROL_SERVICE_UUID,
             Identifiers.C2_ROWING_PM_TRANSMIT_CHARACTERISTIC_UUID)
-        .asyncMap((datapoint) => datapoint.read());
+        .asyncMap((datapoint) {
+      print("reading data: ${datapoint.value}");
+      return datapoint.value;
+    });
   }
 
   Future<Characteristic> _writeCsafe(Uint8List value) {
