@@ -62,15 +62,9 @@ class _SimpleErgViewState extends State<SimpleErgView> {
       //Scan one peripheral and stop scanning
       print("Scanned Peripheral ${erg.name}");
 
-      var pepname = erg.name;
-      if (pepname.contains("PM5")) {
-        targetDevice = erg;
-        setState(() {
-          displayText = "Found an erg";
-        });
-        stopScan();
-        connectToDevice();
-      }
+      stopScan();
+      targetDevice = erg;
+      connectToDevice();
     });
   }
 
