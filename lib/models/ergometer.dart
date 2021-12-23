@@ -68,13 +68,11 @@ class Ergometer {
   }
 
   Future<Characteristic> _writeCsafe(Uint8List value) {
-    return _peripheral!
-        .writeCharacteristic(Identifiers.C2_ROWING_CONTROL_SERVICE_UUID,
-            Identifiers.C2_ROWING_PM_RECEIVE_CHARACTERISTIC_UUID, value, true)
-        .then((value) {
-      print(value);
-      return value;
-    });
+    return _peripheral!.writeCharacteristic(
+        Identifiers.C2_ROWING_CONTROL_SERVICE_UUID,
+        Identifiers.C2_ROWING_PM_RECEIVE_CHARACTERISTIC_UUID,
+        value,
+        true);
     //.asyncMap((datapoint) => datapoint.read());
   }
 
