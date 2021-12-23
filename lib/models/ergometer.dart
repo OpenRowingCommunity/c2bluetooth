@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 
+import 'package:csafe_fitness/csafe_fitness.dart';
+
 import 'workoutsummary.dart';
 import 'package:c2bluetooth/constants.dart' as Identifiers;
 import 'package:flutter_ble_lib_ios_15/flutter_ble_lib.dart';
@@ -7,6 +9,7 @@ import 'package:rxdart/rxdart.dart';
 
 class Ergometer {
   Peripheral? _peripheral;
+  Csafe? _csafeClient;
 
   /// Get the name (i.e. "PM5 " + serial number) of this erg.
   ///
@@ -27,6 +30,8 @@ class Ergometer {
 
     await _peripheral!.connect();
     await _peripheral!.discoverAllServicesAndCharacteristics();
+
+    _csafeClient = Csafe(_readCsafe, _writeCsafe);
   }
 
   // Disconnect from this erg or cancel the connection
@@ -53,5 +58,59 @@ class Ergometer {
       combinedList.addAll(ws2Result.toList());
       return WorkoutSummary.fromBytes(Uint8List.fromList(combinedList));
     });
+  }
+
+  Stream<Uint8List> _readCsafe() {
+    return _peripheral!
+        .monitorCharacteristic(Identifiers.C2_ROWING_CONTROL_SERVICE_UUID,
+            Identifiers.C2_ROWING_PM_TRANSMIT_CHARACTERISTIC_UUID)
+        .asyncMap((datapoint) {
+      print("reading data: ${datapoint.value}");
+      return datapoint.value;
+    });
+  }
+
+  Future<Characteristic> _writeCsafe(Uint8List value) {
+    return _peripheral!.writeCharacteristic(
+        Identifiers.C2_ROWING_CONTROL_SERVICE_UUID,
+        Identifiers.C2_ROWING_PM_RECEIVE_CHARACTERISTIC_UUID,
+        value,
+        true);
+    //.asyncMap((datapoint) => datapoint.read());
+  }
+
+  void configure2kWorkout() async {
+    //Workout workout
+  
+    //  (CSAFE_SETHORIZONTAL_CMD, 2 x Km units specifier)
+    await _csafeClient!.sendCommands([
+      CsafeCommand.long(0x21, 3, Uint8List.fromList([0x02, 0x00, 0x21]))
+    ]).then((value) => print(value));
+//(CSAFE_SETUSERCFG1_CMD, CSAFE_PM_SET_SPLITDURATION, distance, 500m)
+    await _csafeClient!.sendCommands([
+      CsafeCommand.long(0x1A, 7,
+          Uint8List.fromList([0x05, 0x05, 0x80, 0xF4, 0x01, 0x00, 0x00]))
+    ]).then((value) => print(value));
+//  (CSAFE_SETPOWER_CMD, 300 x Watts unit specifier)
+    await _csafeClient!.sendCommands([
+      CsafeCommand.long(0x34, 3, Uint8List.fromList([0x2C, 0x01, 0x58]))
+    ]).then((value) => print(value));
+
+    //(CSAFE_SETPROGRAM_CMD, programmed workout)
+    await _csafeClient!.sendCommands([
+      CsafeCommand.long(0x24, 2, Uint8List.fromList([0x00, 0x00]))
+    ]).then((value) => print(value));
+
+    await _csafeClient!
+        .sendCommands([CsafeCommand.short(0x85)]).then((value) => print(value));
+  }
+
+  void configure10kWorkout() async {
+    //(CSAFE_SETPROGRAM_CMD, standard list workout #1)
+    await _csafeClient!.sendCommands([
+      CsafeCommand.long(0x24, 2, Uint8List.fromList([0x03, 0x00]))
+    ]).then((value) => print(value));
+    await _csafeClient!
+        .sendCommands([CsafeCommand.short(0x85)]).then((value) => print(value));
   }
 }
