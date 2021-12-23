@@ -12,6 +12,8 @@ dependencies:
     sdk: flutter
   
   flutter_ble_lib_ios_15: ^2.5.2
+  csafe_fitness:
+    path: ../csafe-fitness
   rxdart: ^0.27.3
 
 dev_dependencies:
