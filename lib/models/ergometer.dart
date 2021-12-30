@@ -81,34 +81,33 @@ class Ergometer {
 
   void configure2kWorkout() async {
     //Workout workout
-  
-    //  (CSAFE_SETHORIZONTAL_CMD, 2 x Km units specifier)
     await _csafeClient!.sendCommands([
-      CsafeCommand.long(0x21, 3, Uint8List.fromList([0x02, 0x00, 0x21]))
+      CsafeCmdSetHorizontal(CsafeIntegerWithUnits.kilometers(2))
     ]).then((value) => print(value));
 //(CSAFE_SETUSERCFG1_CMD, CSAFE_PM_SET_SPLITDURATION, distance, 500m)
     await _csafeClient!.sendCommands([
-      CsafeCommand.long(0x1A, 7,
-          Uint8List.fromList([0x05, 0x05, 0x80, 0xF4, 0x01, 0x00, 0x00]))
+      CsafeCmdUserCfg1(
+          Uint8List.fromList([0x05, 0x05, 0x80, 0xF4, 0x01, 0x00, 0x00])
+              .asCsafe())
     ]).then((value) => print(value));
-//  (CSAFE_SETPOWER_CMD, 300 x Watts unit specifier)
+
     await _csafeClient!.sendCommands([
-      CsafeCommand.long(0x34, 3, Uint8List.fromList([0x2C, 0x01, 0x58]))
+      CsafeCmdSetPower(CsafeIntegerWithUnits.watts(300))
     ]).then((value) => print(value));
 
     //(CSAFE_SETPROGRAM_CMD, programmed workout)
     await _csafeClient!.sendCommands([
-      CsafeCommand.long(0x24, 2, Uint8List.fromList([0x00, 0x00]))
+      CsafeCmdSetProgram(Uint8List.fromList([0x00, 0x00]).asCsafe())
     ]).then((value) => print(value));
 
     await _csafeClient!
-        .sendCommands([CsafeCommand.short(0x85)]).then((value) => print(value));
+        .sendCommands([cmdGoInUse]).then((value) => print(value));
   }
 
   void configure10kWorkout() async {
     //(CSAFE_SETPROGRAM_CMD, standard list workout #1)
     await _csafeClient!.sendCommands([
-      CsafeCommand.long(0x24, 2, Uint8List.fromList([0x03, 0x00]))
+      CsafePredefinedCommands.cmdSetProgram.buildFromValue(CsafeInteger(3, 2))
     ]).then((value) => print(value));
     await _csafeClient!
         .sendCommands([CsafeCommand.short(0x85)]).then((value) => print(value));
