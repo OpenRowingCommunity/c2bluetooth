@@ -6,79 +6,79 @@
 library types;
 
 enum MachineType {
-  ERGMACHINE_TYPE_STATIC_D,
-  ERGMACHINE_TYPE_STATIC_C,
-  ERGMACHINE_TYPE_STATIC_A,
-  ERGMACHINE_TYPE_STATIC_B,
-  ERGMACHINE_TYPE_STATIC_E, // = 5,
-  ERGMACHINE_TYPE_STATIC_SIMULATOR, // = 7,
-  ERGMACHINE_TYPE_STATIC_DYNAMIC, // = 8,
-  ERGMACHINE_TYPE_SLIDES_A, // = 16,
-  ERGMACHINE_TYPE_SLIDES_B,
-  ERGMACHINE_TYPE_SLIDES_C,
-  ERGMACHINE_TYPE_SLIDES_D,
-  ERGMACHINE_TYPE_SLIDES_E,
-  ERGMACHINE_TYPE_SLIDES_DYNAMIC, // = 32,
-  ERGMACHINE_TYPE_STATIC_DYNO, // = 64,
-  ERGMACHINE_TYPE_STATIC_SKI, // = 128,
-  ERGMACHINE_TYPE_STATIC_SKI_SIMULATOR, //143
-  ERGMACHINE_TYPE_BIKE, // = 192,
-  ERGMACHINE_TYPE_BIKE_ARMS,
-  ERGMACHINE_TYPE_BIKE_NOARMS,
-  ERGMACHINE_TYPE_BIKE_SIMULATOR, // = 207,
-  ERGMACHINE_TYPE_MULTIERG_ROW, // = 224,
-  ERGMACHINE_TYPE_MULTIERG_SKI, //225
-  ERGMACHINE_TYPE_MULTIERG_BIKE, //226
-  ERGMACHINE_TYPE_NUM
+  STATIC_D,
+  STATIC_C,
+  STATIC_A,
+  STATIC_B,
+  STATIC_E, // = 5,
+  STATIC_SIMULATOR, // = 7,
+  STATIC_DYNAMIC, // = 8,
+  SLIDES_A, // = 16,
+  SLIDES_B,
+  SLIDES_C,
+  SLIDES_D,
+  SLIDES_E,
+  SLIDES_DYNAMIC, // = 32,
+  STATIC_DYNO, // = 64,
+  STATIC_SKI, // = 128,
+  STATIC_SKI_SIMULATOR, //143
+  BIKE, // = 192,
+  BIKE_ARMS,
+  BIKE_NOARMS,
+  BIKE_SIMULATOR, // = 207,
+  MULTIERG_ROW, // = 224,
+  MULTIERG_SKI, //225
+  MULTIERG_BIKE, //226
+  NUM
 }
 
 extension MachineTypeExtension on MachineType {
   int get value {
     switch (this) {
-      case MachineType.ERGMACHINE_TYPE_STATIC_D:
-      case MachineType.ERGMACHINE_TYPE_STATIC_C:
-      case MachineType.ERGMACHINE_TYPE_STATIC_A:
-      case MachineType.ERGMACHINE_TYPE_STATIC_B:
+      case MachineType.STATIC_D:
+      case MachineType.STATIC_C:
+      case MachineType.STATIC_A:
+      case MachineType.STATIC_B:
         return this.index;
-      case MachineType.ERGMACHINE_TYPE_STATIC_E:
+      case MachineType.STATIC_E:
         return 5;
-      case MachineType.ERGMACHINE_TYPE_STATIC_SIMULATOR:
+      case MachineType.STATIC_SIMULATOR:
         return 7;
-      case MachineType.ERGMACHINE_TYPE_STATIC_DYNAMIC:
+      case MachineType.STATIC_DYNAMIC:
         return 8;
-      case MachineType.ERGMACHINE_TYPE_SLIDES_A:
+      case MachineType.SLIDES_A:
         return 16;
-      case MachineType.ERGMACHINE_TYPE_SLIDES_B:
+      case MachineType.SLIDES_B:
         return 17;
-      case MachineType.ERGMACHINE_TYPE_SLIDES_C:
+      case MachineType.SLIDES_C:
         return 18;
-      case MachineType.ERGMACHINE_TYPE_SLIDES_D:
+      case MachineType.SLIDES_D:
         return 19;
-      case MachineType.ERGMACHINE_TYPE_SLIDES_E:
+      case MachineType.SLIDES_E:
         return 20;
-      case MachineType.ERGMACHINE_TYPE_SLIDES_DYNAMIC:
+      case MachineType.SLIDES_DYNAMIC:
         return 32;
-      case MachineType.ERGMACHINE_TYPE_STATIC_DYNO:
+      case MachineType.STATIC_DYNO:
         return 64;
-      case MachineType.ERGMACHINE_TYPE_STATIC_SKI:
+      case MachineType.STATIC_SKI:
         return 128;
-      case MachineType.ERGMACHINE_TYPE_STATIC_SKI_SIMULATOR:
+      case MachineType.STATIC_SKI_SIMULATOR:
         return 143;
-      case MachineType.ERGMACHINE_TYPE_BIKE:
+      case MachineType.BIKE:
         return 192;
-      case MachineType.ERGMACHINE_TYPE_BIKE_ARMS:
+      case MachineType.BIKE_ARMS:
         return 193;
-      case MachineType.ERGMACHINE_TYPE_BIKE_NOARMS:
+      case MachineType.BIKE_NOARMS:
         return 194;
-      case MachineType.ERGMACHINE_TYPE_BIKE_SIMULATOR:
+      case MachineType.BIKE_SIMULATOR:
         return 207;
-      case MachineType.ERGMACHINE_TYPE_MULTIERG_ROW:
+      case MachineType.MULTIERG_ROW:
         return 224;
-      case MachineType.ERGMACHINE_TYPE_MULTIERG_SKI:
+      case MachineType.MULTIERG_SKI:
         return 225;
-      case MachineType.ERGMACHINE_TYPE_MULTIERG_BIKE:
+      case MachineType.MULTIERG_BIKE:
         return 226;
-      case MachineType.ERGMACHINE_TYPE_NUM:
+      case MachineType.NUM:
         return 227;
     }
   }
@@ -86,53 +86,53 @@ extension MachineTypeExtension on MachineType {
   static MachineType fromInt(int i) {
     switch (i) {
       case 0:
-        return MachineType.ERGMACHINE_TYPE_STATIC_D;
+        return MachineType.STATIC_D;
       case 1:
-        return MachineType.ERGMACHINE_TYPE_STATIC_C;
+        return MachineType.STATIC_C;
       case 2:
-        return MachineType.ERGMACHINE_TYPE_STATIC_A;
+        return MachineType.STATIC_A;
       case 3:
-        return MachineType.ERGMACHINE_TYPE_STATIC_B;
+        return MachineType.STATIC_B;
       case 5:
-        return MachineType.ERGMACHINE_TYPE_STATIC_E;
+        return MachineType.STATIC_E;
       case 7:
-        return MachineType.ERGMACHINE_TYPE_STATIC_SIMULATOR;
+        return MachineType.STATIC_SIMULATOR;
       case 8:
-        return MachineType.ERGMACHINE_TYPE_STATIC_DYNAMIC;
+        return MachineType.STATIC_DYNAMIC;
       case 16:
-        return MachineType.ERGMACHINE_TYPE_SLIDES_A;
+        return MachineType.SLIDES_A;
       case 17:
-        return MachineType.ERGMACHINE_TYPE_SLIDES_B;
+        return MachineType.SLIDES_B;
       case 18:
-        return MachineType.ERGMACHINE_TYPE_SLIDES_C;
+        return MachineType.SLIDES_C;
       case 19:
-        return MachineType.ERGMACHINE_TYPE_SLIDES_D;
+        return MachineType.SLIDES_D;
       case 20:
-        return MachineType.ERGMACHINE_TYPE_SLIDES_E;
+        return MachineType.SLIDES_E;
       case 32:
-        return MachineType.ERGMACHINE_TYPE_SLIDES_DYNAMIC;
+        return MachineType.SLIDES_DYNAMIC;
       case 64:
-        return MachineType.ERGMACHINE_TYPE_STATIC_DYNO;
+        return MachineType.STATIC_DYNO;
       case 128:
-        return MachineType.ERGMACHINE_TYPE_STATIC_SKI;
+        return MachineType.STATIC_SKI;
       case 143:
-        return MachineType.ERGMACHINE_TYPE_STATIC_SKI_SIMULATOR;
+        return MachineType.STATIC_SKI_SIMULATOR;
       case 192:
-        return MachineType.ERGMACHINE_TYPE_BIKE;
+        return MachineType.BIKE;
       case 193:
-        return MachineType.ERGMACHINE_TYPE_BIKE_ARMS;
+        return MachineType.BIKE_ARMS;
       case 194:
-        return MachineType.ERGMACHINE_TYPE_BIKE_NOARMS;
+        return MachineType.BIKE_NOARMS;
       case 207:
-        return MachineType.ERGMACHINE_TYPE_BIKE_SIMULATOR;
+        return MachineType.BIKE_SIMULATOR;
       case 224:
-        return MachineType.ERGMACHINE_TYPE_MULTIERG_ROW;
+        return MachineType.MULTIERG_ROW;
       case 225:
-        return MachineType.ERGMACHINE_TYPE_MULTIERG_SKI;
+        return MachineType.MULTIERG_SKI;
       case 226:
-        return MachineType.ERGMACHINE_TYPE_MULTIERG_BIKE;
+        return MachineType.MULTIERG_BIKE;
       case 227:
-        return MachineType.ERGMACHINE_TYPE_NUM;
+        return MachineType.NUM;
       default:
         throw new FormatException("value $i has no matching MachineType");
     }
@@ -140,20 +140,20 @@ extension MachineTypeExtension on MachineType {
 }
 
 enum WorkoutType {
-  WORKOUTTYPE_JUSTROW_NOSPLITS,
-  WORKOUTTYPE_JUSTROW_SPLITS,
-  WORKOUTTYPE_FIXEDDIST_NOSPLITS,
-  WORKOUTTYPE_FIXEDDIST_SPLITS,
-  WORKOUTTYPE_FIXEDTIME_NOSPLITS,
-  WORKOUTTYPE_FIXEDTIME_SPLITS,
-  WORKOUTTYPE_FIXEDTIME_INTERVAL,
-  WORKOUTTYPE_FIXEDDIST_INTERVAL,
-  WORKOUTTYPE_VARIABLE_INTERVAL,
-  WORKOUTTYPE_VARIABLE_UNDEFINEDREST_INTERVAL,
-  WORKOUTTYPE_FIXED_CALORIE,
-  WORKOUTTYPE_FIXED_WATTMINUTES,
-  WORKOUTTYPE_FIXEDCALS_INTERVAL,
-  WORKOUTTYPE_NUM
+  JUSTROW_NOSPLITS,
+  JUSTROW_SPLITS,
+  FIXEDDIST_NOSPLITS,
+  FIXEDDIST_SPLITS,
+  FIXEDTIME_NOSPLITS,
+  FIXEDTIME_SPLITS,
+  FIXEDTIME_INTERVAL,
+  FIXEDDIST_INTERVAL,
+  VARIABLE_INTERVAL,
+  VARIABLE_UNDEFINEDREST_INTERVAL,
+  FIXED_CALORIE,
+  FIXED_WATTMINUTES,
+  FIXEDCALS_INTERVAL,
+  NUM
 }
 
 extension WorkoutTypeExtension on WorkoutType {
@@ -163,20 +163,20 @@ extension WorkoutTypeExtension on WorkoutType {
 }
 
 enum WorkoutState {
-  WORKOUTSTATE_WAITTOBEGIN,
-  WORKOUTSTATE_WORKOUTROW,
-  WORKOUTSTATE_COUNTDOWNPAUSE,
-  WORKOUTSTATE_INTERVALREST,
-  WORKOUTSTATE_INTERVALWORKTIME,
-  WORKOUTSTATE_INTERVALWORKDISTANCE,
-  WORKOUTSTATE_INTERVALRESTENDTOWORKTIME,
-  WORKOUTSTATE_INTERVALRESTENDTOWORKDISTANCE,
-  WORKOUTSTATE_INTERVALWORKTIMETOREST,
-  WORKOUTSTATE_INTERVALWORKDISTANCETOREST,
-  WORKOUTSTATE_WORKOUTEND,
-  WORKOUTSTATE_TERMINATE,
-  WORKOUTSTATE_WORKOUTLOGGED,
-  WORKOUTSTATE_REARM,
+  WAITTOBEGIN,
+  WORKOUTROW,
+  COUNTDOWNPAUSE,
+  INTERVALREST,
+  INTERVALWORKTIME,
+  INTERVALWORKDISTANCE,
+  INTERVALRESTENDTOWORKTIME,
+  INTERVALRESTENDTOWORKDISTANCE,
+  INTERVALWORKTIMETOREST,
+  INTERVALWORKDISTANCETOREST,
+  WORKOUTEND,
+  TERMINATE,
+  WORKOUTLOGGED,
+  REARM,
 }
 
 extension WorkoutStateExtension on WorkoutState {
@@ -185,23 +185,23 @@ extension WorkoutStateExtension on WorkoutState {
 }
 
 enum IntervalType {
-  INTERVALTYPE_TIME,
-  INTERVALTYPE_DIST,
-  INTERVALTYPE_REST,
-  INTERVALTYPE_TIMERESTUNDEFINED,
-  INTERVALTYPE_DISTANCERESTUNDEFINED,
-  INTERVALTYPE_RESTUNDEFINED,
-  INTERVALTYPE_CAL,
-  INTERVALTYPE_CALRESTUNDEFINED,
-  INTERVALTYPE_WATTMINUTE,
-  INTERVALTYPE_WATTMINUTERESTUNDEFINED,
-  INTERVALTYPE_NONE //overridden to 255 with the extenstion below
+  TIME,
+  DIST,
+  REST,
+  TIMERESTUNDEFINED,
+  DISTANCERESTUNDEFINED,
+  RESTUNDEFINED,
+  CAL,
+  CALRESTUNDEFINED,
+  WATTMINUTE,
+  WATTMINUTERESTUNDEFINED,
+  NONE //overridden to 255 with the extenstion below
 
 }
 
 extension IntervalTypeExtension on IntervalType {
   int get value {
-    if (this == IntervalType.INTERVALTYPE_NONE) {
+    if (this == IntervalType.NONE) {
       return 255;
     }
     return this.index;
@@ -209,7 +209,7 @@ extension IntervalTypeExtension on IntervalType {
 
   static IntervalType fromInt(int i) {
     if (i == 255) {
-      return IntervalType.INTERVALTYPE_NONE;
+      return IntervalType.NONE;
     }
     return IntervalType.values[i];
   }
