@@ -107,9 +107,9 @@ class Ergometer {
   void configure10kWorkout() async {
     //(CSAFE_SETPROGRAM_CMD, standard list workout #1)
     await _csafeClient!.sendCommands([
-      CsafePredefinedCommands.cmdSetProgram.buildFromValue(CsafeInteger(3, 2))
+      CsafeCmdSetProgram(Uint8List.fromList([0x03, 0x00]).asCsafe())
     ]).then((value) => print(value));
     await _csafeClient!
-        .sendCommands([CsafeCommand.short(0x85)]).then((value) => print(value));
+        .sendCommands([cmdGoInUse]).then((value) => print(value));
   }
 }
