@@ -162,6 +162,43 @@ extension WorkoutTypeExtension on WorkoutType {
   static WorkoutType fromInt(int i) => WorkoutType.values[i];
 }
 
+enum DurationType {
+  TIME, // = 0,
+  CALORIES, // = 0x40,
+  DISTANCE, // = 0x80,
+  WATTMIN, // = 0xC0
+}
+
+extension DurationTypeExtension on DurationType {
+  int get value {
+    switch (this) {
+      case DurationType.TIME:
+        return 0x00;
+      case DurationType.DISTANCE:
+        return 0x40;
+      case DurationType.CALORIES:
+        return 0x80;
+      case DurationType.WATTMIN:
+        return 0xC0;
+    }
+  }
+
+  static DurationType fromInt(int i) {
+    switch (i) {
+      case 0x00:
+        return DurationType.TIME;
+      case 0x40:
+        return DurationType.DISTANCE;
+      case 0x80:
+        return DurationType.CALORIES;
+      case 0xC0:
+        return DurationType.WATTMIN;
+      default:
+        throw new ArgumentError("value $i has no matching DurationType");
+    }
+  }
+}
+
 enum WorkoutState {
   WAITTOBEGIN,
   WORKOUTROW,
