@@ -2,46 +2,40 @@
 
 [![Dart](https://github.com/CrewLAB/c2bluetooth/actions/workflows/dart.yml/badge.svg)](https://github.com/CrewLAB/c2bluetooth/actions/workflows/dart.yml)
 
-A flutter package designed to sit on top of [FlutterBleLib](https://github.com/dotintent/FlutterBleLib) and provide an easy API for accessing data from Concept2 PM5 Indoor rowing machines. This library implements the [Concept2 Performance Monitor Bluetooth Smart Communications Interface Definition](https://www.concept2.com/files/pdf/us/monitors/PM5_BluetoothSmartInterfaceDefinition.pdf) Specification.
+C2Bluetooth is a flutter package designed to sit on top of [FlutterBleLib](https://github.com/dotintent/FlutterBleLib) and provide an easy API for accessing data from Concept2 PM5 Indoor fitness machines. This library implements the [Concept2 Performance Monitor Bluetooth Smart Communications Interface Definition](https://www.concept2.com/files/pdf/us/monitors/PM5_BluetoothSmartInterfaceDefinition.pdf) Specification.
 
-## Roadmap
+## Demo
 
-Currently the library only supports retrieving simple workout summary information from the erg (date and time of workout, duration of workout, distance, average strokes per minute) after the conclusion of a workout. More features beyond that are currently planned.
+![A demo showing the distance completed after a workout](docs/images/demo/demo1-small.jpg)
+
+This is a relatively old screenshot of the included example app using an older version of the library to display the completed distance from a short 20-second test workout. Many improvements to expose more datapoints have been made since this screenshot was taken.
+## Key Features
+
+Currently this library supports a few basic features such as:
+- retrieving workout summary information from the erg after a workout
+- programming a workout into the erg
+
+In the future, we hope to add support for things like:
+- Streaming data during a workout
+- updating the time on the erg
+- updating the erg firmware
+
 
 ## Installation
 
 To install this package, just like any other flutter package, it needs to be included in your pubspec.yaml. Here are some templates for doing so:
 
 **Pub.dev version**
-To install from pub.dev, use the following snippet:
-
-[Snippet TBD - Package not yet published.]
-
-**From git**
-
-To install as a [git dependency](https://dart.dev/tools/pub/dependencies#git-packages), use the following snippet:
-
-```yaml
-  c2bluetooth:
-    git:
-      url: https://github.com/CrewLab/c2bluetooth
-      ref: v0.1.1
+To install from pub.dev, run the command `flutter pub add c2bluetooth` or add the following to your dependencies in pubspec.yaml:
+```
+dependencies:
+  c2bluetooth: ^1.0.0
 ```
 
-In this example, the value of the `ref` setting determines what branch/tag/commit it will use. this is useful if you want to lock your install to a particular version. If you want to use the bleeding-edge version, set this to `main`.
-
-*Note*: This snippet assumes you have git configured correctly to be able to access the repository over SSH and have the correct auth (i.e. ssh keys) to access it without typing in your credentials. See the [dart docs](https://dart.dev/tools/pub/dependencies#git-packages) for more information 
-
-**Locally**
-For the most bleeding-edge experience - or if you plan to make and test changes to this library in realtime, it is recommended that you clone the library and use a relative path dependency as shown:
-
-```yaml
-  c2bluetooth:
-    path: ../c2bluetooth
-```
+Alternative installation methods for development can be found in [CONTRUBUTING.md](CONTRIBUTING.md)
 
 ## Usage
-Similar to how the underlying bluetooth library works, pretty much everything begins with an instance of `ErgBleManager()`. For a complete example, see the [example app](example/)
+Similar to how the underlying bluetooth library works, pretty much everything begins with an instance of `ErgBleManager()`. For a complete example, see the [example app](example/)'s main.dart file. Below are some of the key steps
 
 ### Creating a manager
 
@@ -91,3 +85,16 @@ await myErg.disconnectOrCancel();
 Tests can be run with `flutter test` or `flutter test --coverage` for coverage information.
 
 Generate a HTML coverage report with `genhtml coverage/lcov.info -o coverage/html` (may require installing something. see [here](https://stackoverflow.com/questions/50789578/how-can-the-code-coverage-data-from-flutter-tests-be-displayed)). This `coverage` directory is gitignored already.
+
+
+## Community Projects
+This is a list of projects built using c2Bluetooth. If you find or make something that is not on this list, send us a pull request!
+
+- [CrewLAB app](https://www.crewlab.io/) (proprietary license)
+- 
+## Support and Licensing
+
+![The crewLAB logo](docs/images/crewlablogo.png)
+
+This library is supported by [CrewLAB](https://www.crewlab.io/). If you would like to license this library for use in a proprietary app, please reach out via our [support page](https://www.crewlab.io/support).
+
