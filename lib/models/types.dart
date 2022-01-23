@@ -134,7 +134,7 @@ extension MachineTypeExtension on MachineType {
       case 227:
         return MachineType.NUM;
       default:
-        throw new FormatException("value $i has no matching MachineType");
+        throw new ArgumentError("value $i has no matching MachineType");
     }
   }
 }
