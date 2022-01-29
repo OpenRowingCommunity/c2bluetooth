@@ -5,6 +5,9 @@ import 'package:csafe_fitness/csafe_fitness.dart';
 import 'models/enums.dart';
 // import 'package:csafe_fitness/src/types/enumtypes.dart';
 
+/// Represents an integer with units as used within concept2-specific commands.
+///
+/// Concept2 seems to represent this data type differently within their own commands than CSAFE does with theirs by storing the number as a big endian number and transmitting the unit first.
 class Concept2IntegerWithUnits extends IntegerWithUnits<DurationType> {
   Concept2IntegerWithUnits(value, unit, {int byteLength = 3})
       : super(value, unit, byteLength - 1);
