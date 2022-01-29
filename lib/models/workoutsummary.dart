@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import '../helpers.dart';
-import 'types.dart';
+import 'enums.dart';
 
 /// Represents a summary of a completed workout
 ///
