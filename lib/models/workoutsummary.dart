@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 
+import 'package:csafe_fitness/csafe_fitness.dart';
+
 import '../helpers.dart';
 import 'enums.dart';
 
@@ -32,9 +34,11 @@ class WorkoutSummary {
   /// Construct a WorkoutSummary from the bytes returned from the erg
   WorkoutSummary.fromBytes(Uint8List data)
       : timestamp = timeFromBytes(data.sublist(0, 4)),
-        workTime = bytesToInt(data.sublist(4, 7), Endian.little) /
+        workTime = CsafeIntExtension.fromBytes(data.sublist(4, 7),
+                endian: Endian.little) /
             100, //divide by 100 to convert to seconds
-        workDistance = bytesToInt(data.sublist(7, 10), Endian.little) /
+        workDistance = CsafeIntExtension.fromBytes(data.sublist(7, 10),
+                endian: Endian.little) /
             10, //divide by 10 to convert to meters
         avgSPM = data.elementAt(10),
         endHeartRate = data.elementAt(11),
@@ -44,7 +48,9 @@ class WorkoutSummary {
         avgDragFactor = data.elementAt(15),
         //recovery heart rate here
         workoutType = WorkoutTypeExtension.fromInt(data.elementAt(17)),
-        avgPace = bytesToInt(data.sublist(18, 20), Endian.little) / 10 {
+        avgPace = CsafeIntExtension.fromBytes(data.sublist(18, 20),
+                endian: Endian.little) /
+            10 {
     if (data.length > 20) {
       var timestamp2 = timeFromBytes(data.sublist(20, 24));
       if (timestamp != timestamp2) {
@@ -52,13 +58,19 @@ class WorkoutSummary {
             "Bytes passed to WorkoutSummary from multiple characteristics must have the same timestamp");
       }
       intervalType = IntervalTypeExtension.fromInt(data.elementAt(24));
-      intervalSize = bytesToInt(data.sublist(25, 27), Endian.little);
+      intervalSize = CsafeIntExtension.fromBytes(data.sublist(25, 27),
+          endian: Endian.little);
       intervalCount = data.elementAt(27);
-      totalCalories = bytesToInt(data.sublist(28, 30), Endian.little);
-      watts = bytesToInt(data.sublist(30, 32), Endian.little);
-      totalRestDistance = bytesToInt(data.sublist(32, 35), Endian.little);
-      intervalRestTime = bytesToInt(data.sublist(35, 37), Endian.little);
-      avgCalories = bytesToInt(data.sublist(37, 39), Endian.little);
+      totalCalories = CsafeIntExtension.fromBytes(data.sublist(28, 30),
+          endian: Endian.little);
+      watts = CsafeIntExtension.fromBytes(data.sublist(30, 32),
+          endian: Endian.little);
+      totalRestDistance = CsafeIntExtension.fromBytes(data.sublist(32, 35),
+          endian: Endian.little);
+      intervalRestTime = CsafeIntExtension.fromBytes(data.sublist(35, 37),
+          endian: Endian.little);
+      avgCalories = CsafeIntExtension.fromBytes(data.sublist(37, 39),
+          endian: Endian.little);
     }
   }
 
