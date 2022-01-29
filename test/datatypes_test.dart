@@ -1,0 +1,82 @@
+import 'dart:typed_data';
+
+import 'package:c2bluetooth/c2bluetooth.dart';
+
+import 'package:c2bluetooth/datatypes.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+void main() {
+  group('Tests for Concept2IntegerWithUnits', () {
+    Uint8List dead = Uint8List.fromList([0x40, 0xDE, 0xAD]);
+    Uint8List adde = Uint8List.fromList([0x40, 0xAD, 0xDE]);
+
+    Uint8List deadbeef = Uint8List.fromList([0x40, 0xEF, 0xBE, 0xAD, 0xDE]);
+
+    // test('test correct little endian parsing fromBytes', () {
+    //   Concept2IntegerWithUnits intUnits =
+    //       Concept2IntegerWithUnits.fromBytes(adde);
+
+    //   expect(intUnits.value, 57005);
+    //   expect(intUnits.unit, DurationType.DISTANCE);
+    // });
+
+    test('test correct default big endian parsing fromBytes', () {
+      Concept2IntegerWithUnits intUnits =
+          Concept2IntegerWithUnits.fromBytes(dead);
+
+      expect(intUnits.value, 57005);
+      expect(intUnits.unit, DurationType.DISTANCE);
+    });
+
+    test('test symmetric parsing short', () {
+      Concept2IntegerWithUnits intUnits =
+          Concept2IntegerWithUnits.fromBytes(dead);
+
+      expect(intUnits.toBytes(), dead);
+    });
+
+    test('test symmetric parsing long', () {
+      Concept2IntegerWithUnits intUnits =
+          Concept2IntegerWithUnits.fromBytes(deadbeef);
+
+      expect(intUnits.toBytes(), deadbeef);
+    });
+
+    test('test correct parsing fromBytes', () {
+      Concept2IntegerWithUnits intUnits =
+          Concept2IntegerWithUnits.fromBytes(dead);
+
+      expect(intUnits.value, 57005);
+      expect(intUnits.unit, DurationType.DISTANCE);
+    });
+
+    test('test symmetric parsing short', () {
+      Concept2IntegerWithUnits intUnits =
+          Concept2IntegerWithUnits.fromBytes(dead);
+
+      expect(intUnits.toBytes(), dead);
+    });
+
+    test('test symmetric parsing long', () {
+      Concept2IntegerWithUnits intUnits =
+          Concept2IntegerWithUnits.fromBytes(deadbeef);
+
+      expect(intUnits.toBytes(), deadbeef);
+    });
+
+    // test('test meters constructor generates the right bytes', () {
+    //   expect(Concept2IntegerWithUnits.meters(2000).toBytes(),
+    //       Uint8List.fromList([0xD0, 0x07, 0x24]));
+    // });
+
+    // test('test kilometers constructor generates the right bytes', () {
+    //   expect(Concept2IntegerWithUnits.kilometers(2).toBytes(),
+    //       Uint8List.fromList([0x02, 0x00, 0x21]));
+    // });
+
+    // test('test watts constructor generates the right bytes', () {
+    //   expect(Concept2IntegerWithUnits.watts(300).toBytes(),
+    //       Uint8List.fromList([0x2C, 0x01, 0x58]));
+    // });
+  });
+}
