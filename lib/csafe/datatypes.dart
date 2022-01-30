@@ -72,6 +72,6 @@ class Concept2WorkoutPreset extends ByteSerializable {
 
   @override
   Uint8List toBytes() {
-    return Uint8List.fromList([workoutNum.value, 0x0]);
+    return Uint8List.fromList([workoutNum.index, 0x0]);
   }
 }
