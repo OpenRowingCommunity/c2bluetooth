@@ -246,7 +246,7 @@ extension ScreenTypeExtension on ScreenType {
   static ScreenType fromInt(int i) => ScreenType.values[i];
 }
 
-enum RacingScreenValue {
+enum WorkoutScreenValue {
   NONE,
   /**< None value (0). */
   PREPARETOROWWORKOUT,
@@ -337,59 +337,59 @@ enum RacingScreenValue {
   SCREENREDRAW
 }
 
-extension RacingScreenValueExtension on RacingScreenValue {
+extension WorkoutScreenValueExtension on WorkoutScreenValue {
   static Map _racingScreenValues = {
-    RacingScreenValue.NONE: 0,
-    RacingScreenValue.PREPARETOROWWORKOUT: 1,
-    RacingScreenValue.TERMINATEWORKOUT: 2,
-    RacingScreenValue.REARMWORKOUT: 3,
-    RacingScreenValue.REFRESHLOGCARD: 4,
-    RacingScreenValue.PREPARETORACESTART: 5,
-    RacingScreenValue.GOTOMAINSCREEN: 6,
-    RacingScreenValue.LOGCARDBUSYWARNING: 7,
-    RacingScreenValue.LOGCARDSELECTUSER: 8,
-    RacingScreenValue.RESETRACEPARAMS: 9,
-    RacingScreenValue.CABLETESTSLAVE: 10,
-    RacingScreenValue.FISHGAME: 11,
-    RacingScreenValue.DISPLAYPARTICIPANTINFO: 12,
-    RacingScreenValue.DISPLAYPARTICIPANTINFOCONFIRM: 13,
-    RacingScreenValue.CHANGEDISPLAYTYPETARGET: 20,
-    RacingScreenValue.CHANGEDISPLAYTYPESTANDARD: 21,
-    RacingScreenValue.CHANGEDISPLAYTYPEFORCEVELOCITY: 22,
-    RacingScreenValue.CHANGEDISPLAYTYPEPACEBOAT: 23,
-    RacingScreenValue.CHANGEDISPLAYTYPEPERSTROKE: 24,
-    RacingScreenValue.CHANGEDISPLAYTYPESIMPLE: 25,
-    RacingScreenValue.CHANGEUNITSTYPETIMEMETERS: 30,
-    RacingScreenValue.CHANGEUNITSTYPEPACE: 31,
-    RacingScreenValue.CHANGEUNITSTYPEWATTS: 32,
-    RacingScreenValue.CHANGEUNITSTYPECALORICBURNRATE: 33,
-    RacingScreenValue.TARGETGAMEBASIC: 34,
-    RacingScreenValue.TARGETGAMEADVANCED: 35,
-    RacingScreenValue.DARTGAME: 36,
-    RacingScreenValue.GOTOUSBWAITREADY: 37,
-    RacingScreenValue.TACHCABLETESTDISABLE: 38,
-    RacingScreenValue.TACHSIMDISABLE: 39,
-    RacingScreenValue.TACHSIMENABLERATE1: 40,
-    RacingScreenValue.TACHSIMENABLERATE2: 41,
-    RacingScreenValue.TACHSIMENABLERATE3: 42,
-    RacingScreenValue.TACHSIMENABLERATE4: 43,
-    RacingScreenValue.TACHSIMENABLERATE5: 44,
-    RacingScreenValue.TACHCABLETESTENABLE: 45,
-    RacingScreenValue.CHANGEUNITSTYPECALORIES: 46,
-    RacingScreenValue.VIRTUALKEY_A: 47,
-    RacingScreenValue.VIRTUALKEY_B: 48,
-    RacingScreenValue.VIRTUALKEY_C: 49,
-    RacingScreenValue.VIRTUALKEY_D: 50,
-    RacingScreenValue.VIRTUALKEY_E: 51,
-    RacingScreenValue.VIRTUALKEY_UNITS: 52,
-    RacingScreenValue.VIRTUALKEY_DISPLAY: 53,
-    RacingScreenValue.VIRTUALKEY_MENU: 54,
-    RacingScreenValue.TACHSIMENABLERATERANDOM: 55,
-    RacingScreenValue.SCREENREDRAW: 255
+    WorkoutScreenValue.NONE: 0,
+    WorkoutScreenValue.PREPARETOROWWORKOUT: 1,
+    WorkoutScreenValue.TERMINATEWORKOUT: 2,
+    WorkoutScreenValue.REARMWORKOUT: 3,
+    WorkoutScreenValue.REFRESHLOGCARD: 4,
+    WorkoutScreenValue.PREPARETORACESTART: 5,
+    WorkoutScreenValue.GOTOMAINSCREEN: 6,
+    WorkoutScreenValue.LOGCARDBUSYWARNING: 7,
+    WorkoutScreenValue.LOGCARDSELECTUSER: 8,
+    WorkoutScreenValue.RESETRACEPARAMS: 9,
+    WorkoutScreenValue.CABLETESTSLAVE: 10,
+    WorkoutScreenValue.FISHGAME: 11,
+    WorkoutScreenValue.DISPLAYPARTICIPANTINFO: 12,
+    WorkoutScreenValue.DISPLAYPARTICIPANTINFOCONFIRM: 13,
+    WorkoutScreenValue.CHANGEDISPLAYTYPETARGET: 20,
+    WorkoutScreenValue.CHANGEDISPLAYTYPESTANDARD: 21,
+    WorkoutScreenValue.CHANGEDISPLAYTYPEFORCEVELOCITY: 22,
+    WorkoutScreenValue.CHANGEDISPLAYTYPEPACEBOAT: 23,
+    WorkoutScreenValue.CHANGEDISPLAYTYPEPERSTROKE: 24,
+    WorkoutScreenValue.CHANGEDISPLAYTYPESIMPLE: 25,
+    WorkoutScreenValue.CHANGEUNITSTYPETIMEMETERS: 30,
+    WorkoutScreenValue.CHANGEUNITSTYPEPACE: 31,
+    WorkoutScreenValue.CHANGEUNITSTYPEWATTS: 32,
+    WorkoutScreenValue.CHANGEUNITSTYPECALORICBURNRATE: 33,
+    WorkoutScreenValue.TARGETGAMEBASIC: 34,
+    WorkoutScreenValue.TARGETGAMEADVANCED: 35,
+    WorkoutScreenValue.DARTGAME: 36,
+    WorkoutScreenValue.GOTOUSBWAITREADY: 37,
+    WorkoutScreenValue.TACHCABLETESTDISABLE: 38,
+    WorkoutScreenValue.TACHSIMDISABLE: 39,
+    WorkoutScreenValue.TACHSIMENABLERATE1: 40,
+    WorkoutScreenValue.TACHSIMENABLERATE2: 41,
+    WorkoutScreenValue.TACHSIMENABLERATE3: 42,
+    WorkoutScreenValue.TACHSIMENABLERATE4: 43,
+    WorkoutScreenValue.TACHSIMENABLERATE5: 44,
+    WorkoutScreenValue.TACHCABLETESTENABLE: 45,
+    WorkoutScreenValue.CHANGEUNITSTYPECALORIES: 46,
+    WorkoutScreenValue.VIRTUALKEY_A: 47,
+    WorkoutScreenValue.VIRTUALKEY_B: 48,
+    WorkoutScreenValue.VIRTUALKEY_C: 49,
+    WorkoutScreenValue.VIRTUALKEY_D: 50,
+    WorkoutScreenValue.VIRTUALKEY_E: 51,
+    WorkoutScreenValue.VIRTUALKEY_UNITS: 52,
+    WorkoutScreenValue.VIRTUALKEY_DISPLAY: 53,
+    WorkoutScreenValue.VIRTUALKEY_MENU: 54,
+    WorkoutScreenValue.TACHSIMENABLERATERANDOM: 55,
+    WorkoutScreenValue.SCREENREDRAW: 255
   };
 
   int get value => _racingScreenValues[this];
   //TODO: error if values not found
-  static RacingScreenValue fromInt(int i) =>
+  static WorkoutScreenValue fromInt(int i) =>
       Map.fromEntries(_racingScreenValues.entries.toList().reversed)[i];
 }
