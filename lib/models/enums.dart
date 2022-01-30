@@ -34,108 +34,41 @@ enum MachineType {
 }
 
 extension MachineTypeExtension on MachineType {
-  int get value {
-    switch (this) {
-      case MachineType.STATIC_D:
-      case MachineType.STATIC_C:
-      case MachineType.STATIC_A:
-      case MachineType.STATIC_B:
-        return this.index;
-      case MachineType.STATIC_E:
-        return 5;
-      case MachineType.STATIC_SIMULATOR:
-        return 7;
-      case MachineType.STATIC_DYNAMIC:
-        return 8;
-      case MachineType.SLIDES_A:
-        return 16;
-      case MachineType.SLIDES_B:
-        return 17;
-      case MachineType.SLIDES_C:
-        return 18;
-      case MachineType.SLIDES_D:
-        return 19;
-      case MachineType.SLIDES_E:
-        return 20;
-      case MachineType.SLIDES_DYNAMIC:
-        return 32;
-      case MachineType.STATIC_DYNO:
-        return 64;
-      case MachineType.STATIC_SKI:
-        return 128;
-      case MachineType.STATIC_SKI_SIMULATOR:
-        return 143;
-      case MachineType.BIKE:
-        return 192;
-      case MachineType.BIKE_ARMS:
-        return 193;
-      case MachineType.BIKE_NOARMS:
-        return 194;
-      case MachineType.BIKE_SIMULATOR:
-        return 207;
-      case MachineType.MULTIERG_ROW:
-        return 224;
-      case MachineType.MULTIERG_SKI:
-        return 225;
-      case MachineType.MULTIERG_BIKE:
-        return 226;
-      case MachineType.NUM:
-        return 227;
-    }
-  }
+  static Map _machineTypeValues = {
+    MachineType.STATIC_D: 1,
+    MachineType.STATIC_C: 2,
+    MachineType.STATIC_A: 3,
+    MachineType.STATIC_B: 4,
+    MachineType.STATIC_E: 5,
+    MachineType.STATIC_SIMULATOR: 7,
+    MachineType.STATIC_DYNAMIC: 8,
+    MachineType.SLIDES_A: 16,
+    MachineType.SLIDES_B: 17,
+    MachineType.SLIDES_C: 18,
+    MachineType.SLIDES_D: 19,
+    MachineType.SLIDES_E: 20,
+    MachineType.SLIDES_DYNAMIC: 32,
+    MachineType.STATIC_DYNO: 64,
+    MachineType.STATIC_SKI: 128,
+    MachineType.STATIC_SKI_SIMULATOR: 143,
+    MachineType.BIKE: 192,
+    MachineType.BIKE_ARMS: 193,
+    MachineType.BIKE_NOARMS: 194,
+    MachineType.BIKE_SIMULATOR: 207,
+    MachineType.MULTIERG_ROW: 224,
+    MachineType.MULTIERG_SKI: 225,
+    MachineType.MULTIERG_BIKE: 226,
+    MachineType.NUM: 227
+  };
 
+  int get value => _machineTypeValues[this];
   static MachineType fromInt(int i) {
-    switch (i) {
-      case 0:
-        return MachineType.STATIC_D;
-      case 1:
-        return MachineType.STATIC_C;
-      case 2:
-        return MachineType.STATIC_A;
-      case 3:
-        return MachineType.STATIC_B;
-      case 5:
-        return MachineType.STATIC_E;
-      case 7:
-        return MachineType.STATIC_SIMULATOR;
-      case 8:
-        return MachineType.STATIC_DYNAMIC;
-      case 16:
-        return MachineType.SLIDES_A;
-      case 17:
-        return MachineType.SLIDES_B;
-      case 18:
-        return MachineType.SLIDES_C;
-      case 19:
-        return MachineType.SLIDES_D;
-      case 20:
-        return MachineType.SLIDES_E;
-      case 32:
-        return MachineType.SLIDES_DYNAMIC;
-      case 64:
-        return MachineType.STATIC_DYNO;
-      case 128:
-        return MachineType.STATIC_SKI;
-      case 143:
-        return MachineType.STATIC_SKI_SIMULATOR;
-      case 192:
-        return MachineType.BIKE;
-      case 193:
-        return MachineType.BIKE_ARMS;
-      case 194:
-        return MachineType.BIKE_NOARMS;
-      case 207:
-        return MachineType.BIKE_SIMULATOR;
-      case 224:
-        return MachineType.MULTIERG_ROW;
-      case 225:
-        return MachineType.MULTIERG_SKI;
-      case 226:
-        return MachineType.MULTIERG_BIKE;
-      case 227:
-        return MachineType.NUM;
-      default:
-        throw new ArgumentError("value $i has no matching MachineType");
+    MachineType? type =
+        Map.fromEntries(_machineTypeValues.entries.toList().reversed)[i];
+    if (type == null) {
+      throw new ArgumentError("value $i has no matching MachineType");
+    } else {
+      return type;
     }
   }
 }
@@ -171,31 +104,21 @@ enum DurationType {
 }
 
 extension DurationTypeExtension on DurationType {
-  int get value {
-    switch (this) {
-      case DurationType.TIME:
-        return 0x00;
-      case DurationType.DISTANCE:
-        return 0x40;
-      case DurationType.CALORIES:
-        return 0x80;
-      case DurationType.WATTMIN:
-        return 0xC0;
-    }
-  }
+  static Map _durationTypes = {
+    DurationType.TIME: 0x00,
+    DurationType.DISTANCE: 0x40,
+    DurationType.CALORIES: 0x80,
+    DurationType.WATTMIN: 0xC0,
+  };
 
+  int get value => _durationTypes[this];
   static DurationType fromInt(int i) {
-    switch (i) {
-      case 0x00:
-        return DurationType.TIME;
-      case 0x40:
-        return DurationType.DISTANCE;
-      case 0x80:
-        return DurationType.CALORIES;
-      case 0xC0:
-        return DurationType.WATTMIN;
-      default:
-        throw new ArgumentError("value $i has no matching DurationType");
+    DurationType? type =
+        Map.fromEntries(_durationTypes.entries.toList().reversed)[i];
+    if (type == null) {
+      throw new ArgumentError("value $i has no matching DurationType");
+    } else {
+      return type;
     }
   }
 }
