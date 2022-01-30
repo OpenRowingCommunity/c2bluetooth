@@ -1,7 +1,8 @@
 import 'dart:typed_data';
 
+import 'package:c2bluetooth/csafe/commands.dart';
+import 'package:c2bluetooth/csafe/datatypes.dart';
 import 'package:csafe_fitness/csafe_fitness.dart';
-
 import 'workoutsummary.dart';
 import 'package:c2bluetooth/constants.dart' as Identifiers;
 import 'package:flutter_ble_lib_ios_15/flutter_ble_lib.dart';
@@ -121,8 +122,7 @@ class Ergometer {
 //(CSAFE_SETUSERCFG1_CMD, CSAFE_PM_SET_SPLITDURATION, distance, 500m)
     await _csafeClient!.sendCommands([
       CsafeCmdUserCfg1(
-          Uint8List.fromList([0x05, 0x05, 0x80, 0xF4, 0x01, 0x00, 0x00])
-              .asCsafe())
+          CsafePMSetSplitDuration(Concept2IntegerWithUnits.distance(500)))
     ]).then((value) => print(value));
 
     await _csafeClient!.sendCommands([
