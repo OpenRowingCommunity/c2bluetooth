@@ -308,3 +308,165 @@ extension GameIdExtension on GameId {
   int get value => this.index;
   static GameId fromInt(int i) => GameId.values[i];
 }
+
+enum ScreenType {
+  NONE,
+  WORKOUT,
+  RACE,
+  CSAFE,
+  DIAG,
+  MFG,
+}
+
+extension ScreenTypeExtension on ScreenType {
+  int get value => this.index;
+  static ScreenType fromInt(int i) => ScreenType.values[i];
+}
+
+enum RacingScreenValue {
+  NONE,
+  /**< None value (0). */
+  PREPARETOROWWORKOUT,
+  /**< Prepare to workout type (1). */
+  TERMINATEWORKOUT,
+  /**< Terminate workout type (2). */
+  REARMWORKOUT,
+  /**< Rearm workout type (3). */
+  REFRESHLOGCARD,
+  /**< Refresh local copies of logcard structures(4). */
+  PREPARETORACESTART,
+  /**< Prepare to race start (5). */
+  GOTOMAINSCREEN,
+  /**< Goto to main screen (6). */
+  LOGCARDBUSYWARNING,
+  /**< Log device busy warning (7). */
+  LOGCARDSELECTUSER,
+  /**< Log device select user (8). */
+  RESETRACEPARAMS,
+  /**< Reset race parameters (9). */
+  CABLETESTSLAVE,
+  /**< Cable test slave indication(10). */
+  FISHGAME,
+  /**< Fish game (11). */
+  DISPLAYPARTICIPANTINFO,
+  /**< Display participant info (12). */
+  DISPLAYPARTICIPANTINFOCONFIRM,
+  /**< Display participant info w/ confirmation
+  (13). */
+  CHANGEDISPLAYTYPETARGET,
+  /**< Display type set to target (20). */
+  CHANGEDISPLAYTYPESTANDARD,
+  /**< Display type set to standard (21). */
+  CHANGEDISPLAYTYPEFORCEVELOCITY,
+  /**< Display type set to forcevelocity (22). */
+  CHANGEDISPLAYTYPEPACEBOAT,
+  /**< Display type set to Paceboat (23). */
+  CHANGEDISPLAYTYPEPERSTROKE,
+  /**< Display type set to perstroke (24). */
+  CHANGEDISPLAYTYPESIMPLE,
+  /**< Display type set to simple (25). */
+  CHANGEUNITSTYPETIMEMETERS,
+  /**< Units type set to timemeters (30). */
+  CHANGEUNITSTYPEPACE,
+  /**< Units type set to pace (31). */
+  CHANGEUNITSTYPEWATTS,
+  /**< Units type set to watts (32). */
+  CHANGEUNITSTYPECALORICBURNRATE,
+  /**< Units type set to caloric burn rate(33). */
+  TARGETGAMEBASIC,
+  /**< Gasic target game (34). */
+  TARGETGAMEADVANCED,
+  /**< Advanced target game (35). */
+  DARTGAME,
+  /**< Dart game (36). */
+  GOTOUSBWAITREADY,
+  /**< USB wait ready (37). */
+  TACHCABLETESTDISABLE,
+  /**< Tach cable test disable (38). */
+  TACHSIMDISABLE,
+  /**< Tach simulator disable (39). */
+  TACHSIMENABLERATE1,
+  /**< Tach simulator enable, rate = 1:12 (40). */
+  TACHSIMENABLERATE2,
+  /**< Tach simulator enable, rate = 1:35 (41). */
+  TACHSIMENABLERATE3,
+  /**< Tach simulator enable, rate = 1:42 (42). */
+  TACHSIMENABLERATE4,
+  /**< Tach simulator enable, rate = 3:04 (43). */
+  TACHSIMENABLERATE5,
+  /**< Tach simulator enable, rate = 3:14 (44). */
+  TACHCABLETESTENABLE,
+  /**< Tach cable test enable (45). */
+  CHANGEUNITSTYPECALORIES,
+  /**< Units type set to calories(46). */
+  VIRTUALKEY_A,
+  /**< Virtual key select A (47). */
+  VIRTUALKEY_B,
+  /**< Virtual key select B (48). */
+  VIRTUALKEY_C,
+  /**< Virtual key select C (49). */
+  VIRTUALKEY_D,
+  VIRTUALKEY_E,
+  VIRTUALKEY_UNITS,
+  VIRTUALKEY_DISPLAY,
+  VIRTUALKEY_MENU,
+  TACHSIMENABLERATERANDOM,
+  SCREENREDRAW
+}
+
+extension RacingScreenValueExtension on RacingScreenValue {
+  static Map _racingScreenValues = {
+    RacingScreenValue.NONE: 0,
+    RacingScreenValue.PREPARETOROWWORKOUT: 1,
+    RacingScreenValue.TERMINATEWORKOUT: 2,
+    RacingScreenValue.REARMWORKOUT: 3,
+    RacingScreenValue.REFRESHLOGCARD: 4,
+    RacingScreenValue.PREPARETORACESTART: 5,
+    RacingScreenValue.GOTOMAINSCREEN: 6,
+    RacingScreenValue.LOGCARDBUSYWARNING: 7,
+    RacingScreenValue.LOGCARDSELECTUSER: 8,
+    RacingScreenValue.RESETRACEPARAMS: 9,
+    RacingScreenValue.CABLETESTSLAVE: 10,
+    RacingScreenValue.FISHGAME: 11,
+    RacingScreenValue.DISPLAYPARTICIPANTINFO: 12,
+    RacingScreenValue.DISPLAYPARTICIPANTINFOCONFIRM: 13,
+    RacingScreenValue.CHANGEDISPLAYTYPETARGET: 20,
+    RacingScreenValue.CHANGEDISPLAYTYPESTANDARD: 21,
+    RacingScreenValue.CHANGEDISPLAYTYPEFORCEVELOCITY: 22,
+    RacingScreenValue.CHANGEDISPLAYTYPEPACEBOAT: 23,
+    RacingScreenValue.CHANGEDISPLAYTYPEPERSTROKE: 24,
+    RacingScreenValue.CHANGEDISPLAYTYPESIMPLE: 25,
+    RacingScreenValue.CHANGEUNITSTYPETIMEMETERS: 30,
+    RacingScreenValue.CHANGEUNITSTYPEPACE: 31,
+    RacingScreenValue.CHANGEUNITSTYPEWATTS: 32,
+    RacingScreenValue.CHANGEUNITSTYPECALORICBURNRATE: 33,
+    RacingScreenValue.TARGETGAMEBASIC: 34,
+    RacingScreenValue.TARGETGAMEADVANCED: 35,
+    RacingScreenValue.DARTGAME: 36,
+    RacingScreenValue.GOTOUSBWAITREADY: 37,
+    RacingScreenValue.TACHCABLETESTDISABLE: 38,
+    RacingScreenValue.TACHSIMDISABLE: 39,
+    RacingScreenValue.TACHSIMENABLERATE1: 40,
+    RacingScreenValue.TACHSIMENABLERATE2: 41,
+    RacingScreenValue.TACHSIMENABLERATE3: 42,
+    RacingScreenValue.TACHSIMENABLERATE4: 43,
+    RacingScreenValue.TACHSIMENABLERATE5: 44,
+    RacingScreenValue.TACHCABLETESTENABLE: 45,
+    RacingScreenValue.CHANGEUNITSTYPECALORIES: 46,
+    RacingScreenValue.VIRTUALKEY_A: 47,
+    RacingScreenValue.VIRTUALKEY_B: 48,
+    RacingScreenValue.VIRTUALKEY_C: 49,
+    RacingScreenValue.VIRTUALKEY_D: 50,
+    RacingScreenValue.VIRTUALKEY_E: 51,
+    RacingScreenValue.VIRTUALKEY_UNITS: 52,
+    RacingScreenValue.VIRTUALKEY_DISPLAY: 53,
+    RacingScreenValue.VIRTUALKEY_MENU: 54,
+    RacingScreenValue.TACHSIMENABLERATERANDOM: 55,
+    RacingScreenValue.SCREENREDRAW: 255
+  };
+
+  int get value => _racingScreenValues[this];
+  //TODO: error if values not found
+  static RacingScreenValue fromInt(int i) =>
+      Map.fromEntries(_racingScreenValues.entries.toList().reversed)[i];
+}
