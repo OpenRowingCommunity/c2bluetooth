@@ -131,7 +131,7 @@ class Ergometer {
 
     //(CSAFE_SETPROGRAM_CMD, programmed workout)
     await _csafeClient!.sendCommands([
-      CsafeCmdSetProgram(Uint8List.fromList([0x00, 0x00]).asCsafe())
+      CsafeCmdSetProgram(Concept2WorkoutPreset.programmed())
     ]).then((value) => print(value));
 
     if (startImmediately) {

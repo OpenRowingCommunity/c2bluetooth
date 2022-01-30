@@ -295,32 +295,10 @@ enum WorkoutNumber {
   NUM
 }
 
-extension Concept2WorkoutPreset on WorkoutNumber {
+extension WorkoutNumberExtension on WorkoutNumber {
   int get value => this.index;
 
   static WorkoutNumber fromInt(int i) => WorkoutNumber.values[i];
-
-  /// A general purpose private function for looking up workout numbers based on something closer to "favorites list workout #3"
-  static WorkoutNumber _fromList(int entryNumber, int groupOffset) {
-    if (entryNumber < 1 || entryNumber > 5) {
-      throw ArgumentError(
-          "entryNumber must be a value from 1-5 (inclusive) when using this workout list shortcut methods");
-    }
-
-    /// How many workouts are in each list
-    const ITEMS_PER_GROUP = 5;
-    return Concept2WorkoutPreset.fromInt(
-        entryNumber + groupOffset * ITEMS_PER_GROUP);
-  }
-
-  static WorkoutNumber fromStandardList(int entryNumber) =>
-      Concept2WorkoutPreset._fromList(entryNumber, 0);
-    
-  static WorkoutNumber fromCustomList(int entryNumber) =>
-      Concept2WorkoutPreset._fromList(entryNumber, 1);
-
-  static WorkoutNumber fromFavorites(int entryNumber) =>
-      Concept2WorkoutPreset._fromList(entryNumber, 2);
 }
 
 enum GameId { NONE, FISH, DART, TARGET_BASIC, TARGET_ADVANCED, CROSSTRAINING }
