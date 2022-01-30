@@ -117,20 +117,13 @@ class Ergometer {
   void configureWorkout(int distance, [bool startImmediately = true]) async {
     //Workout workout
     await _csafeClient!.sendCommands([
-      CsafeCmdSetHorizontal(CsafeIntegerWithUnits.meters(distance))
-    ]).then((value) => print(value));
+      CsafeCmdSetHorizontal(CsafeIntegerWithUnits.meters(distance)),
 //(CSAFE_SETUSERCFG1_CMD, CSAFE_PM_SET_SPLITDURATION, distance, 500m)
-    await _csafeClient!.sendCommands([
       CsafeCmdUserCfg1(
-          CsafePMSetSplitDuration(Concept2IntegerWithUnits.distance(500)))
-    ]).then((value) => print(value));
+          CsafePMSetSplitDuration(Concept2IntegerWithUnits.distance(500))),
+      CsafeCmdSetPower(CsafeIntegerWithUnits.watts(300)),
 
-    await _csafeClient!.sendCommands([
-      CsafeCmdSetPower(CsafeIntegerWithUnits.watts(300))
-    ]).then((value) => print(value));
-
-    //(CSAFE_SETPROGRAM_CMD, programmed workout)
-    await _csafeClient!.sendCommands([
+      //(CSAFE_SETPROGRAM_CMD, programmed workout)
       CsafeCmdSetProgram(Concept2WorkoutPreset.programmed())
     ]).then((value) => print(value));
 
