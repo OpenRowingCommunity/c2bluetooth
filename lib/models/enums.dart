@@ -2,9 +2,8 @@
 ///
 /// Because of how many there are in recent (0.13+) revisions of the spec and how long this file is already, this file tends towards adding enums as they are needed, rather than trying to add them all at once.
 ///
-/// All of these enum types have extentions on them that add an additional `value` getter. In most cases this is equal to the index of that enum value, but sometimes it is used to specify a different value (like c-style enums allow you to do) in order to stay consistent with the C2 spec.
-/// The values from this `value` getter should NOT be used as an index (even if the value is the same as the index). This whole thing is essentially a workaround because Dart's enums don't natively support custom values like most other languages (see: https://stackoverflow.com/questions/38908285/add-methods-or-values-to-enum-in-dart#58552304)
-/// The extension also adds a `fromInt()` function that acts as the reverse of the `value` getter. This is intended to be used when parsing these values from the bytes that are provided by the erg.
+/// All of these enum types have extentions on them that add an additional `value` getter. In most cases this is equal to the index of that enum value, but sometimes it is used to specify a different value (like c-style enums allow you to do) in order to match the values provided by the C2 spec.
+/// The values from this `value` getter (or the associated `fromInt` method) should only be used to convert to or from values being comunicated with a Concept2 PM. This whole thing is essentially a workaround because Dart's enums don't natively support custom values like most other languages (see: https://stackoverflow.com/questions/38908285/add-methods-or-values-to-enum-in-dart#58552304)
 library types;
 
 enum MachineType {
