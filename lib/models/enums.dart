@@ -253,8 +253,8 @@ extension IntervalTypeExtension on IntervalType {
 }
 
 enum RowingState {
-  ROWINGSTATE_INACTIVE,
-  ROWINGSTATE_ACTIVE,
+  INACTIVE,
+  ACTIVE,
 }
 
 extension RowingStateExtension on RowingState {
@@ -263,11 +263,11 @@ extension RowingStateExtension on RowingState {
 }
 
 enum StrokeState {
-  STROKESTATE_WAITING_FOR_WHEEL_TO_REACH_MIN_SPEED_STATE,
-  STROKESTATE_WAITING_FOR_WHEEL_TO_ACCELERATE_STATE,
-  STROKESTATE_DRIVING_STATE,
-  STROKESTATE_DWELLING_AFTER_DRIVE_STATE,
-  STROKESTATE_RECOVERY_STATE
+  WAITING_FOR_WHEEL_TO_REACH_MIN_SPEED_STATE,
+  WAITING_FOR_WHEEL_TO_ACCELERATE_STATE,
+  DRIVING_STATE,
+  DWELLING_AFTER_DRIVE_STATE,
+  RECOVERY_STATE
 }
 
 extension StrokeStateExtension on StrokeState {
@@ -275,14 +275,9 @@ extension StrokeStateExtension on StrokeState {
   static StrokeState fromInt(int i) => StrokeState.values[i];
 }
 
-enum GameId {
-  APGLOBALS_GAMEID_NONE,
-  APGLOBALS_GAMEID_FISH,
-  APGLOBALS_GAMEID_DART,
-  APGLOBALS_GAMEID_TARGET_BASIC,
-  APGLOBALS_GAMEID_TARGET_ADVANCED,
-  APGLOBALS_GAMEID_CROSSTRAINING
 }
+
+enum GameId { NONE, FISH, DART, TARGET_BASIC, TARGET_ADVANCED, CROSSTRAINING }
 
 extension GameIdExtension on GameId {
   int get value => this.index;
