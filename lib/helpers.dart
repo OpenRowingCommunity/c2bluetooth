@@ -2,6 +2,9 @@ import 'dart:typed_data';
 
 import 'package:csafe_fitness/csafe_fitness.dart';
 
+/// Converts Concept2's byte layout for a piece timestamp from bluetooth into a [DateTime]
+/// Concept2's structure is date LO, Date HI, Time LO, Time HI
+/// see also https://www.c2forum.com/viewtopic.php?f=15&t=200769
 DateTime timeFromBytes(Uint8List bytes) {
   int date = CsafeIntExtension.fromBytes(bytes.sublist(0, 2));
 
