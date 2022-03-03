@@ -80,6 +80,7 @@ class Ergometer {
     //.asyncMap((datapoint) => datapoint.read());
   }
 
+  @Deprecated("This is a temporary function for development/experimentation and will be gone very soon")
   void configure2kWorkout() async {
     //Workout workout
     await _csafeClient!.sendCommands([
@@ -105,6 +106,8 @@ class Ergometer {
         .sendCommands([cmdGoInUse]).then((value) => print(value));
   }
 
+  @Deprecated(
+      "This is a temporary function for development/experimentation and will be gone very soon")
   void configure10kWorkout() async {
     //(CSAFE_SETPROGRAM_CMD, standard list workout #1)
     await _csafeClient!.sendCommands([
@@ -113,7 +116,7 @@ class Ergometer {
     await _csafeClient!
         .sendCommands([cmdGoInUse]).then((value) => print(value));
   }
-
+  ///
   void configureWorkout(int distance, [bool startImmediately = true]) async {
     //Workout workout
     await _csafeClient!.sendCommands([
