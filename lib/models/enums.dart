@@ -64,7 +64,7 @@ extension MachineTypeExtension on MachineType {
   int get value => _machineTypeValues[this];
   static MachineType fromInt(int i) {
     MachineType? type =
-        Map.fromEntries(_machineTypeValues.entries.toList().reversed)[i];
+        _machineTypeValues.map((key, value) => MapEntry(value, key))[i];
     if (type == null) {
       throw new ArgumentError("value $i has no matching MachineType");
     } else {
@@ -114,7 +114,7 @@ extension DurationTypeExtension on DurationType {
   int get value => _durationTypes[this];
   static DurationType fromInt(int i) {
     DurationType? type =
-        Map.fromEntries(_durationTypes.entries.toList().reversed)[i];
+        _durationTypes.map((key, value) => MapEntry(value, key))[i];
     if (type == null) {
       throw new ArgumentError("value $i has no matching DurationType");
     } else {
@@ -391,5 +391,5 @@ extension WorkoutScreenValueExtension on WorkoutScreenValue {
   int get value => _racingScreenValues[this];
   //TODO: error if values not found
   static WorkoutScreenValue fromInt(int i) =>
-      Map.fromEntries(_racingScreenValues.entries.toList().reversed)[i];
+      _racingScreenValues.map((key, value) => MapEntry(value, key))[i];
 }
