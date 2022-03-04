@@ -117,18 +117,27 @@ class Ergometer {
         .sendCommands([cmdGoInUse]).then((value) => print(value));
   }
   ///
-  void configureWorkout(int distance, [bool startImmediately = true]) async {
+  void configureWorkout(int distance,
+      [bool startImmediately = true,
+      Concept2IntegerWithUnits? splitLength,
+      Concept2IntegerWithUnits? powerGoal]) async {
     //Workout workout
-    await _csafeClient!.sendCommands([
-      CsafeCmdSetHorizontal(CsafeIntegerWithUnits.meters(distance)),
-//(CSAFE_SETUSERCFG1_CMD, CSAFE_PM_SET_SPLITDURATION, distance, 500m)
-      CsafeCmdUserCfg1(
-          CsafePMSetSplitDuration(Concept2IntegerWithUnits.distance(500))),
-      CsafeCmdSetPower(CsafeIntegerWithUnits.watts(300)),
 
-      //(CSAFE_SETPROGRAM_CMD, programmed workout)
-      CsafeCmdSetProgram(Concept2WorkoutPreset.programmed())
-    ]).then((value) => print(value));
+    List<CsafeCommand> commands = [
+      CsafeCmdSetHorizontal(CsafeIntegerWithUnits.meters(distance))
+    ];
+
+    if (splitLength != null) {
+      commands.add(CsafeCmdUserCfg1(CsafePMSetSplitDuration(splitLength)));
+    }
+
+    if (powerGoal != null) {
+      commands.add(CsafeCmdSetPower(powerGoal));
+    }
+
+    commands.add(CsafeCmdSetProgram(Concept2WorkoutPreset.programmed()));
+
+    await _csafeClient!.sendCommands(commands).then((value) => print(value));
 
     if (startImmediately) {
       _startWorkout();
