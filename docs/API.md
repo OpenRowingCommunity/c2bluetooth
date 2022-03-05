@@ -29,3 +29,4 @@ Since a lot of the architecture is already provided by FlutterBleLib and will li
 
 
 
+## Core API Concepts
