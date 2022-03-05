@@ -12,9 +12,9 @@ class Ergometer {
   Peripheral? _peripheral;
   Csafe? _csafeClient;
 
-  /// Get the name (i.e. "PM5 " + serial number) of this erg.
+  /// Get the name of this erg. i.e. "PM5" + serial number
   ///
-  /// Returns "unknown" if the erg does not report a name
+  /// Returns "Unknown" if the erg does not report a name
   String get name => _peripheral?.name ?? "Unknown";
 
   /// Create an Ergometer from a FlutterBleLib peripheral object
@@ -35,7 +35,7 @@ class Ergometer {
     _csafeClient = Csafe(_readCsafe, _writeCsafe);
   }
 
-  // Disconnect from this erg or cancel the connection
+  /// Disconnect from this erg or cancel the connection
   Future<void> disconnectOrCancel() async {
     if (_peripheral == null) return;
 
@@ -61,6 +61,9 @@ class Ergometer {
     });
   }
 
+  /// A read function for the PM over bluetooth.
+  ///
+  /// Intended for passing to the csafe_fitness library to allow it to read data from the erg
   Stream<Uint8List> _readCsafe() {
     return _peripheral!
         .monitorCharacteristic(Identifiers.C2_ROWING_CONTROL_SERVICE_UUID,
@@ -71,6 +74,9 @@ class Ergometer {
     });
   }
 
+  /// A write function for the PM over bluetooth.
+  ///
+  /// Intended for passing to the csafe_fitness library to allow it to write data to the erg
   Future<Characteristic> _writeCsafe(Uint8List value) {
     return _peripheral!.writeCharacteristic(
         Identifiers.C2_ROWING_CONTROL_SERVICE_UUID,
@@ -116,7 +122,10 @@ class Ergometer {
     await _csafeClient!
         .sendCommands([cmdGoInUse]).then((value) => print(value));
   }
+
+  /// Program a workout into the PM with particular parameters
   ///
+  /// Currently requires a fixed-distance piece that may or may not have splits and/or a paceboat
   void configureWorkout(int distance,
       [bool startImmediately = true,
       Concept2IntegerWithUnits? splitLength,
