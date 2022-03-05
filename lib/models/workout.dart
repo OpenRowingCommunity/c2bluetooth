@@ -3,71 +3,67 @@ import 'package:c2bluetooth/csafe/datatypes.dart';
 import '../helpers.dart';
 import 'enums.dart';
 
-enum WorkoutMode {
-  JustRow,
-  // Variable,
-  /// limited workouts are limited by some [DurationType], i.e. time, distance, or calories
-  Limited
-}
-
-enum WorkoutSplitType {
-  Split,
+enum SimpleWorkoutType {
+  Fixed,
   Interval,
-  Single // can probably be interperated as "no splits"
+  // Variable,
+  Preprogrammed,
+  // JustRow,
+  // Biathalon,
 }
 
 class Workout {
-  WorkoutMode mode;
+  SimpleWorkoutType type;
 
-  ///once variable intervals are supported, this might become a list.
+  //TODO: add a fromConcept2Type factory to take a concept2 workoutType enum and make a workout using it
+
+  /// The primary metric that causes this workout's goal to be met
+  ///
+  /// i.e. is this a distance, time, or calorie piece?
+  /// once variable intervals are supported, this might become a list.
   DurationType? get limitation => primaryGoal?.unit;
 
-  WorkoutSplitType? splitType;
+  bool get hasSplits => splitLength != null;
 
-  /// The primary goal is the goal that is limited by the [limitation] and should conform to similar units (i.e. distance, time, calories)
+  bool get hasTargetPace => pace != null;
+
+  /// The single main goal to be met for this workout.
   ///
-  ///once variable intervals are supported, this might become a list.
+  /// i.e. is this a 2k? 30 min piece? 5 min interval?
+  /// if the piece could go on forever (like intervals) this is the goal for each segment
+  /// once variable intervals are supported, this might become a list.
   Concept2IntegerWithUnits? primaryGoal;
 
-  Concept2IntegerWithUnits? restGoal;
+  Concept2IntegerWithUnits? rest;
 
-  ///A subdivision goal is the split or interval distance/time.
-  ///
-  ///until variable intervals are supported, this should be units that match the [limitation] value. Whether this should be treated as split or interval should be determined by [splitType]
-  ///
-  ///once variable intervals are supported, this might become a list.
-  Concept2IntegerWithUnits? subDivisionGoal;
+  Concept2IntegerWithUnits? pace;
+  Concept2IntegerWithUnits? splitLength;
 
   // WorkoutType get c2WorkoutType => WorkoutType.JUSTROW_NOSPLITS;
 
-  Workout(this.mode,
-      {this.primaryGoal,
-      this.splitType = WorkoutSplitType.Single,
-      this.restGoal,
-      this.subDivisionGoal});
+  Workout(this.type,
+      {this.primaryGoal, this.splitLength, this.rest, this.pace}) {
+    // TODO: Validate that rest is an amount of time? (maybe it can be other things?)
+  }
 
   ///Shortcut for a Just row workout.
   ///
   ///
   // Workout.justRow(Concept2IntegerWithUnits splitGoal = Concept2IntegerWithUnits)
-  //     : this(WorkoutMode.JustRow,
+  //     : this(WorkoutType.JustRow,
   //           splitType: WorkoutSplitType.Split, subDivisionGoal: splitGoal);
 
   /// Shortcut for an intervals workout
   /// [primaryGoal] should be a distance or time value to use per interval
-  Workout.intervals(Concept2IntegerWithUnits primaryGoal,
-      {Concept2IntegerWithUnits? restGoal})
-      : this(WorkoutMode.Limited,
-            splitType: WorkoutSplitType.Interval,
-            primaryGoal: primaryGoal,
-            restGoal: restGoal);
+  Workout.intervals(Concept2IntegerWithUnits goal,
+      {Concept2IntegerWithUnits? rest, Concept2IntegerWithUnits? splitLength})
+      : this(WorkoutType.Interval,
+            splitLength: splitLength, primaryGoal: goal, rest: rest);
 
   Workout.split(
       Concept2IntegerWithUnits primaryGoal, Concept2IntegerWithUnits? splitGoal)
-      : this(WorkoutMode.Limited,
-            splitType: WorkoutSplitType.Split,
-            primaryGoal: primaryGoal,
-            subDivisionGoal: splitGoal);
+      : this(WorkoutType.Fixed,
+            primaryGoal: primaryGoal, splitLength: splitGoal);
 
   // like split but intelligently makes something up
   Workout.single(Concept2IntegerWithUnits primaryGoal)
@@ -76,6 +72,6 @@ class Workout {
   //shortcut for setting a particular number of splits over the course of a piece.
   // Workout.splitByNumber(
   //     Concept2IntegerWithUnits primaryGoal, int splitCount)
-  //     : this(WorkoutMode.Limited,
+  //     : this(WorkoutType.Limited,
   //           splitType: WorkoutSplitType.Split, primaryGoal: primaryGoal);
 }
