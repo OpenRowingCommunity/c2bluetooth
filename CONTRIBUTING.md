@@ -74,6 +74,12 @@ While this is an incomplete list of mostly subjective points, these are the kind
 These are not designed to be hard-and-fast rules, but more like conversation starters. The person reviewing and approving your code is also a human, so feel free to ask for help if the feedback is unclear.
 
 
+## Unit Testing
+Tests can be run with `flutter test` or `flutter test --coverage` for coverage information.
+
+Generate a HTML coverage report with `genhtml coverage/lcov.info -o coverage/html` (may require installing something. see [here](https://stackoverflow.com/questions/50789578/how-can-the-code-coverage-data-from-flutter-tests-be-displayed)). This `coverage` directory is gitignored already.
+
+
 ## Releases
 Currently, there is no set release schedule. New releases are made on an as-needed basis once a maintainer decides that enough new features have been added to consist of a new release. 
 
