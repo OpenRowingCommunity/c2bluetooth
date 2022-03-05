@@ -24,3 +24,11 @@ Whether or not this is actually a good solution is still TBD
 Since a lot of the architecture is already provided by FlutterBleLib and will likely just pass through most of the aspects of the existing bluetooth APIs, it seems like it may be useful to make this passthrough more explicit. By duplicating any of the types and methods exposed by FlutterBleLib this package will be be more able to maintain a stable API, even in the event that there is a technical need (or desire from users) to be able to change the underlying bluetooth implementation, potentially even grouping the methods that handle the actual bluetooth access into a class/interface. This is something whtat would be helpful to keep in mind during initial development but shouldn't take too much energy until later versions.
 
 
+## CSAFE API Usage
+
+This library attempts to use the "public" CSAFE Concept2 API wherever possible. This API adheres the closest to the published CSAFE specification and uses the standardized commands for setting up a workout. This is in contrast to the Concept2 "proprietary" API which relies on custom, Concept2-specific commands added on top of CSAFE. Concept2 PM CSAFE Communication Definition.doc revision 0.13 also mentions that: 
+
+> The proprietary CSAFE interface does not use the public CSAFE state machine functionality. Generally, the
+proprietary and public operating modes should not be mixed as the resulting behavior will not be desirable.
+
+
