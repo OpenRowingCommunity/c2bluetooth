@@ -132,9 +132,10 @@ class Ergometer {
       Concept2IntegerWithUnits? powerGoal]) async {
     //Workout workout
 
-    List<CsafeCommand> commands = [
-      CsafeCmdSetHorizontal(CsafeIntegerWithUnits.meters(distance))
-    ];
+    List<CsafeCommand> commands = [];
+
+    //for fixed distance workouts
+    commands.add(CsafeCmdSetHorizontal(CsafeIntegerWithUnits.meters(distance)));
 
     if (splitLength != null) {
       commands.add(CsafeCmdUserCfg1(CsafePMSetSplitDuration(splitLength)));
