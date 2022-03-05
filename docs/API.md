@@ -1,5 +1,13 @@
 # API
 
+This document explains the c2bluetooth API at varying levels of detail:
+
+- The broadest overview comes from sections like [Overall API Design](#overall-api-design) that explain some of the core concepts or goals that we wanted to achieve with the API.
+- The "middle ground" overview comes from the [Core API Concepts](#core-api-concepts) section and explains the various groups or categories of classes that are used in the API and what their purpose is.
+- The most detailed explaination comes from reading the code and inline comments or documentation generated from them. This will not be covered in this document as it should already be covered by the source code
+
+
+
 ## Overall API design
 In order for this library to be a good fit within the community and provide a good user experience for developers, the goal is to design the interface for this library after other existing libraries interfacing with Concept2 rowing machines. The libraries looked at were [Py3Row](https://github.com/droogmic/Py3Row) (Python, BSD-2), [BoutFitness/Concept2-SDK](https://github.com/BoutFitness/Concept2-SDK) (Swift, MIT), [ErgometerJS](https://github.com/tijmenvangulik/ErgometerJS) (Javascript, Apache 2).
 
