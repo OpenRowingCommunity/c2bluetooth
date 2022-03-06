@@ -12,7 +12,10 @@ class Workout {
 
   bool get hasTargetPace => pace != null;
 
-  bool get isInterval => rests.length > 0;
+  /// Determine if this workout is an intervals workout or not. 
+  /// 
+  /// rests.length should be a mostly adequate test, but checking for goal length also helps fix the edge case of undefined rest intervals
+  bool get isInterval => rests.length > 0 || goals.length > 1;
 
   /// The goal(s) to be met for this workout.
   ///
