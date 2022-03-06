@@ -73,9 +73,10 @@ class WorkoutGoal extends Equatable {
 
   WorkoutGoal(this.length, this.type);
 
-  WorkoutGoal.distance(this.length) : type = DurationType.DISTANCE;
+  WorkoutGoal.meters(this.length) : type = DurationType.DISTANCE;
 
-  WorkoutGoal.time(this.length) : type = DurationType.TIME;
+  WorkoutGoal.minutes(this.length) : type = DurationType.TIME;
+
   @override
   List<Object?> get props => [length, type];
 
