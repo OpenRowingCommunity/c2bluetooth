@@ -79,7 +79,14 @@ class WorkoutGoal extends Equatable {
 
   Concept2IntegerWithUnits toC2() => Concept2IntegerWithUnits(length, type);
 
+  CsafeIntegerWithUnits asCsafeDistance() {
+    return CsafeIntegerWithUnits(length, CsafeUnits.meter);
+  }
+
+  Duration asDuration() {
+    return Duration(minutes: length);
+  }
+
   @override
   List<Object?> get props => [length, type];
-
 }
