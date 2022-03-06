@@ -19,11 +19,12 @@ class Workout {
   bool get hasTargetPace => pace != null;
 
   /// The single main goal to be met for this workout.
+  /// The goal(s) to be met for this workout.
   ///
   /// i.e. is this a 2k? 30 min piece? 5 min interval?
-  /// if the piece could go on forever (like intervals) this is the goal for each segment
-  /// once variable intervals are supported, this might become a list.
-  Concept2IntegerWithUnits? primaryGoal;
+  /// if the piece is just a fixed length (time or distance) or if the piece could go on forever (like a 5 min intervals), then this should be a list of length 1 with that goal
+  ///  this is the goal for each segment
+  List<Concept2IntegerWithUnits> goals;
 
   Concept2IntegerWithUnits? rest;
 
@@ -32,8 +33,7 @@ class Workout {
 
   // WorkoutType get c2WorkoutType => WorkoutType.JUSTROW_NOSPLITS;
 
-  Workout(this.type,
-      {this.primaryGoal, this.splitLength, this.rest, this.pace}) {
+  Workout(this.type, this.goals, {this.splitLength, this.rest, this.pace}) {
     // TODO: Validate that rest is an amount of time? (maybe it can be other things?)
   }
 
