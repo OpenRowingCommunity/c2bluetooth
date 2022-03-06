@@ -23,17 +23,16 @@ class Workout {
   /// i.e. is this a 2k? 30 min piece? 5 min interval?
   /// if the piece is just a fixed length (time or distance) or if the piece could go on forever (like a 5 min intervals), then this should be a list of length 1 with that goal
   ///  this is the goal for each segment
-  List<Concept2IntegerWithUnits> goals;
+  List<WorkoutGoal> goals;
 
-  List<Concept2IntegerWithUnits> rests = [];
+  List<WorkoutGoal> rests = [];
 
-  Concept2IntegerWithUnits? pace;
+  WorkoutGoal? pace;
   Concept2IntegerWithUnits? splitLength;
 
   // WorkoutType get c2WorkoutType => WorkoutType.JUSTROW_NOSPLITS;
 
-  Workout(this.goals,
-      {this.splitLength, List<Concept2IntegerWithUnits>? rests, this.pace})
+  Workout(this.goals, {this.splitLength, List<WorkoutGoal>? rests, this.pace})
       : rests = rests ?? [] {
     // TODO: Validate that rest is an amount of time? (maybe it can be other things?)
   }
@@ -47,16 +46,14 @@ class Workout {
 
   /// Shortcut for an intervals workout
   /// [primaryGoal] should be a distance or time value to use per interval
-  Workout.intervals(List<Concept2IntegerWithUnits> goals,
-      List<Concept2IntegerWithUnits> rests)
+  Workout.intervals(List<WorkoutGoal> goals, List<WorkoutGoal> rests)
       : this(goals, rests: rests);
 
-  Workout.split(
-      Concept2IntegerWithUnits primaryGoal, Concept2IntegerWithUnits? splitGoal)
+  Workout.split(WorkoutGoal primaryGoal, Concept2IntegerWithUnits? splitGoal)
       : this([primaryGoal], splitLength: splitGoal);
 
   // like split but intelligently makes something up
-  Workout.single(Concept2IntegerWithUnits primaryGoal)
+  Workout.single(WorkoutGoal primaryGoal)
       : this.split(primaryGoal, guessReasonableSplit(primaryGoal));
 
   //shortcut for setting a particular number of splits over the course of a piece.

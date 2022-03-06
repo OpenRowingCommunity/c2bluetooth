@@ -3,6 +3,8 @@ import 'dart:typed_data';
 import 'package:c2bluetooth/csafe/datatypes.dart';
 import 'package:csafe_fitness/csafe_fitness.dart';
 
+import 'models/workout.dart';
+
 /// Converts Concept2's byte layout for a piece timestamp from bluetooth into a [DateTime]
 /// Concept2's structure is date LO, Date HI, Time LO, Time HI
 /// see also https://www.c2forum.com/viewtopic.php?f=15&t=200769
@@ -22,12 +24,11 @@ DateTime timeFromBytes(Uint8List bytes) {
 /// Attempt to guess a reasonable split value from a given workout
 ///
 /// The minimum split duration must not cause the total number of splits per workout to exceed the maximum of 50.
-Concept2IntegerWithUnits? guessReasonableSplit(
-    Concept2IntegerWithUnits fullWorkout) {
+WorkoutGoal? guessReasonableSplit(WorkoutGoal goal) {
   int firstSplittableCount = 0;
 
   for (var i = 4; i <= 50; i++) {
-    if (fullWorkout.value % i == 0) {
+    if (goal.length % i == 0) {
       firstSplittableCount = i;
       break;
     }
@@ -37,6 +38,5 @@ Concept2IntegerWithUnits? guessReasonableSplit(
     return null;
   }
 
-  return Concept2IntegerWithUnits(
-      fullWorkout.value ~/ firstSplittableCount, fullWorkout.unit);
+  return WorkoutGoal(goal.length ~/ firstSplittableCount, goal.type);
 }
