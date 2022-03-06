@@ -13,7 +13,7 @@ class Workout {
 
   bool get hasSplits => splitLength != null && !isInterval;
 
-  bool get hasTargetPace => pace != null;
+  bool get hasTargetPace => targetPacePer500 != null;
 
   /// Determine if this workout is an intervals workout or not. 
   /// 
@@ -29,12 +29,13 @@ class Workout {
 
   List<WorkoutGoal> rests = [];
 
-  WorkoutGoal? pace;
+  Duration? targetPacePer500;
   Concept2IntegerWithUnits? splitLength;
 
   // WorkoutType get c2WorkoutType => WorkoutType.JUSTROW_NOSPLITS;
 
-  Workout(this.goals, {this.splitLength, List<WorkoutGoal>? rests, this.pace})
+  Workout(this.goals,
+      {this.splitLength, List<WorkoutGoal>? rests, this.targetPacePer500})
       : rests = rests ?? [] {
     // TODO: Validate that rest is an amount of time? (maybe it can be other things?)
   }
