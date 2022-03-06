@@ -63,9 +63,14 @@ void main() {
       var result = splitToWatts(Duration(minutes: 1, milliseconds: 900));
       expect(result, 1549.6);
     });
-    test('When split is 3:00.2, should be 60', () {
+    test('When split is 3:00.2, should be almost 60', () {
       var result = splitToWatts(Duration(minutes: 3, milliseconds: 200));
       expect(result, 59.8);
+    });
+
+    test('When split is 3:00.0, should be 60', () {
+      var result = splitToWatts(Duration(minutes: 3));
+      expect(result, 60);
     });
     // TODO: Update errors for splitToWatts()
     // test('When invalid split format, should throw error', () {

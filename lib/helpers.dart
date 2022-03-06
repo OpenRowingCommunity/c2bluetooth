@@ -73,7 +73,9 @@ String durationToSplit(Duration d) {
 // source: https://www.concept2.com/indoor-rowers/training/calculators/watts-calculator
 
 double splitToWatts(Duration split) {
-  var rawWatts = (2.8 / pow(split.inSeconds / 500, 3));
+  double secondsperMeter =
+      split.inMilliseconds / Duration.millisecondsPerSecond;
+  var rawWatts = (2.8 / pow(secondsperMeter / 500, 3));
   return double.parse(rawWatts.toStringAsFixed(1));
 }
 
