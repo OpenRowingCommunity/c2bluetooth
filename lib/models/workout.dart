@@ -3,17 +3,8 @@ import 'package:c2bluetooth/csafe/datatypes.dart';
 import '../helpers.dart';
 import 'enums.dart';
 
-enum SimpleWorkoutType {
-  Fixed,
-  Interval,
-  // Variable,
-  Preprogrammed,
-  // JustRow,
-  // Biathalon,
-}
 
 class Workout {
-  SimpleWorkoutType type;
 
   //TODO: add a fromConcept2Type factory to take a concept2 workoutType enum and make a workout using it
 
