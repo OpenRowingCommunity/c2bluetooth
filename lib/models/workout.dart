@@ -20,6 +20,8 @@ class Workout {
   /// rests.length should be a mostly adequate test, but checking for goal length also helps fix the edge case of undefined rest intervals
   bool get isInterval => rests.length > 0 || goals.length > 1;
 
+  List<DurationType> get goalTypes => goals.map((e) => e.type).toList();
+
   /// The goal(s) to be met for this workout.
   ///
   /// i.e. is this a 2k? 30 min piece? 5 min interval?
