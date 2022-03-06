@@ -53,6 +53,11 @@ Some commands which dont require addditional data are exposed as variables conta
 
 All Commands and the data passed to them implements an interface that allows them all to be converted to and from bytes for eventual transmission via the CSAFE packet frames. This interface is called `ByteSerializable` and is implemented by 
 
+#### Naming Conventions
+Where possible, naming conventions for commands should be similar to the Concept2 specifications. Specifically:
+- Commands from the Fitlinxx CSAFE spec are prefixed with CSAFE
+- Commands that Concept2 has added to the CSAFE spec are prefixed with something like C2Csafe (concept2 uses `CSAFE_PM_` in their spec)
+
 #### Validators
 Validators are functions that perform the validation of the data that outlined above. While some validation for data passed to commands can be done by specifying specific types in individual command constructors, sometimes additional validation is required, such as enforcing a limit on the value of the data passed in. These validators are implemented as functions and follow an inheritence-like pattern that allows many validators to be made available to library consumers for convenience.
 
