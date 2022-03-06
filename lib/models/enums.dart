@@ -97,10 +97,10 @@ extension WorkoutTypeExtension on WorkoutType {
 }
 
 enum DurationType {
-  TIME, // = 0,
-  CALORIES, // = 0x40,
-  DISTANCE, // = 0x80,
-  WATTMIN, // = 0xC0
+  TIME, // = 0, 0.01 sec LSB
+  CALORIES, // = 0x40, 1 cal LSB
+  DISTANCE, // = 0x80, 1 meter LSB
+  WATTMIN, // = 0xC0,
 }
 
 extension DurationTypeExtension on DurationType {
