@@ -8,12 +8,6 @@ class Workout {
 
   //TODO: add a fromConcept2Type factory to take a concept2 workoutType enum and make a workout using it
 
-  /// The primary metric that causes this workout's goal to be met
-  ///
-  /// i.e. is this a distance, time, or calorie piece?
-  /// once variable intervals are supported, this might become a list.
-  DurationType? get limitation => primaryGoal?.unit;
-
   bool get hasSplits => splitLength != null && !isInterval;
 
   bool get hasTargetPace => pace != null;
