@@ -27,5 +27,13 @@ void main() {
       expect(guessReasonableSplit(Concept2IntegerWithUnits.time(30)),
           Concept2IntegerWithUnits.time(6));
     });
+
+    test("test with prime number time", () {
+      expect(guessReasonableSplit(Concept2IntegerWithUnits.time(17)),
+          Concept2IntegerWithUnits.time(1));
+    });
+    test("test with prime number > 50", () {
+      expect(guessReasonableSplit(Concept2IntegerWithUnits.time(59)), null);
+    });
   });
 }
