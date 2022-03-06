@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:c2bluetooth/csafe/commands.dart';
 import 'package:c2bluetooth/csafe/datatypes.dart';
 import 'package:csafe_fitness/csafe_fitness.dart';
+import '../enums.dart';
 import 'workout.dart';
 import '../data/workoutsummary.dart';
 import 'package:c2bluetooth/constants.dart' as Identifiers;

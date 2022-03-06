@@ -1,7 +1,7 @@
 import 'package:c2bluetooth/csafe/datatypes.dart';
 
 import '../helpers.dart';
-import 'enums.dart';
+import '../enums.dart';
 
 
 /// Represents a Workout that can be performed on a Concept2 Rowing machine
