@@ -18,7 +18,8 @@ class Workout {
 
   bool get hasTargetPace => pace != null;
 
-  /// The single main goal to be met for this workout.
+  bool get isInterval => rests.length > 0;
+
   /// The goal(s) to be met for this workout.
   ///
   /// i.e. is this a 2k? 30 min piece? 5 min interval?
