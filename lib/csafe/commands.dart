@@ -11,6 +11,11 @@ class CsafePMSetSplitDuration extends CsafeCommand {
     validateData(duration, [validateC2SplitGoal()], shouldThrow: true);
   }
 }
+
+class CsafePMSetScreenState extends CsafeCommand {
+  CsafePMSetScreenState(ByteSerializable data) : super.long(0x13, 2, data) {
+    validateData(
+        data, [validateType<Concept2IntegerWithUnits>(), validateC2SplitGoal()],
         shouldThrow: true);
   }
 }
