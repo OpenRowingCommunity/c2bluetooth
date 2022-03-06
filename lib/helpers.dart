@@ -19,21 +19,23 @@ DateTime timeFromBytes(Uint8List bytes) {
   return DateTime(year + 2000, month, day, hours, minutes);
 }
 
-/// Generate integers indefinitely
-Iterable<int> integerCounter(int startNumber) sync* {
-  int i = startNumber;
-  while (true) {
-    yield i;
-    i = i + 1;
-  }
-}
-
-Concept2IntegerWithUnits guessReasonableSplit(
+/// Attempt to guess a reasonable split value from a given workout
+///
+/// The minimum split duration must not cause the total number of splits per workout to exceed the maximum of 50.
+Concept2IntegerWithUnits? guessReasonableSplit(
     Concept2IntegerWithUnits fullWorkout) {
-  List<int> divisors = [4, 5, 6];
+  int firstSplittableCount = 0;
 
-  int firstSplittableCount = integerCounter(4)
-      .firstWhere((element) => fullWorkout.value % element == 0);
+  for (var i = 4; i <= 50; i++) {
+    if (fullWorkout.value % i == 0) {
+      firstSplittableCount = i;
+      break;
+    }
+  }
+
+  if (firstSplittableCount == 0) {
+    return null;
+  }
 
   return Concept2IntegerWithUnits(
       fullWorkout.value ~/ firstSplittableCount, fullWorkout.unit);
