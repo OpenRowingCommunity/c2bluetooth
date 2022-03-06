@@ -4,6 +4,7 @@ import '../helpers.dart';
 import 'enums.dart';
 
 
+/// Represents a Workout that can be performed on a Concept2 Rowing machine
 class Workout {
 
   //TODO: add a fromConcept2Type factory to take a concept2 workoutType enum and make a workout using it
