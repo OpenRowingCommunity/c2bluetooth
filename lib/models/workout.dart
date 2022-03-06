@@ -48,7 +48,7 @@ class Workout {
       : this(goals, rests: rests);
 
   Workout.split(
-      Concept2IntegerWithUnits primaryGoal, Concept2IntegerWithUnits? splitGoal)
+      Concept2IntegerWithUnits primaryGoal, Concept2IntegerWithUnits splitGoal)
       : this([primaryGoal], splitLength: splitGoal);
 
   // like split but intelligently makes something up
