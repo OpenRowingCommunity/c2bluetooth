@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:c2bluetooth/csafe/commands.dart';
 import 'package:c2bluetooth/csafe/datatypes.dart';
 import 'package:csafe_fitness/csafe_fitness.dart';
+import 'workout.dart';
 import 'workoutsummary.dart';
 import 'package:c2bluetooth/constants.dart' as Identifiers;
 import 'package:flutter_ble_lib_ios_15/flutter_ble_lib.dart';
@@ -126,23 +127,29 @@ class Ergometer {
   /// Program a workout into the PM with particular parameters
   ///
   /// Currently requires a fixed-distance piece that may or may not have splits and/or a paceboat
-  void configureWorkout(int distance,
-      [bool startImmediately = true,
-      Concept2IntegerWithUnits? splitLength,
-      Concept2IntegerWithUnits? powerGoal]) async {
+  void configureWorkout(Workout workout, [bool startImmediately = true]) async {
     //Workout workout
-
     List<CsafeCommand> commands = [];
-
-    //for fixed distance workouts
-    commands.add(CsafeCmdSetHorizontal(CsafeIntegerWithUnits.meters(distance)));
-
-    if (splitLength != null) {
-      commands.add(CsafeCmdUserCfg1(CsafePMSetSplitDuration(splitLength)));
+    if (workout.isInterval) {
+      throw new Exception("interval workouts are not implemented yet");
+    } else {
+      //at this point there should be one and only one goal defined
+      if (workout.goals.first.unit == DurationType.DISTANCE) {
+        //for fixed distance workouts
+        commands.add(C2CsafeCmdSetHorizontalGoal(workout.goals.first));
+      } else if (workout.goals.first.unit == DurationType.TIME) {
+        // fixed time workouts
+        commands.add(C2CsafeCmdSetTimeGoal(workout.goals.first));
+      }
     }
 
-    if (powerGoal != null) {
-      commands.add(CsafeCmdSetPower(powerGoal));
+    if (workout.splitLength != null) {
+      commands
+          .add(CsafeCmdUserCfg1(CsafePMSetSplitDuration(workout.splitLength!)));
+    }
+
+    if (workout.pace != null) {
+      commands.add(CsafeCmdSetPower(workout.pace!));
     }
 
     commands.add(CsafeCmdSetProgram(Concept2WorkoutPreset.programmed()));
