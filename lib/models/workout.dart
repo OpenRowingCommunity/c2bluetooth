@@ -55,7 +55,7 @@ class Workout {
 
   // like split but intelligently makes something up
   Workout.single(WorkoutGoal primaryGoal)
-      : this.split(primaryGoal, guessReasonableSplit(primaryGoal));
+      : this.split(primaryGoal, guessReasonableSplit(primaryGoal)?.toC2());
 
   //shortcut for setting a particular number of splits over the course of a piece.
   // Workout.splitByNumber(
@@ -76,6 +76,8 @@ class WorkoutGoal extends Equatable {
   WorkoutGoal.meters(this.length) : type = DurationType.DISTANCE;
 
   WorkoutGoal.minutes(this.length) : type = DurationType.TIME;
+
+  Concept2IntegerWithUnits toC2() => Concept2IntegerWithUnits(length, type);
 
   @override
   List<Object?> get props => [length, type];
