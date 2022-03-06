@@ -33,7 +33,7 @@ class Workout {
 
   // WorkoutType get c2WorkoutType => WorkoutType.JUSTROW_NOSPLITS;
 
-  Workout(this.type, this.goals, {this.splitLength, this.rest, this.pace}) {
+  Workout(this.goals, {this.splitLength, this.rests, this.pace}) {
     // TODO: Validate that rest is an amount of time? (maybe it can be other things?)
   }
 
