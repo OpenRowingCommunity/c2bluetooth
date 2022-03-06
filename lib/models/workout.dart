@@ -14,7 +14,7 @@ class Workout {
   /// once variable intervals are supported, this might become a list.
   DurationType? get limitation => primaryGoal?.unit;
 
-  bool get hasSplits => splitLength != null;
+  bool get hasSplits => splitLength != null && !isInterval;
 
   bool get hasTargetPace => pace != null;
 
