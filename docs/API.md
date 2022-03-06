@@ -37,15 +37,14 @@ Since a lot of the architecture is already provided by FlutterBleLib and will li
 
 Many of these concepts are shared with the csafe-fitness dart library that was developed alongside this one. 
 
-### Machine
-This category came out of the Object oriented design philosophy for the library as well as the FlutterBleLib bluetooth library which has a Peripheral object to represent a particular device in a bluetooth connection and provide a spot from which to expose streams and other methods for interacting with the device via bluetooth.
+### Data Objects
+Data objects, like the WorkoutSummary class, are  essentially wrappers around data provided by the PM and allow the data to be accessed as an object by an application.
 
-An examples of a clas in this category is the Ergometer class. In the future more superclasses or subclasses may be added to support additional types and models of fitness machines from Concept2.
+Data Objects are primarily one-way communication from a PM to your application.
 
-### Bluetooth Manager
-This concept was borrowed from the FlutterBleLib bluetooth library which had a concept of a BleManager that was responsible for managing the bluetooth connection. This was adapted into the ErgBleManager class that wraps BleManager and adds some additional erg-specific functionality.
+### Model Objects
+This is a gairly general group of classes that represent various indoor rowing conceptsas objects for ease of use by applications looking to interact with ergs. Some examples of classses in this category are the `Ergometer` and `Workout` classes. Unlike Data Objects, they are intended to be able to enable bidirectional data flow. For example, an `Ergometer` object may have properties for getting data (like Data Objects) but also may contain methods like `sendWorkout()` that allow you to provide a `Workout` object to set up on the erg. `Workout` objects could also be returned by other methods as a way to represent a workout if needed.  
 
-In the future this may be replaced with a better, more flexible class system that represents a generic bluetooth interface and enables bluetooth backends implementing this interface to be easily swappd out.
 ### Commands
 The command classes are based on the similarly names classes in the csafe-fitness library. The general-purpose command superclasses are responsible for implementing the general-purpose command structures from the relevant CSAFE/Concept2 specifications. These general command classes can then be subclassed to make clearly-named human readable shortcuts that pre-fill details like the identifier and command type while also performing validation of the command data.
 
