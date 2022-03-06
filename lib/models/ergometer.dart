@@ -4,7 +4,7 @@ import 'package:c2bluetooth/csafe/commands.dart';
 import 'package:c2bluetooth/csafe/datatypes.dart';
 import 'package:csafe_fitness/csafe_fitness.dart';
 import 'workout.dart';
-import 'workoutsummary.dart';
+import '../data/workoutsummary.dart';
 import 'package:c2bluetooth/constants.dart' as Identifiers;
 import 'package:flutter_ble_lib_ios_15/flutter_ble_lib.dart';
 import 'package:rxdart/rxdart.dart';
