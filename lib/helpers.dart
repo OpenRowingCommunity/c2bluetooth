@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:c2bluetooth/csafe/datatypes.dart';
@@ -39,4 +40,52 @@ WorkoutGoal? guessReasonableSplit(WorkoutGoal goal) {
   }
 
   return WorkoutGoal(goal.length ~/ firstSplittableCount, goal.type);
+}
+
+//https://stackoverflow.com/questions/54852585/how-to-convert-a-duration-like-string-to-a-real-duration-in-flutter
+Duration parseDuration(String s) {
+  int hours = 0;
+  int minutes = 0;
+  int micros;
+  List<String> parts = s.split(':');
+  if (parts.length > 2) {
+    hours = int.parse(parts[parts.length - 3]);
+  }
+  if (parts.length > 1) {
+    minutes = int.parse(parts[parts.length - 2]);
+  }
+  micros = (double.parse(parts[parts.length - 1]) * 1000000).toInt();
+  return Duration(hours: hours, minutes: minutes, microseconds: micros);
+}
+
+String durationToSplit(Duration d) {
+  List<String> durSplit = d.toString().split('.');
+  List<String> time = durSplit.first.split(":");
+  String millis = durSplit.last.substring(0, 1);
+  // print(millis);
+
+  return "${d.inMinutes}:${time.last.padLeft(2, "0")}.${millis}";
+}
+
+//conversion functions for watts and split (from crewlab app)
+//There's funny rounding in these formulas that seemed to match what concept 2 does for their calculations  (edited). You may not want to bring that in to the plug-in
+// watts = 2.80 / pace^3; pace = seconds per meter
+// source: https://www.concept2.com/indoor-rowers/training/calculators/watts-calculator
+
+double splitToWatts(Duration split) {
+  var rawWatts = (2.8 / pow(split.inSeconds / 500, 3));
+  return double.parse(rawWatts.toStringAsFixed(1));
+}
+
+// pace = ³√(2.80/watts); pace = seconds per meter
+// source: https://www.concept2.com/indoor-rowers/training/calculators/watts-calculator
+String wattsToSplit(double watts) {
+  if (watts == 0) {
+    return "0:00.0";
+  }
+  var pace = pow((2.80 / watts), (1 / 3)).toDouble();
+  var seconds = (pace * 500.0 * 10.0).round() / 10.0;
+  var millis = (seconds * Duration.millisecondsPerSecond).round();
+  var split = durationToSplit(Duration(milliseconds: millis));
+  return split;
 }
