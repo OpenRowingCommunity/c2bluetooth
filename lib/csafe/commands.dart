@@ -14,6 +14,15 @@ class CsafePMSetSplitDuration extends CsafeCommand {
         shouldThrow: true);
   }
 }
+/// A CSAFE command to set a horizontal distance goal
+///
+/// This extends upon the Csafe version of the command in order to add checks for Concept2-specified limits.
+/// According to Concept2, distance goals must be between 100m (inclusive) and 50000 (exclusive).
+///
+/// The maximum hoziontal distance for a BikeErg is 100,000m. This is not currently accounted for
+class CsafeCmdSetHorizontalGoal extends CsafeCmdSetHorizontal {
+  CsafeCmdSetHorizontalGoal(CsafeIntegerWithUnits data) : super(data);
+}
 
 /// A CSAFE command to set a workout time goal
 ///
