@@ -69,8 +69,8 @@ class Workout {
 ///
 /// This is very similar to [Concept2IntegerWithUnits] and [CsafeIntegerWithUnits]. It is meant to be a simplified version of those types that can be converted into either one depending on which API (CSAFE public or C2 Proprietary) is needed (since they both serialize differently and have different types)
 class WorkoutGoal extends Equatable {
-  int length;
-  DurationType type;
+  final int length;
+  final DurationType type;
 
   WorkoutGoal(this.length, this.type);
 
