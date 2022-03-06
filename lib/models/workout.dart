@@ -43,15 +43,13 @@ class Workout {
 
   /// Shortcut for an intervals workout
   /// [primaryGoal] should be a distance or time value to use per interval
-  Workout.intervals(Concept2IntegerWithUnits goal,
-      {Concept2IntegerWithUnits? rest, Concept2IntegerWithUnits? splitLength})
-      : this(WorkoutType.Interval,
-            splitLength: splitLength, primaryGoal: goal, rest: rest);
+  Workout.intervals(List<Concept2IntegerWithUnits> goals,
+      List<Concept2IntegerWithUnits> rests)
+      : this(goals, rests: rests);
 
   Workout.split(
       Concept2IntegerWithUnits primaryGoal, Concept2IntegerWithUnits? splitGoal)
-      : this(WorkoutType.Fixed,
-            primaryGoal: primaryGoal, splitLength: splitGoal);
+      : this([primaryGoal], splitLength: splitGoal);
 
   // like split but intelligently makes something up
   Workout.single(Concept2IntegerWithUnits primaryGoal)
