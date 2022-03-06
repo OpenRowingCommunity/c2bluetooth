@@ -136,10 +136,10 @@ class Ergometer {
       //at this point there should be one and only one goal defined
       if (workout.goals.first.unit == DurationType.DISTANCE) {
         //for fixed distance workouts
-        commands.add(C2CsafeCmdSetHorizontalGoal(workout.goals.first));
+        commands.add(CsafeCmdSetHorizontalGoal(workout.goals.first));
       } else if (workout.goals.first.unit == DurationType.TIME) {
         // fixed time workouts
-        commands.add(C2CsafeCmdSetTimeGoal(workout.goals.first));
+        commands.add(CsafeCmdSetTimeGoal(workout.goals.first));
       }
     }
 
