@@ -26,14 +26,16 @@ class Workout {
   ///  this is the goal for each segment
   List<Concept2IntegerWithUnits> goals;
 
-  Concept2IntegerWithUnits? rest;
+  List<Concept2IntegerWithUnits> rests = [];
 
   Concept2IntegerWithUnits? pace;
   Concept2IntegerWithUnits? splitLength;
 
   // WorkoutType get c2WorkoutType => WorkoutType.JUSTROW_NOSPLITS;
 
-  Workout(this.goals, {this.splitLength, this.rests, this.pace}) {
+  Workout(this.goals,
+      {this.splitLength, List<Concept2IntegerWithUnits>? rests, this.pace})
+      : rests = rests ?? [] {
     // TODO: Validate that rest is an amount of time? (maybe it can be other things?)
   }
 
