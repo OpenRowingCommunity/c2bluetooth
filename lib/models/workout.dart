@@ -65,3 +65,17 @@ class Workout {
   //     : this(WorkoutType.Limited,
   //           splitType: WorkoutSplitType.Split, primaryGoal: primaryGoal);
 }
+
+/// A type to generically represent a goal for a workout
+///
+/// This is very similar to [Concept2IntegerWithUnits] and [CsafeIntegerWithUnits]. It is meant to be a simplified version of those types that can be converted into either one depending on which API (CSAFE public or C2 Proprietary) is needed (since they both serialize differently and have different types)
+class WorkoutGoal {
+  int length;
+  DurationType type;
+
+  WorkoutGoal(this.length, this.type);
+
+  WorkoutGoal.distance(this.length) : type = DurationType.DISTANCE;
+
+  WorkoutGoal.time(this.length) : type = DurationType.TIME;
+}
