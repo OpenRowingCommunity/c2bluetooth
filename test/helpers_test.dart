@@ -17,11 +17,15 @@ void main() {
     // expect(CsafeIntExtension.fromBytes(bytes, Endian.little), 2147483648);
   });
 
-  test("guessReasonableSplit", () {
-    expect(guessReasonableSplit(Concept2IntegerWithUnits.distance(2000)),
-        Concept2IntegerWithUnits.distance(500));
+  group("guessReasonableSplit - ", () {
+    test("test with reasonable distance", () {
+      expect(guessReasonableSplit(Concept2IntegerWithUnits.distance(2000)),
+          Concept2IntegerWithUnits.distance(500));
+    });
 
-    expect(guessReasonableSplit(Concept2IntegerWithUnits.time(30)),
-        Concept2IntegerWithUnits.time(6));
+    test("test with reasonable time", () {
+      expect(guessReasonableSplit(Concept2IntegerWithUnits.time(30)),
+          Concept2IntegerWithUnits.time(6));
+    });
   });
 }
