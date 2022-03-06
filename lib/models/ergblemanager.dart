@@ -17,7 +17,7 @@ class ErgBleManager {
   Stream<Ergometer> startErgScan() {
     return _manager.startPeripheralScan(uuids: [
       Identifiers.C2_ROWING_BASE_UUID
-    ]).map((scanResult) => Ergometer.fromPeripheral(scanResult.peripheral));
+    ]).map((scanResult) => Ergometer(scanResult.peripheral));
   }
 
   /// Stops scanning for ergs

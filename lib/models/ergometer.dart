@@ -11,47 +11,40 @@ import 'package:flutter_ble_lib_ios_15/flutter_ble_lib.dart';
 import 'package:rxdart/rxdart.dart';
 
 class Ergometer {
-  Peripheral? _peripheral;
+  Peripheral _peripheral;
   Csafe? _csafeClient;
 
   /// Get the name of this erg. i.e. "PM5" + serial number
   ///
   /// Returns "Unknown" if the erg does not report a name
-  String get name => _peripheral?.name ?? "Unknown";
+  String get name => _peripheral.name ?? "Unknown";
 
   /// Create an Ergometer from a FlutterBleLib peripheral object
   ///
   /// This is mainly intended for internal use
-  Ergometer.fromPeripheral(Peripheral peripheral) {
-    // TODO: make me private somehow
-    this._peripheral = peripheral;
-  }
+  Ergometer(this._peripheral);
 
   /// Connect to this erg and discover the services and characteristics that it offers
   Future<void> connectAndDiscover() async {
-    if (_peripheral == null) return;
-
-    await _peripheral!.connect();
-    await _peripheral!.discoverAllServicesAndCharacteristics();
+    await _peripheral.connect();
+    await _peripheral.discoverAllServicesAndCharacteristics();
 
     _csafeClient = Csafe(_readCsafe, _writeCsafe);
   }
 
   /// Disconnect from this erg or cancel the connection
   Future<void> disconnectOrCancel() async {
-    if (_peripheral == null) return;
-
-    return _peripheral?.disconnectOrCancelConnection();
+    return _peripheral.disconnectOrCancelConnection();
   }
 
   /// Returns a stream of [WorkoutSummary] objects upon completion of any programmed piece or a "just row" piece that is longer than 1 minute.
   Stream<WorkoutSummary> monitorForWorkoutSummary() {
-    Stream<Uint8List> ws1 = _peripheral!
+    Stream<Uint8List> ws1 = _peripheral
         .monitorCharacteristic(Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID,
             Identifiers.C2_ROWING_END_OF_WORKOUT_SUMMARY_CHARACTERISTIC_UUID)
         .asyncMap((datapoint) => datapoint.read());
 
-    Stream<Uint8List> ws2 = _peripheral!
+    Stream<Uint8List> ws2 = _peripheral
         .monitorCharacteristic(Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID,
             Identifiers.C2_ROWING_END_OF_WORKOUT_SUMMARY_CHARACTERISTIC2_UUID)
         .asyncMap((datapoint) => datapoint.read());
@@ -67,7 +60,7 @@ class Ergometer {
   ///
   /// Intended for passing to the csafe_fitness library to allow it to read data from the erg
   Stream<Uint8List> _readCsafe() {
-    return _peripheral!
+    return _peripheral
         .monitorCharacteristic(Identifiers.C2_ROWING_CONTROL_SERVICE_UUID,
             Identifiers.C2_ROWING_PM_TRANSMIT_CHARACTERISTIC_UUID)
         .asyncMap((datapoint) {
@@ -80,7 +73,7 @@ class Ergometer {
   ///
   /// Intended for passing to the csafe_fitness library to allow it to write data to the erg
   Future<Characteristic> _writeCsafe(Uint8List value) {
-    return _peripheral!.writeCharacteristic(
+    return _peripheral.writeCharacteristic(
         Identifiers.C2_ROWING_CONTROL_SERVICE_UUID,
         Identifiers.C2_ROWING_PM_RECEIVE_CHARACTERISTIC_UUID,
         value,
