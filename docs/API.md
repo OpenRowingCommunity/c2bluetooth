@@ -40,10 +40,15 @@ Many of these concepts are shared with the csafe-fitness dart library that was d
 ### Data Objects
 Data objects, like the WorkoutSummary class, are  essentially wrappers around data provided by the PM and allow the data to be accessed as an object by an application.
 
-Data Objects are primarily one-way communication from a PM to your application.
+Data objects are primarily one-way communication from a PM to your application.
+
+Data objects are located in the `data` directory and represent a large chunk of the public API for c2bluetooth
+
 
 ### Model Objects
 This is a gairly general group of classes that represent various indoor rowing conceptsas objects for ease of use by applications looking to interact with ergs. Some examples of classses in this category are the `Ergometer` and `Workout` classes. Unlike Data Objects, they are intended to be able to enable bidirectional data flow. For example, an `Ergometer` object may have properties for getting data (like Data Objects) but also may contain methods like `sendWorkout()` that allow you to provide a `Workout` object to set up on the erg. `Workout` objects could also be returned by other methods as a way to represent a workout if needed.  
+
+Model objects are located in the `models` directory and represent a large chunk of the public API for c2bluetooth
 
 ### Commands
 The command classes are based on the similarly names classes in the csafe-fitness library. The general-purpose command superclasses are responsible for implementing the general-purpose command structures from the relevant CSAFE/Concept2 specifications. These general command classes can then be subclassed to make clearly-named human readable shortcuts that pre-fill details like the identifier and command type while also performing validation of the command data.
