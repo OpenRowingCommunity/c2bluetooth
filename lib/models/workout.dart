@@ -1,4 +1,5 @@
 import 'package:c2bluetooth/csafe/datatypes.dart';
+import 'package:csafe_fitness/csafe_fitness.dart';
 import 'package:equatable/equatable.dart';
 
 import '../helpers.dart';

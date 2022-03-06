@@ -128,12 +128,14 @@ class Ergometer {
       throw new Exception("interval workouts are not implemented yet");
     } else {
       //at this point there should be one and only one goal defined
-      if (workout.goals.first.unit == DurationType.DISTANCE) {
+      if (workout.goals.first.type == DurationType.DISTANCE) {
         //for fixed distance workouts
-        commands.add(CsafeCmdSetHorizontalGoal(workout.goals.first));
-      } else if (workout.goals.first.unit == DurationType.TIME) {
+        commands.add(
+            CsafeCmdSetHorizontalGoal(workout.goals.first.asCsafeDistance()));
+      } else if (workout.goals.first.type == DurationType.TIME) {
         // fixed time workouts
-        commands.add(CsafeCmdSetTimeGoal(workout.goals.first));
+        commands.add(
+            CsafeCmdSetTimeGoal(workout.goals.first.asDuration().asCsafe()));
       }
     }
 
