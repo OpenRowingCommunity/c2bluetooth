@@ -12,6 +12,12 @@ class Concept2Command extends CsafeCommand {
   Concept2Command.long(int commandId, int? byteCount, ByteSerializable data)
       : super.long(commandId, byteCount, data);
 
+  ///Creates a special case for "wrapper" commands that can contain other commands
+  ///
+  ///these wrapper commands dont really have a set length. Instead, the length is just set to the length of the data they contain.
+  Concept2Command.wrapper(int commandId, ByteSerializable data)
+      : super.long(commandId, data.byteLength, data);
+
   //Passthrough to CsafeCommand since constructors arent inherited
   Concept2Command.short(int commandId) : super.short(commandId);
 }
