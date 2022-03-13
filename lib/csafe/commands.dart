@@ -46,10 +46,17 @@ class CsafePMSetSplitDuration extends Concept2Command {
 }
 
 class CsafePMSetScreenState extends Concept2Command {
-  CsafePMSetScreenState(ByteSerializable data) : super.long(0x13, 2, data) {
-    validateData(
-        data, [validateType<Concept2IntegerWithUnits>(), validateC2SplitGoal()],
-        shouldThrow: true);
+  // TODO: Expand this to cover more than just one kind of screen
+  //Currently this just supports Workout screen types only for simplicity. in future this should accept any screen type
+  CsafePMSetScreenState(WorkoutScreenValue screen)
+      : super.long(
+            0x13,
+            2,
+            Uint8List.fromList([ScreenType.WORKOUT.value, screen.value])
+                .asCsafe()) {
+    // validateData(
+    //     data, [validateType<Concept2IntegerWithUnits>(), validateC2SplitGoal()],
+    //     shouldThrow: true);
   }
 }
 /// A CSAFE command to set a horizontal distance goal
