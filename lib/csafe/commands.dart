@@ -21,6 +21,23 @@ class Concept2Command extends CsafeCommand {
   //Passthrough to CsafeCommand since constructors arent inherited
   Concept2Command.short(int commandId) : super.short(commandId);
 }
+
+///Represents Concept2's proprietary wrapper commands
+///
+///Concept2 technically has four of these with identifiers 0x76 0x77 0x7E and 0x7F, but based on their spec it seems as though there arent really any restrictions on what commands each can be used for, making them basically all interchangeable.
+class C2ProprietaryWrapper extends Concept2Command {
+  C2ProprietaryWrapper(List<Concept2Command> commands)
+      : super.wrapper(
+            0x76,
+            commands
+                .map((e) => e.toBytes())
+                .reduce((data1, data2) =>
+                    Uint8List.fromList(data1.toList() + data2.toList()))
+                .asCsafe()) {
+    // validateData(duration, [validateC2SplitGoal()], shouldThrow: true);
+  }
+}
+
 class CsafePMSetSplitDuration extends Concept2Command {
   CsafePMSetSplitDuration(Concept2IntegerWithUnits duration)
       : super.long(0x05, 5, duration) {
