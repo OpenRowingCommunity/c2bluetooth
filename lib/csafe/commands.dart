@@ -1,18 +1,28 @@
+import 'dart:typed_data';
 import 'package:c2bluetooth/csafe/datatypes.dart';
 import 'package:csafe_fitness/csafe_fitness.dart';
 import 'package:csafe_fitness/commands.dart';
 import 'validators.dart';
 
-/// a list of Csafe Commands for concept2
+///Represents a command that was created by Concept2
+///
+///This class is mainly intended to help organize the concept2 commands so that they can be referred to as a group within commands like [C2ProprietaryWrapper]
+class Concept2Command extends CsafeCommand {
+  //Passthrough to CsafeCommand since constructors arent inherited
+  Concept2Command.long(int commandId, int? byteCount, ByteSerializable data)
+      : super.long(commandId, byteCount, data);
 
-class CsafePMSetSplitDuration extends CsafeCommand {
+  //Passthrough to CsafeCommand since constructors arent inherited
+  Concept2Command.short(int commandId) : super.short(commandId);
+}
+class CsafePMSetSplitDuration extends Concept2Command {
   CsafePMSetSplitDuration(Concept2IntegerWithUnits duration)
       : super.long(0x05, 5, duration) {
     validateData(duration, [validateC2SplitGoal()], shouldThrow: true);
   }
 }
 
-class CsafePMSetScreenState extends CsafeCommand {
+class CsafePMSetScreenState extends Concept2Command {
   CsafePMSetScreenState(ByteSerializable data) : super.long(0x13, 2, data) {
     validateData(
         data, [validateType<Concept2IntegerWithUnits>(), validateC2SplitGoal()],
