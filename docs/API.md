@@ -35,9 +35,12 @@ Since a lot of the architecture is already provided by FlutterBleLib and will li
 
 ## Core API Concepts
 
-Many of these concepts are shared with the csafe-fitness dart library that was developed alongside this one. 
+This library is built from a few core concepts, some of which are shared with the `csafe-fitness` library. These core concepts represent general groupings of classes that serve a particular purpose or abstract certain aspects of communicating with an erg.
 
-### Data Objects
+These concepts are roughly divided up into "external" (i.e. those that are part of the libraries public API) and "internal". If you are just using the library in your app, the external concepts should be all you need. Anyone looking to contribute to this library might find the "internal" concepts helpful 
+
+### External Concepts
+#### Data Objects
 Data objects, like the WorkoutSummary class, are  essentially wrappers around data provided by the PM and allow the data to be accessed as an object by an application.
 
 Data objects are primarily one-way communication from a PM to your application.
@@ -45,27 +48,29 @@ Data objects are primarily one-way communication from a PM to your application.
 Data objects are located in the `data` directory and represent a large chunk of the public API for c2bluetooth
 
 
-### Model Objects
+#### Model Objects
 This is a gairly general group of classes that represent various indoor rowing conceptsas objects for ease of use by applications looking to interact with ergs. Some examples of classses in this category are the `Ergometer` and `Workout` classes. Unlike Data Objects, they are intended to be able to enable bidirectional data flow. For example, an `Ergometer` object may have properties for getting data (like Data Objects) but also may contain methods like `sendWorkout()` that allow you to provide a `Workout` object to set up on the erg. `Workout` objects could also be returned by other methods as a way to represent a workout if needed.  
 
 Model objects are located in the `models` directory and represent a large chunk of the public API for c2bluetooth
 
-### Commands
-The command classes are based on the similarly names classes in the csafe-fitness library. The general-purpose command superclasses are responsible for implementing the general-purpose command structures from the relevant CSAFE/Concept2 specifications. These general command classes can then be subclassed to make clearly-named human readable shortcuts that pre-fill details like the identifier and command type while also performing validation of the command data.
+
+### Internal Concepts
+#### Commands
+The command classes are based on the similarly named classes in the csafe-fitness library. There is a command superclass that is responsible for implementing general-purpose command structures from the relevant CSAFE/Concept2 specifications. These general command classes can then be subclassed to make clearly-named human readable shortcuts that pre-fill details like the identifier and command type while also performing validation of the command data.
 
 Some commands which dont require addditional data are exposed as variables containing a specific instance of a command that has been pre-made.
 
 All Commands and the data passed to them implements an interface that allows them all to be converted to and from bytes for eventual transmission via the CSAFE packet frames. This interface is called `ByteSerializable` and is implemented by 
 
-#### Naming Conventions
+##### Naming Conventions
 Where possible, naming conventions for commands should be similar to the Concept2 specifications. Specifically:
 - Commands from the Fitlinxx CSAFE spec are prefixed with CSAFE
 - Commands that Concept2 has added to the CSAFE spec are prefixed with something like C2Csafe (concept2 uses `CSAFE_PM_` in their spec)
 
-#### Validators
+##### Validators
 Validators are functions that perform the validation of the data that outlined above. While some validation for data passed to commands can be done by specifying specific types in individual command constructors, sometimes additional validation is required, such as enforcing a limit on the value of the data passed in. These validators are implemented as functions and follow an inheritence-like pattern that allows many validators to be made available to library consumers for convenience.
 
-#### Command Data
-The specific interperetation of data in a command depends on that commands identifier/what the command is for. To make things easy, many classes have already been created that represent different data types from the spec that various commands accept. Most notable of these is an "integer with units" type that stores an integer with a unit value, which is useful for specifying things like distances and times.
+##### Command Data
+The specific interperetation of data in a command depends on that commands identifier/what the command is for. To make things easy, many classes have already been created that represent different data types from the spec that various commands accept. A notable example of these is an "integer with units" type that stores an integer with a unit value, which is useful for specifying things like distances and times when sending data via CSAFE.
 
 If you need to create your own datatype, you should look at the existing datatypes as well as the `ByteSerializable` interface. 
