@@ -29,6 +29,34 @@ void main() {
           WorkoutType.FIXEDTIME_INTERVAL);
 
       expect(Workout([]).getC2WorkoutType(), WorkoutType.JUSTROW_NOSPLITS);
+
+      expect(
+          Workout.intervals([
+            WorkoutGoal.meters(2000),
+            WorkoutGoal.meters(1000)
+          ], [
+            WorkoutGoal.meters(500),
+            WorkoutGoal.meters(500)
+          ]).getC2WorkoutType(),
+          WorkoutType.VARIABLE_INTERVAL);
+
+      expect(
+          Workout.intervals(
+                  [WorkoutGoal.meters(2000), WorkoutGoal.meters(1000)], [])
+              .getC2WorkoutType(),
+          WorkoutType.VARIABLE_UNDEFINEDREST_INTERVAL);
+
+      expect(Workout.single(WorkoutGoal.calories(59)).getC2WorkoutType(),
+          WorkoutType.FIXED_CALORIE);
+      // 2k on 500 off
+      expect(
+          Workout.intervals(
+                  [WorkoutGoal.calories(2000)], [WorkoutGoal.calories(500)])
+              .getC2WorkoutType(),
+          WorkoutType.FIXEDCALS_INTERVAL);
+
+      expect(Workout.single(WorkoutGoal.wattMin(59)).getC2WorkoutType(),
+          WorkoutType.FIXED_WATTMINUTES);
     });
   });
 }
