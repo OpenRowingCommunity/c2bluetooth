@@ -123,6 +123,21 @@ class Ergometer {
   /// Currently requires a fixed-distance piece that may or may not have splits and/or a paceboat
   void configureWorkout(Workout workout, [bool startImmediately = true]) async {
     //Workout workout
+
+    List<WorkoutType> unimplementedWorkouts = [
+      WorkoutType.JUSTROW_NOSPLITS,
+      WorkoutType.JUSTROW_SPLITS,
+      WorkoutType.FIXED_WATTMINUTES,
+      WorkoutType.FIXED_CALORIE,
+      WorkoutType.FIXEDCALS_INTERVAL,
+      WorkoutType.VARIABLE_INTERVAL,
+      WorkoutType.VARIABLE_UNDEFINEDREST_INTERVAL
+    ];
+    if (unimplementedWorkouts.contains(workout.getC2WorkoutType())) {
+      throw new FormatException(
+          "The workout type ${workout.getC2WorkoutType()} is not yet supported");
+    }
+
     List<CsafeCommand> commands = [];
     if (workout.isInterval) {
       throw new Exception("interval workouts are not implemented yet");
