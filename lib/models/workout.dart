@@ -70,8 +70,11 @@ class Workout {
   WorkoutType getC2WorkoutType() {
     // if (goals.any((e) => e == goals[0])) {}
     if (goals.length >= 2) {
-      // return WorkoutType.VARIABLE_INTERVAL;
-      // return WorkoutType.VARIABLE_UNDEFINEDREST_INTERVAL;
+      if (rests.length > 0) {
+        return WorkoutType.VARIABLE_INTERVAL;
+      } else {
+        return WorkoutType.VARIABLE_UNDEFINEDREST_INTERVAL;
+      }
     } else if (goals.length == 1 && goals[0].type == DurationType.DISTANCE) {
       if (hasSplits) {
         return WorkoutType.FIXEDDIST_SPLITS;
@@ -89,14 +92,20 @@ class Workout {
         return WorkoutType.FIXEDTIME_NOSPLITS;
       }
     } else if (goals.length == 1 && goals[0].type == DurationType.CALORIES) {
-      // return WorkoutType.FIXED_CALORIE;
-      // return WorkoutType.FIXEDCALS_INTERVAL;
-
+      if (isInterval) {
+        return WorkoutType.FIXEDCALS_INTERVAL;
+      } else {
+        return WorkoutType.FIXED_CALORIE;
+      }
     } else if (goals.length == 1 && goals[0].type == DurationType.WATTMIN) {
-      // return WorkoutType.FIXED_WATTMINUTES;
+      return WorkoutType.FIXED_WATTMINUTES;
     } else {
-      // return WorkoutType.JUSTROW_NOSPLITS;
-      // return WorkoutType.JUSTROW_SPLITS;
+      // this will run if goals.length == 0
+      if (hasSplits) {
+        return WorkoutType.JUSTROW_SPLITS;
+      } else {
+        return WorkoutType.JUSTROW_NOSPLITS;
+      }
     }
   }
 }
