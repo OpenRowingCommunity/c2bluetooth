@@ -123,6 +123,10 @@ class WorkoutGoal extends Equatable {
 
   WorkoutGoal.minutes(this.length) : type = DurationType.TIME;
 
+  WorkoutGoal.calories(this.length) : type = DurationType.CALORIES;
+
+  WorkoutGoal.wattMin(this.length) : type = DurationType.WATTMIN;
+
   Concept2IntegerWithUnits toC2() => Concept2IntegerWithUnits(length, type);
 
   CsafeIntegerWithUnits asCsafeDistance() {
