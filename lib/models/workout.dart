@@ -66,6 +66,39 @@ class Workout {
   //     Concept2IntegerWithUnits primaryGoal, int splitCount)
   //     : this(WorkoutType.Limited,
   //           splitType: WorkoutSplitType.Split, primaryGoal: primaryGoal);
+
+  WorkoutType getC2WorkoutType() {
+    // if (goals.any((e) => e == goals[0])) {}
+    if (goals.length >= 2) {
+      // return WorkoutType.VARIABLE_INTERVAL;
+      // return WorkoutType.VARIABLE_UNDEFINEDREST_INTERVAL;
+    } else if (goals.length == 1 && goals[0].type == DurationType.DISTANCE) {
+      if (hasSplits) {
+        return WorkoutType.FIXEDDIST_SPLITS;
+      } else if (isInterval) {
+        return WorkoutType.FIXEDDIST_INTERVAL;
+      } else {
+        return WorkoutType.FIXEDDIST_NOSPLITS;
+      }
+    } else if (goals.length == 1 && goals[0].type == DurationType.TIME) {
+      if (hasSplits) {
+        return WorkoutType.FIXEDTIME_SPLITS;
+      } else if (isInterval) {
+        return WorkoutType.FIXEDTIME_INTERVAL;
+      } else {
+        return WorkoutType.FIXEDTIME_NOSPLITS;
+      }
+    } else if (goals.length == 1 && goals[0].type == DurationType.CALORIES) {
+      // return WorkoutType.FIXED_CALORIE;
+      // return WorkoutType.FIXEDCALS_INTERVAL;
+
+    } else if (goals.length == 1 && goals[0].type == DurationType.WATTMIN) {
+      // return WorkoutType.FIXED_WATTMINUTES;
+    } else {
+      // return WorkoutType.JUSTROW_NOSPLITS;
+      // return WorkoutType.JUSTROW_SPLITS;
+    }
+  }
 }
 
 /// A type to generically represent a goal for a workout
