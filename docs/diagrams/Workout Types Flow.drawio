@@ -1,6 +1,6 @@
-<mxfile host="Electron" modified="2022-03-05T23:21:23.725Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/15.4.0 Chrome/91.0.4472.164 Electron/13.5.0 Safari/537.36" etag="773E8_D23H1z4M1Thuqg" compressed="false" version="15.4.0" type="device">
+<mxfile host="Electron" modified="2022-03-17T22:09:10.558Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/15.4.0 Chrome/91.0.4472.164 Electron/13.5.0 Safari/537.36" etag="gBUIg9vcCp8ALsjDR4Iy" compressed="false" version="15.4.0" type="device">
   <diagram id="YCDOuJI4Y9eSO88ZxPCR" name="Workout Setup">
-    <mxGraphModel dx="1574" dy="1216" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1102" dy="784" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="cu3RjYfwIwkxcJE8TeZc-0" />
         <mxCell id="cu3RjYfwIwkxcJE8TeZc-1" parent="cu3RjYfwIwkxcJE8TeZc-0" />
@@ -9,7 +9,7 @@
             <mxPoint x="640" y="510" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cu3RjYfwIwkxcJE8TeZc-3" value="Set horizontal distance goal" style="rounded=1;whiteSpace=wrap;html=1;" parent="cu3RjYfwIwkxcJE8TeZc-1" vertex="1">
+        <mxCell id="cu3RjYfwIwkxcJE8TeZc-3" value="Set horizontal distance goal" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="cu3RjYfwIwkxcJE8TeZc-1" vertex="1">
           <mxGeometry x="450" y="365" width="150" height="60" as="geometry" />
         </mxCell>
         <mxCell id="cu3RjYfwIwkxcJE8TeZc-8" value="Y" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="cu3RjYfwIwkxcJE8TeZc-1" source="cu3RjYfwIwkxcJE8TeZc-6" target="cu3RjYfwIwkxcJE8TeZc-3" edge="1">
@@ -26,7 +26,7 @@
             <mxPoint x="640" y="570" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cu3RjYfwIwkxcJE8TeZc-13" value="Set work time goal" style="rounded=1;whiteSpace=wrap;html=1;" parent="cu3RjYfwIwkxcJE8TeZc-1" vertex="1">
+        <mxCell id="cu3RjYfwIwkxcJE8TeZc-13" value="Set work time goal" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="cu3RjYfwIwkxcJE8TeZc-1" vertex="1">
           <mxGeometry x="450" y="485" width="150" height="60" as="geometry" />
         </mxCell>
         <mxCell id="cu3RjYfwIwkxcJE8TeZc-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="cu3RjYfwIwkxcJE8TeZc-1" source="cu3RjYfwIwkxcJE8TeZc-9" target="cu3RjYfwIwkxcJE8TeZc-13" edge="1">
@@ -95,7 +95,7 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cu3RjYfwIwkxcJE8TeZc-45" value="is there a split?" style="rhombus;whiteSpace=wrap;html=1;" parent="cu3RjYfwIwkxcJE8TeZc-1" vertex="1">
+        <mxCell id="cu3RjYfwIwkxcJE8TeZc-45" value="is there a split?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="cu3RjYfwIwkxcJE8TeZc-1" vertex="1">
           <mxGeometry x="560" y="780" width="140" height="90" as="geometry" />
         </mxCell>
         <mxCell id="cu3RjYfwIwkxcJE8TeZc-49" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="cu3RjYfwIwkxcJE8TeZc-1" source="cu3RjYfwIwkxcJE8TeZc-46" target="cu3RjYfwIwkxcJE8TeZc-48" edge="1">
@@ -142,7 +142,7 @@
             <mxPoint x="760" y="1270" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cu3RjYfwIwkxcJE8TeZc-62" value="is there a paceboat/&lt;br&gt;power goal?" style="rhombus;whiteSpace=wrap;html=1;" parent="cu3RjYfwIwkxcJE8TeZc-1" vertex="1">
+        <mxCell id="cu3RjYfwIwkxcJE8TeZc-62" value="is there a paceboat/&lt;br&gt;power goal?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="cu3RjYfwIwkxcJE8TeZc-1" vertex="1">
           <mxGeometry x="650" y="1060" width="140" height="90" as="geometry" />
         </mxCell>
         <mxCell id="cu3RjYfwIwkxcJE8TeZc-63" value="success" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d5e8d4;align=center;strokeColor=#82b366;" parent="cu3RjYfwIwkxcJE8TeZc-1" vertex="1">
@@ -171,7 +171,7 @@
         <mxCell id="cu3RjYfwIwkxcJE8TeZc-75" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="cu3RjYfwIwkxcJE8TeZc-1" source="cu3RjYfwIwkxcJE8TeZc-73" target="cu3RjYfwIwkxcJE8TeZc-67" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="cu3RjYfwIwkxcJE8TeZc-73" value="Set power goal" style="whiteSpace=wrap;html=1;rounded=1;" parent="cu3RjYfwIwkxcJE8TeZc-1" vertex="1">
+        <mxCell id="cu3RjYfwIwkxcJE8TeZc-73" value="Set power goal" style="whiteSpace=wrap;html=1;rounded=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="cu3RjYfwIwkxcJE8TeZc-1" vertex="1">
           <mxGeometry x="840" y="1075" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="cu3RjYfwIwkxcJE8TeZc-83" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="cu3RjYfwIwkxcJE8TeZc-1" source="cu3RjYfwIwkxcJE8TeZc-77" target="cu3RjYfwIwkxcJE8TeZc-82" edge="1">
@@ -197,7 +197,7 @@
         <mxCell id="cu3RjYfwIwkxcJE8TeZc-96" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="cu3RjYfwIwkxcJE8TeZc-1" source="cu3RjYfwIwkxcJE8TeZc-86" target="cu3RjYfwIwkxcJE8TeZc-62" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="cu3RjYfwIwkxcJE8TeZc-86" value="Set Split length" style="whiteSpace=wrap;html=1;rounded=1;" parent="cu3RjYfwIwkxcJE8TeZc-1" vertex="1">
+        <mxCell id="cu3RjYfwIwkxcJE8TeZc-86" value="Set Split length" style="whiteSpace=wrap;html=1;rounded=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="cu3RjYfwIwkxcJE8TeZc-1" vertex="1">
           <mxGeometry x="405" y="1030" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="cu3RjYfwIwkxcJE8TeZc-88" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="cu3RjYfwIwkxcJE8TeZc-1" source="cu3RjYfwIwkxcJE8TeZc-87" target="cu3RjYfwIwkxcJE8TeZc-86" edge="1">
@@ -256,22 +256,22 @@
         <mxCell id="cu3RjYfwIwkxcJE8TeZc-118" value="Just row too?" style="shape=note;strokeWidth=2;fontSize=14;size=20;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#666600;align=center;" parent="cu3RjYfwIwkxcJE8TeZc-1" vertex="1">
           <mxGeometry x="190" y="1300" width="110.00000000000001" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="Cdok3X67oY4GE3mbUe2_-2" value="Y" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="cu3RjYfwIwkxcJE8TeZc-1" source="Cdok3X67oY4GE3mbUe2_-1" target="cu3RjYfwIwkxcJE8TeZc-30">
+        <mxCell id="Cdok3X67oY4GE3mbUe2_-2" value="Y" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="cu3RjYfwIwkxcJE8TeZc-1" source="Cdok3X67oY4GE3mbUe2_-1" target="cu3RjYfwIwkxcJE8TeZc-30" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="Cdok3X67oY4GE3mbUe2_-5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="cu3RjYfwIwkxcJE8TeZc-1" source="Cdok3X67oY4GE3mbUe2_-1" target="Cdok3X67oY4GE3mbUe2_-4">
+        <mxCell id="Cdok3X67oY4GE3mbUe2_-5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="cu3RjYfwIwkxcJE8TeZc-1" source="Cdok3X67oY4GE3mbUe2_-1" target="Cdok3X67oY4GE3mbUe2_-4" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="Cdok3X67oY4GE3mbUe2_-1" value="is the rest defined?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="cu3RjYfwIwkxcJE8TeZc-1">
+        <mxCell id="Cdok3X67oY4GE3mbUe2_-1" value="is the rest defined?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="cu3RjYfwIwkxcJE8TeZc-1" vertex="1">
           <mxGeometry x="940" y="230" width="140" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="Cdok3X67oY4GE3mbUe2_-4" value="undefined rest (biathalon and stuff)" style="whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="cu3RjYfwIwkxcJE8TeZc-1">
+        <mxCell id="Cdok3X67oY4GE3mbUe2_-4" value="undefined rest (biathalon and stuff)" style="whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="cu3RjYfwIwkxcJE8TeZc-1" vertex="1">
           <mxGeometry x="1170" y="245" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="Cdok3X67oY4GE3mbUe2_-6" value="not planned" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="cu3RjYfwIwkxcJE8TeZc-1">
+        <mxCell id="Cdok3X67oY4GE3mbUe2_-6" value="not planned" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="cu3RjYfwIwkxcJE8TeZc-1" vertex="1">
           <mxGeometry x="700" y="50" width="150" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="Cdok3X67oY4GE3mbUe2_-8" value="is this the same both times power goals are set" style="shape=note;strokeWidth=2;fontSize=14;size=20;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#666600;" vertex="1" parent="cu3RjYfwIwkxcJE8TeZc-1">
+        <mxCell id="Cdok3X67oY4GE3mbUe2_-8" value="is this the same both times power goals are set" style="shape=note;strokeWidth=2;fontSize=14;size=20;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#666600;" parent="cu3RjYfwIwkxcJE8TeZc-1" vertex="1">
           <mxGeometry x="1130" y="510" width="110.00000000000001" height="80" as="geometry" />
         </mxCell>
       </root>
