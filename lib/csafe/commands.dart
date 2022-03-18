@@ -45,6 +45,11 @@ class CsafePMSetSplitDuration extends Concept2Command {
   }
 }
 
+class CsafePmSetWorkoutDuration extends Concept2Command {
+  CsafePmSetWorkoutDuration(Concept2IntegerWithUnits duration)
+      : super.long(0x03, 5, duration);
+}
+
 class CsafePMSetScreenState extends Concept2Command {
   // TODO: Expand this to cover more than just one kind of screen
   //Currently this just supports Workout screen types only for simplicity. in future this should accept any screen type
@@ -54,6 +59,43 @@ class CsafePMSetScreenState extends Concept2Command {
             2,
             Uint8List.fromList([ScreenType.WORKOUT.value, screen.value])
                 .asCsafe()) {
+    // validateData(
+    //     data, [validateType<Concept2IntegerWithUnits>(), validateC2SplitGoal()],
+    //     shouldThrow: true);
+  }
+}
+
+class CsafePMSetWorkoutType extends Concept2Command {
+  CsafePMSetWorkoutType(WorkoutType workoutType)
+      : super.long(0x01, 1, workoutType.value.toBytes().asCsafe()) {
+    // validateData(
+    //     data, [validateType<Concept2IntegerWithUnits>(), validateC2SplitGoal()],
+    //     shouldThrow: true);
+  }
+}
+
+class CsafePMConfigureWorkout extends Concept2Command {
+  CsafePMConfigureWorkout(WorkoutNumber workoutNum)
+      : super.long(0x01, 1, workoutNum.value.toBytes(fillBytes: 1).asCsafe()) {
+    // validateData(
+    //     data, [validateType<Concept2IntegerWithUnits>(), validateC2SplitGoal()],
+    //     shouldThrow: true);
+  }
+}
+
+class CsafePMSetWorkoutIntervalCount extends Concept2Command {
+  CsafePMSetWorkoutIntervalCount(int intervalCount)
+      : super.long(0x18, 1, intervalCount.toBytes(fillBytes: 1).asCsafe()) {
+    // validateData(
+    //     data, [validateType<Concept2IntegerWithUnits>(), validateC2SplitGoal()],
+    //     shouldThrow: true);
+  }
+}
+
+class CsafePMSetIntervalType extends Concept2Command {
+  CsafePMSetIntervalType(IntervalType intervalType)
+      : super.long(
+            0x17, 1, intervalType.value.toBytes(fillBytes: 1).asCsafe()) {
     // validateData(
     //     data, [validateType<Concept2IntegerWithUnits>(), validateC2SplitGoal()],
     //     shouldThrow: true);
