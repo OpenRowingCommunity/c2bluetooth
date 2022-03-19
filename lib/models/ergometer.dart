@@ -5,6 +5,7 @@ import 'package:c2bluetooth/csafe/commands.dart';
 import 'package:c2bluetooth/csafe/datatypes.dart';
 import 'package:csafe_fitness/csafe_fitness.dart';
 import '../enums.dart';
+import '../helpers.dart';
 import 'workout.dart';
 import '../data/workoutsummary.dart';
 import 'package:c2bluetooth/constants.dart' as Identifiers;
@@ -166,8 +167,9 @@ class Ergometer {
           .add(CsafeCmdUserCfg1(CsafePMSetSplitDuration(workout.splitLength!)));
     }
 
-    if (workout.pace != null) {
-      commands.add(CsafeCmdSetPower(workout.pace!));
+    if (workout.targetPacePer500 != null) {
+      commands.add(CsafeCmdSetPower(CsafeIntegerWithUnits(
+          splitToWatts(workout.targetPacePer500!), CsafeUnits.watts)));
     }
 
     commands.add(CsafeCmdSetProgram(Concept2WorkoutPreset.programmed()));
