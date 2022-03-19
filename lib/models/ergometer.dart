@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:c2bluetooth/c2bluetooth.dart';
 import 'package:c2bluetooth/csafe/commands.dart';
 import 'package:c2bluetooth/csafe/datatypes.dart';
 import 'package:csafe_fitness/csafe_fitness.dart';
