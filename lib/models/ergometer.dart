@@ -122,7 +122,7 @@ class Ergometer {
 
   /// Program a workout into the PM with particular parameters
   ///
-  /// Currently requires a fixed-distance piece that may or may not have splits and/or a paceboat
+  ///Currently only the more basic of workout types are supported, such as basic single intervals, single distance, and single time pieces
   void configureWorkout(Workout workout, [bool startImmediately = true]) async {
     //Workout workout
 
