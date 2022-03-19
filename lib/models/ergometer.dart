@@ -150,19 +150,15 @@ class Ergometer {
     }
 
     List<CsafeCommand> commands = [];
-    if (workout.isInterval) {
-      throw new Exception("interval workouts are not implemented yet");
-    } else {
-      //at this point there should be one and only one goal defined
-      if (workout.goals.first.type == DurationType.DISTANCE) {
-        //for fixed distance workouts
-        commands.add(
-            CsafeCmdSetHorizontalGoal(workout.goals.first.asCsafeDistance()));
-      } else if (workout.goals.first.type == DurationType.TIME) {
-        // fixed time workouts
-        commands.add(
-            CsafeCmdSetTimeGoal(workout.goals.first.asDuration().asCsafe()));
-      }
+    //at this point there should be one and only one goal defined
+    if (workout.goals.first.type == DurationType.DISTANCE) {
+      //for fixed distance workouts
+      commands.add(
+          CsafeCmdSetHorizontalGoal(workout.goals.first.asCsafeDistance()));
+    } else if (workout.goals.first.type == DurationType.TIME) {
+      // fixed time workouts
+      commands
+          .add(CsafeCmdSetTimeGoal(workout.goals.first.asDuration().asCsafe()));
     }
 
     if (workout.splitLength != null) {
