@@ -161,7 +161,7 @@ class Ergometer {
           .add(CsafeCmdSetTimeGoal(workout.goals.first.asDuration().asCsafe()));
     }
 
-    if (workout.splitLength != null) {
+    if (workout.hasSplits) {
       commands
           .add(CsafeCmdUserCfg1(CsafePMSetSplitDuration(workout.splitLength!)));
     }
