@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:c2bluetooth/csafe/datatypes.dart';
+import 'package:c2bluetooth/enums.dart';
 import 'package:csafe_fitness/csafe_fitness.dart';
 import 'package:csafe_fitness/commands.dart';
 import 'validators.dart';
