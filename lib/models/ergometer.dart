@@ -139,6 +139,16 @@ class Ergometer {
           "The workout type ${workout.getC2WorkoutType()} is not yet supported");
     }
 
+    bool shouldUseC2ProprietaryAPI = workout.isInterval ||
+        workout.goalTypes.contains(DurationType.CALORIES) ||
+        workout.goalTypes.contains(DurationType.WATTMIN);
+
+    if (shouldUseC2ProprietaryAPI) {
+      _configureProprietaryWorkout(
+          workout, startImmediately = startImmediately);
+      return;
+    }
+
     List<CsafeCommand> commands = [];
     if (workout.isInterval) {
       throw new Exception("interval workouts are not implemented yet");
@@ -176,5 +186,47 @@ class Ergometer {
   void _startWorkout() async {
     await _csafeClient!
         .sendCommands([cmdGoInUse]).then((value) => print(value));
+  }
+
+  void _startWorkoutProprietary() async {
+    await _csafeClient!.sendCommands([
+      C2ProprietaryWrapper(
+          [CsafePMSetScreenState(WorkoutScreenValue.PREPARETOROWWORKOUT)])
+    ]).then((value) => print(value));
+  }
+
+  void _configureProprietaryWorkout(Workout workout,
+      [bool startImmediately = true]) async {
+    List<Concept2Command> commands = [];
+
+    commands.add(CsafePMSetWorkoutType(workout.getC2WorkoutType()));
+
+    if (workout.isInterval) {
+      // for each interval
+      commands.add(CsafePmSetWorkoutDuration(workout.goals.first.toC2()));
+      commands.add(CsafePmSetWorkoutDuration(workout.rests.first.toC2()));
+    } else {
+      // if (workout.goals.first.type == DurationType.CALORIES) {
+      //   commands.add(CsafePmSetWorkoutDuration(workout.goals.first.))
+      // } else if (workout.goals.first.type == DurationType.WATTMIN) {}
+    }
+
+    if (workout.hasSplits) {
+      commands.add(CsafePMSetSplitDuration(workout.splitLength!));
+    }
+
+    await _sendProprietaryCommands(commands);
+
+    if (startImmediately) {
+      _startWorkoutProprietary();
+    }
+  }
+
+  Future<List<CsafeCommandResponse>> _sendProprietaryCommands(
+      List<Concept2Command> commands) async {
+    // wrap each command in an individual proprietary wrapper so that its more likely to fit within the 20 byte limit for messages sent to and from the Erg.
+    return _csafeClient!
+        .sendCommands(commands.map((e) => C2ProprietaryWrapper([e])).toList());
+    // .then((value) => print(value));
   }
 }
