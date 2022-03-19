@@ -107,13 +107,13 @@ class _SimpleErgViewState extends State<SimpleErgView> {
     subscribeToStreams();
   }
 
-  setup2k() async {
+  setup2kH() async {
     if (targetDevice == null) return;
 
     targetDevice?.configure2kWorkout();
   }
 
-  setup10k() async {
+  setup10kH() async {
     if (targetDevice == null) return;
 
     targetDevice?.configure10kWorkout();
@@ -172,11 +172,11 @@ class _SimpleErgViewState extends State<SimpleErgView> {
           ),
         ),
         Center(
-          child: TextButton(onPressed: setup2k, child: Text("Configure a 2k")),
+          child: TextButton(onPressed: setup2kH, child: Text("Configure a 2k")),
         ),
         Center(
           child:
-              TextButton(onPressed: setup10k, child: Text("Configure a 10k")),
+              TextButton(onPressed: setup10kH, child: Text("Configure a 10k")),
         ),
       ]),
     );
