@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:c2bluetooth/c2bluetooth.dart';
+import 'package:c2bluetooth/models/workout.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -119,6 +120,18 @@ class _SimpleErgViewState extends State<SimpleErgView> {
     targetDevice?.configure10kWorkout();
   }
 
+  setup2k() async {
+    if (targetDevice == null) return;
+
+    targetDevice?.configureWorkout(Workout.single(WorkoutGoal.meters(2000)));
+  }
+
+  setup10k() async {
+    if (targetDevice == null) return;
+
+    targetDevice?.configureWorkout(Workout.single(WorkoutGoal.meters(10000)));
+  }
+
   disconnectFromDevice() async {
     if (targetDevice == null) return;
 
@@ -172,11 +185,19 @@ class _SimpleErgViewState extends State<SimpleErgView> {
           ),
         ),
         Center(
-          child: TextButton(onPressed: setup2kH, child: Text("Configure a 2k")),
+          child: TextButton(
+              onPressed: setup2kH, child: Text("Configure a 2k (hardcoded)")),
+        ),
+        Center(
+          child: TextButton(
+              onPressed: setup10kH, child: Text("Configure a 10k (hardcoded)")),
+        ),
+        Center(
+          child: TextButton(onPressed: setup2k, child: Text("Configure a 2k")),
         ),
         Center(
           child:
-              TextButton(onPressed: setup10kH, child: Text("Configure a 10k")),
+              TextButton(onPressed: setup10k, child: Text("Configure a 10k")),
         ),
       ]),
     );
