@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:csafe_fitness/csafe_fitness.dart';
 
-import '../enums.dart';
+import 'package:c2bluetooth/enums.dart';
 // import 'package:csafe_fitness/src/types/enumtypes.dart';
 
 /// Represents an integer with units as used within concept2-specific commands.

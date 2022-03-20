@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:csafe_fitness/csafe_fitness.dart';
 
 import '../helpers.dart';
-import '../enums.dart';
+import 'package:c2bluetooth/enums.dart';
 
 /// Represents a summary of a completed workout
 ///

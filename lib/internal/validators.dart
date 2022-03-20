@@ -1,5 +1,5 @@
 import 'package:c2bluetooth/c2bluetooth.dart';
-import 'package:c2bluetooth/csafe/datatypes.dart';
+import '../internal/datatypes.dart';
 import 'package:csafe_fitness/csafe_fitness.dart';
 
 //TODO: validate data as a big endian IntegerWithUnits-like type with DurationType as the unit

@@ -1,8 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:c2bluetooth/c2bluetooth.dart';
-
-import 'package:c2bluetooth/csafe/datatypes.dart';
+import 'package:c2bluetooth/enums.dart';
+import '../lib/internal/datatypes.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

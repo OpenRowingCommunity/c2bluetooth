@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:c2bluetooth/csafe/datatypes.dart';
+import '../lib/internal/datatypes.dart';
 import 'package:c2bluetooth/helpers.dart';
 import 'package:c2bluetooth/models/workout.dart';
 import 'package:flutter_test/flutter_test.dart';

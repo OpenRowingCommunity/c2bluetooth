@@ -4,7 +4,6 @@
 ///
 /// All of these enum types have extentions on them that add an additional `value` getter. In most cases this is equal to the index of that enum value, but sometimes it is used to specify a different value (like c-style enums allow you to do) in order to match the values provided by the C2 spec.
 /// The values from this `value` getter (or the associated `fromInt` method) should only be used to convert to or from values being comunicated with a Concept2 PM. This whole thing is essentially a workaround because Dart's enums don't natively support custom values like most other languages (see: https://stackoverflow.com/questions/38908285/add-methods-or-values-to-enum-in-dart#58552304)
-library types;
 
 enum MachineType {
   STATIC_D,
