@@ -54,8 +54,13 @@ class WorkoutSummary {
   Future<int> get intervalRestTime => _intervalRestTime.future;
   Future<int> get avgCalories => _avgCalories.future;
 
-  WorkoutSummary();
-  
+  WorkoutSummary.fromBytes(Uint8List data) {
+    _setBasicBytes(data.sublist(0, 20));
+    if (data.length > 20) {
+      _setExtendedBytes(data.sublist(20));
+    }
+  }
+
   /// Construct a WorkoutSummary from the bytes returned from the erg
   void _setBasicBytes(Uint8List data){
     _timestamp.complete(timeFromBytes(data.sublist(0, 4)));
