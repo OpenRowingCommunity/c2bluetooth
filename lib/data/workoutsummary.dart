@@ -75,7 +75,7 @@ class WorkoutSummary {
             endian: Endian.little) / 10); //{
   }
 
-  void _fromExtendedBytes(Uint8List data){
+  void _setExtendedBytes(Uint8List data){
     // if (data.length > 20) {
     //   var timestamp2 = timeFromBytes(data.sublist(20, 24));
     //   if (timestamp != timestamp2) {
