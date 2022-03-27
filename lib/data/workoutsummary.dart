@@ -54,8 +54,10 @@ class WorkoutSummary {
   Future<int> get intervalRestTime => _intervalRestTime.future;
   Future<int> get avgCalories => _avgCalories.future;
 
+  WorkoutSummary();
+  
   /// Construct a WorkoutSummary from the bytes returned from the erg
-  WorkoutSummary._fromBasicBytes(Uint8List data){
+  void _setBasicBytes(Uint8List data){
     _timestamp.complete(timeFromBytes(data.sublist(0, 4)));
     _workTime.complete(CsafeIntExtension.fromBytes(data.sublist(4, 7),
             endian: Endian.little) / 100); //divide by 100 to convert to seconds
@@ -73,7 +75,7 @@ class WorkoutSummary {
             endian: Endian.little) / 10); //{
   }
 
-  WorkoutSummary._fromExtendedBytes(Uint8List data){
+  void _fromExtendedBytes(Uint8List data){
     // if (data.length > 20) {
     //   var timestamp2 = timeFromBytes(data.sublist(20, 24));
     //   if (timestamp != timestamp2) {
