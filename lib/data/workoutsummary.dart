@@ -55,7 +55,7 @@ class WorkoutSummary {
   Future<int> get avgCalories => _avgCalories.future;
 
   /// Construct a WorkoutSummary from the bytes returned from the erg
-  WorkoutSummary.fromBytes(Uint8List data){
+  WorkoutSummary._fromBasicBytes(Uint8List data){
     _timestamp.complete(timeFromBytes(data.sublist(0, 4)));
     _workTime.complete(CsafeIntExtension.fromBytes(data.sublist(4, 7),
             endian: Endian.little) / 100); //divide by 100 to convert to seconds
@@ -71,27 +71,30 @@ class WorkoutSummary {
     _workoutType.complete(WorkoutTypeExtension.fromInt(data.elementAt(17)));
     _avgPace.complete(CsafeIntExtension.fromBytes(data.sublist(18, 20),
             endian: Endian.little) / 10); //{
+  }
+
+  WorkoutSummary._fromExtendedBytes(Uint8List data){
     // if (data.length > 20) {
     //   var timestamp2 = timeFromBytes(data.sublist(20, 24));
     //   if (timestamp != timestamp2) {
     //     throw ArgumentError(
     //         "Bytes passed to WorkoutSummary from multiple characteristics must have the same timestamp");
     //   }
-    // _intervalType.complete(IntervalTypeExtension.fromInt(data.elementAt(24)));
-    // _intervalSize.complete(CsafeIntExtension.fromBytes(data.sublist(25, 27),
-    //     endian: Endian.little));
-    // _intervalCount.complete(data.elementAt(27));
-    // _totalCalories.complete(CsafeIntExtension.fromBytes(data.sublist(28, 30),
-    //     endian: Endian.little));
-    // _watts.complete(CsafeIntExtension.fromBytes(data.sublist(30, 32),
-    //     endian: Endian.little));
-    // _totalRestDistance.complete(CsafeIntExtension.fromBytes(data.sublist(32, 35),
-    //     endian: Endian.little));
-    // _intervalRestTime.complete(CsafeIntExtension.fromBytes(data.sublist(35, 37),
-    //     endian: Endian.little));
-    // _avgCalories.complete(CsafeIntExtension.fromBytes(data.sublist(37, 39),
-    //     endian: Endian.little));
-    // }
+    _intervalType.complete(IntervalTypeExtension.fromInt(data.elementAt(4)));
+    _intervalSize.complete(CsafeIntExtension.fromBytes(data.sublist(5, 7),
+        endian: Endian.little));
+    _intervalCount.complete(data.elementAt(7));
+    _totalCalories.complete(CsafeIntExtension.fromBytes(data.sublist(8, 10),
+        endian: Endian.little));
+    _watts.complete(CsafeIntExtension.fromBytes(data.sublist(10, 12),
+        endian: Endian.little));
+    _totalRestDistance.complete(CsafeIntExtension.fromBytes(data.sublist(12, 15),
+        endian: Endian.little));
+    _intervalRestTime.complete(CsafeIntExtension.fromBytes(data.sublist(15, 17),
+        endian: Endian.little));
+    _avgCalories.complete(CsafeIntExtension.fromBytes(data.sublist(17, 19),
+        endian: Endian.little));
+    }
   }
 
   @override
