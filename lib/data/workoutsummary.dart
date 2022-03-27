@@ -77,6 +77,11 @@ class WorkoutSummary {
     _maxHeartRate.complete(data.elementAt(14));
     _avgDragFactor.complete(data.elementAt(15));
     //recovery heart rate here
+    int recHRVal = data.elementAt(16);
+    // 0 is not a valid value here according to the spec
+    if (recHRVal > 0) {
+      _recoveryHeartRate.complete(recHRVal);
+    }
     _workoutType.complete(WorkoutTypeExtension.fromInt(data.elementAt(17)));
     _avgPace.complete(CsafeIntExtension.fromBytes(data.sublist(18, 20),
             endian: Endian.little) /
