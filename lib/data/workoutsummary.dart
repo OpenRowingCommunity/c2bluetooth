@@ -97,7 +97,6 @@ class WorkoutSummary {
     _avgCalories.complete(CsafeIntExtension.fromBytes(data.sublist(17, 19),
         endian: Endian.little));
     }
-  }
 
   @override
   String toString() => "WorkoutSummary ("
