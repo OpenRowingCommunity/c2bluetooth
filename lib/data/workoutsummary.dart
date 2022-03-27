@@ -55,46 +55,43 @@ class WorkoutSummary {
   Future<int> get avgCalories => _avgCalories.future;
 
   /// Construct a WorkoutSummary from the bytes returned from the erg
-  WorkoutSummary.fromBytes(Uint8List data)
-      : timestamp = timeFromBytes(data.sublist(0, 4)),
-        workTime = CsafeIntExtension.fromBytes(data.sublist(4, 7),
-                endian: Endian.little) /
-            100, //divide by 100 to convert to seconds
-        workDistance = CsafeIntExtension.fromBytes(data.sublist(7, 10),
-                endian: Endian.little) /
-            10, //divide by 10 to convert to meters
-        avgSPM = data.elementAt(10),
-        endHeartRate = data.elementAt(11),
-        avgHeartRate = data.elementAt(12),
-        minHeartRate = data.elementAt(13),
-        maxHeartRate = data.elementAt(14),
-        avgDragFactor = data.elementAt(15),
-        //recovery heart rate here
-        workoutType = WorkoutTypeExtension.fromInt(data.elementAt(17)),
-        avgPace = CsafeIntExtension.fromBytes(data.sublist(18, 20),
-                endian: Endian.little) /
-            10 {
-    if (data.length > 20) {
-      var timestamp2 = timeFromBytes(data.sublist(20, 24));
-      if (timestamp != timestamp2) {
-        throw ArgumentError(
-            "Bytes passed to WorkoutSummary from multiple characteristics must have the same timestamp");
-      }
-      intervalType = IntervalTypeExtension.fromInt(data.elementAt(24));
-      intervalSize = CsafeIntExtension.fromBytes(data.sublist(25, 27),
-          endian: Endian.little);
-      intervalCount = data.elementAt(27);
-      totalCalories = CsafeIntExtension.fromBytes(data.sublist(28, 30),
-          endian: Endian.little);
-      watts = CsafeIntExtension.fromBytes(data.sublist(30, 32),
-          endian: Endian.little);
-      totalRestDistance = CsafeIntExtension.fromBytes(data.sublist(32, 35),
-          endian: Endian.little);
-      intervalRestTime = CsafeIntExtension.fromBytes(data.sublist(35, 37),
-          endian: Endian.little);
-      avgCalories = CsafeIntExtension.fromBytes(data.sublist(37, 39),
-          endian: Endian.little);
-    }
+  WorkoutSummary.fromBytes(Uint8List data){
+    _timestamp.complete(timeFromBytes(data.sublist(0, 4)));
+    _workTime.complete(CsafeIntExtension.fromBytes(data.sublist(4, 7),
+            endian: Endian.little) / 100); //divide by 100 to convert to seconds
+    _workDistance.complete(CsafeIntExtension.fromBytes(data.sublist(7, 10),
+            endian: Endian.little) / 10); //divide by 10 to convert to meters
+    _avgSPM.complete(data.elementAt(10));
+    _endHeartRate.complete(data.elementAt(11));
+    _avgHeartRate.complete(data.elementAt(12));
+    _minHeartRate.complete(data.elementAt(13));
+    _maxHeartRate.complete(data.elementAt(14));
+    _avgDragFactor.complete(data.elementAt(15));
+    //recovery heart rate here
+    _workoutType.complete(WorkoutTypeExtension.fromInt(data.elementAt(17)));
+    _avgPace.complete(CsafeIntExtension.fromBytes(data.sublist(18, 20),
+            endian: Endian.little) / 10); //{
+    // if (data.length > 20) {
+    //   var timestamp2 = timeFromBytes(data.sublist(20, 24));
+    //   if (timestamp != timestamp2) {
+    //     throw ArgumentError(
+    //         "Bytes passed to WorkoutSummary from multiple characteristics must have the same timestamp");
+    //   }
+    // _intervalType.complete(IntervalTypeExtension.fromInt(data.elementAt(24)));
+    // _intervalSize.complete(CsafeIntExtension.fromBytes(data.sublist(25, 27),
+    //     endian: Endian.little));
+    // _intervalCount.complete(data.elementAt(27));
+    // _totalCalories.complete(CsafeIntExtension.fromBytes(data.sublist(28, 30),
+    //     endian: Endian.little));
+    // _watts.complete(CsafeIntExtension.fromBytes(data.sublist(30, 32),
+    //     endian: Endian.little));
+    // _totalRestDistance.complete(CsafeIntExtension.fromBytes(data.sublist(32, 35),
+    //     endian: Endian.little));
+    // _intervalRestTime.complete(CsafeIntExtension.fromBytes(data.sublist(35, 37),
+    //     endian: Endian.little));
+    // _avgCalories.complete(CsafeIntExtension.fromBytes(data.sublist(37, 39),
+    //     endian: Endian.little));
+    // }
   }
 
   @override
