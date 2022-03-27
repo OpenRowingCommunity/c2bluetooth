@@ -62,12 +62,14 @@ class WorkoutSummary {
   }
 
   /// Construct a WorkoutSummary from the bytes returned from the erg
-  void _setBasicBytes(Uint8List data){
+  void _setBasicBytes(Uint8List data) {
     _timestamp.complete(timeFromBytes(data.sublist(0, 4)));
-    _workTime.complete(CsafeIntExtension.fromBytes(data.sublist(4, 7),
-            endian: Endian.little) / 100); //divide by 100 to convert to seconds
+    _workTime.complete(
+        CsafeIntExtension.fromBytes(data.sublist(4, 7), endian: Endian.little) /
+            100); //divide by 100 to convert to seconds
     _workDistance.complete(CsafeIntExtension.fromBytes(data.sublist(7, 10),
-            endian: Endian.little) / 10); //divide by 10 to convert to meters
+            endian: Endian.little) /
+        10); //divide by 10 to convert to meters
     _avgSPM.complete(data.elementAt(10));
     _endHeartRate.complete(data.elementAt(11));
     _avgHeartRate.complete(data.elementAt(12));
@@ -77,10 +79,11 @@ class WorkoutSummary {
     //recovery heart rate here
     _workoutType.complete(WorkoutTypeExtension.fromInt(data.elementAt(17)));
     _avgPace.complete(CsafeIntExtension.fromBytes(data.sublist(18, 20),
-            endian: Endian.little) / 10); //{
+            endian: Endian.little) /
+        10); //{
   }
 
-  void _setExtendedBytes(Uint8List data){
+  void _setExtendedBytes(Uint8List data) {
     // if (data.length > 20) {
     //   var timestamp2 = timeFromBytes(data.sublist(20, 24));
     //   if (timestamp != timestamp2) {
@@ -88,20 +91,21 @@ class WorkoutSummary {
     //         "Bytes passed to WorkoutSummary from multiple characteristics must have the same timestamp");
     //   }
     _intervalType.complete(IntervalTypeExtension.fromInt(data.elementAt(4)));
-    _intervalSize.complete(CsafeIntExtension.fromBytes(data.sublist(5, 7),
-        endian: Endian.little));
+    _intervalSize.complete(
+        CsafeIntExtension.fromBytes(data.sublist(5, 7), endian: Endian.little));
     _intervalCount.complete(data.elementAt(7));
     _totalCalories.complete(CsafeIntExtension.fromBytes(data.sublist(8, 10),
         endian: Endian.little));
     _watts.complete(CsafeIntExtension.fromBytes(data.sublist(10, 12),
         endian: Endian.little));
-    _totalRestDistance.complete(CsafeIntExtension.fromBytes(data.sublist(12, 15),
+    _totalRestDistance.complete(CsafeIntExtension.fromBytes(
+        data.sublist(12, 15),
         endian: Endian.little));
     _intervalRestTime.complete(CsafeIntExtension.fromBytes(data.sublist(15, 17),
         endian: Endian.little));
     _avgCalories.complete(CsafeIntExtension.fromBytes(data.sublist(17, 19),
         endian: Endian.little));
-    }
+  }
 
   @override
   String toString() => "WorkoutSummary ("
