@@ -12,6 +12,8 @@ import 'package:c2bluetooth/constants.dart' as Identifiers;
 import 'package:flutter_ble_lib_ios_15/flutter_ble_lib.dart';
 import 'package:rxdart/rxdart.dart';
 
+enum ErgometerConnectionState { connecting, connected, disconnected }
+
 class Ergometer {
   Peripheral _peripheral;
   Csafe? _csafeClient;
@@ -55,6 +57,25 @@ class Ergometer {
       List<int> combinedList = ws1Result.toList();
       combinedList.addAll(ws2Result.toList());
       return WorkoutSummary.fromBytes(Uint8List.fromList(combinedList));
+    });
+  }
+
+  /// Expose a stream of events to enable monitoring the erg's connection state
+  /// This acts as a wrapper around the state provided by the internal bluetooth library to aid with swapping it out later.
+  Stream<ErgometerConnectionState> monitorConnectionState() {
+    return _peripheral.observeConnectionState().asyncMap((connectionState) {
+      switch (connectionState) {
+        case PeripheralConnectionState.connecting:
+          return ErgometerConnectionState.connecting;
+        case PeripheralConnectionState.connected:
+          return ErgometerConnectionState.connected;
+        case PeripheralConnectionState.disconnecting:
+          return ErgometerConnectionState.disconnected;
+        case PeripheralConnectionState.disconnected:
+          return ErgometerConnectionState.disconnected;
+        default:
+          return ErgometerConnectionState.disconnected;
+      }
     });
   }
 
