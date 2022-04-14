@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:c2bluetooth/csafe/datatypes.dart';
+import '../internal/datatypes.dart';
 import 'package:csafe_fitness/csafe_fitness.dart';
 
 import 'models/workout.dart';

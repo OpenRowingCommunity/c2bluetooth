@@ -49,7 +49,7 @@ bleManager.init(); //ready to go!
 ### Scanning for devices
 Next, you need to start scanning for available devices. This uses a Stream that returns instances of the `Ergometer` class. Each of these instances represents an erg and can be saved for later reuse.
 
-**Important:** This library does not handle things like permissions and many of the later steps, this one included, will fail if bluetooth is off or if permissions are not correct. It is the responsibility of users of this API to ensure permissions are correct before beginning a bluetooth scan.
+**Important:** This library leaves things like permissions up to the application using the library. Many of these setup steps will fail if bluetooth is off or if permissions are not correct. It is the responsibility of users of this API to ensure permissions are correct before beginning a bluetooth scan.
 
 ```dart
 bleManager.startErgScan().listen((erg) {

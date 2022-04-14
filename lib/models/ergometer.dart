@@ -1,10 +1,10 @@
 import 'dart:typed_data';
 
 import 'package:c2bluetooth/c2bluetooth.dart';
-import 'package:c2bluetooth/csafe/commands.dart';
-import 'package:c2bluetooth/csafe/datatypes.dart';
+import '../internal/commands.dart';
+import '../internal/datatypes.dart';
 import 'package:csafe_fitness/csafe_fitness.dart';
-import '../enums.dart';
+import 'package:c2bluetooth/enums.dart';
 import '../helpers.dart';
 import 'workout.dart';
 import '../data/workoutsummary.dart';
@@ -122,7 +122,7 @@ class Ergometer {
 
   /// Program a workout into the PM with particular parameters
   ///
-  /// Currently requires a fixed-distance piece that may or may not have splits and/or a paceboat
+  ///Currently only the more basic of workout types are supported, such as basic single intervals, single distance, and single time pieces
   void configureWorkout(Workout workout, [bool startImmediately = true]) async {
     //Workout workout
 

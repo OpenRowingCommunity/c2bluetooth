@@ -1,8 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:c2bluetooth/c2bluetooth.dart';
-
-import 'package:c2bluetooth/csafe/datatypes.dart';
+import 'package:c2bluetooth/enums.dart';
+import '../../lib/internal/datatypes.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -19,6 +19,48 @@ void main() {
     //   expect(intUnits.value, 57005);
     //   expect(intUnits.unit, DurationType.DISTANCE);
     // });
+
+    test('test constructors', () {
+      expect(
+          Concept2IntegerWithUnits.distance(500).unit, DurationType.DISTANCE);
+      expect(Concept2IntegerWithUnits.time(500).unit, DurationType.TIME);
+      expect(
+          Concept2IntegerWithUnits.calories(500).unit, DurationType.CALORIES);
+      expect(
+          Concept2IntegerWithUnits.wattMinutes(500).unit, DurationType.WATTMIN);
+    });
+
+    test('test matchesType', () {
+      expect(
+          Concept2IntegerWithUnits.distance(500)
+              .matchesType(DurationType.DISTANCE),
+          true);
+      expect(Concept2IntegerWithUnits.time(500).matchesType(DurationType.TIME),
+          true);
+      expect(
+          Concept2IntegerWithUnits.calories(500)
+              .matchesType(DurationType.CALORIES),
+          true);
+      expect(
+          Concept2IntegerWithUnits.wattMinutes(500)
+              .matchesType(DurationType.WATTMIN),
+          true);
+
+      expect(
+          Concept2IntegerWithUnits.distance(500).matchesType(DurationType.TIME),
+          false);
+      expect(
+          Concept2IntegerWithUnits.time(500).matchesType(DurationType.CALORIES),
+          false);
+      expect(
+          Concept2IntegerWithUnits.calories(500)
+              .matchesType(DurationType.WATTMIN),
+          false);
+      expect(
+          Concept2IntegerWithUnits.wattMinutes(500)
+              .matchesType(DurationType.DISTANCE),
+          false);
+    });
 
     test('test correct default big endian parsing fromBytes', () {
       Concept2IntegerWithUnits intUnits =
