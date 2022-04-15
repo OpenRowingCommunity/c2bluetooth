@@ -13,8 +13,7 @@ dependencies:
     sdk: flutter
   
   flutter_ble_lib_ios_15: ^2.5.2
-  csafe_fitness:
-    git: https://github.com/CrewLAB/csafe-fitness.git
+  csafe_fitness: ^0.1.0
   rxdart: ^0.27.3
 
 dev_dependencies:
