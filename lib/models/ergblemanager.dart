@@ -5,10 +5,10 @@ import 'package:flutter_ble_lib_ios_15/flutter_ble_lib.dart';
 import 'ergometer.dart';
 
 class ErgBleManager {
-  BluetoothClient _manager = FlutterBleLibClient();
+  BluetoothClient _manager;
 
-  /// perform set up to get the Bluetooth client ready to scan for devices
-  void init() {
+  ErgBleManager({backend = FlutterBleLibClient}) : _manager = backend() {
+    /// perform set up to get the Bluetooth client ready to scan for devices
     _manager.createClient();
   }
 
