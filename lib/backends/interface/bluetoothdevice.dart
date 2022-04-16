@@ -1,17 +1,22 @@
+import 'dart:typed_data';
+
 abstract class BluetoothDevice {
-  get name => null;
+  String? get name => null;
+  String get identifier => "";
 
-  connect() {}
 
-  discoverAllServicesAndCharacteristics() {}
+  Future<void> connect();
 
-  Future<void> disconnectOrCancelConnection() {}
+  Future<void> discoverAllServicesAndCharacteristics();
 
-  monitorCharacteristic(String c2_rowing_primary_service_uuid,
-      String c2_rowing_end_of_workout_summary_characteristic_uuid) {}
+  Future<void> disconnectOrCancelConnection();
 
-  observeConnectionState() {}
-  writeCharacteristic() {}
+  Stream<> monitorCharacteristic(String service_uuid, String characteristic_uuid);
 
-  readCharacteristic() {}
+  Stream<BluetoothConnectionState> observeConnectionState();
+  Future<> writeCharacteristic();
+
+  Future<Uint8List> readCharacteristic();
 }
+
+enum BluetoothConnectionState { connecting, connected, disconnected }
