@@ -34,8 +34,23 @@ class FlutterBleLibDevice extends BluetoothDevice {
   monitorCharacteristic(String c2_rowing_primary_service_uuid,
       String c2_rowing_end_of_workout_summary_characteristic_uuid) {}
 
-  observeConnectionState() {}
   writeCharacteristic() {}
 
   readCharacteristic() {}
+  Stream<BluetoothConnectionState> observeConnectionState() {
+    return _peripheral.observeConnectionState().asyncMap((connectionState) {
+      switch (connectionState) {
+        case PeripheralConnectionState.connecting:
+          return BluetoothConnectionState.connecting;
+        case PeripheralConnectionState.connected:
+          return BluetoothConnectionState.connected;
+        case PeripheralConnectionState.disconnecting:
+          return BluetoothConnectionState.disconnected;
+        case PeripheralConnectionState.disconnected:
+          return BluetoothConnectionState.disconnected;
+        default:
+          return BluetoothConnectionState.disconnected;
+      }
+    });
+  }
 }
