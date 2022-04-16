@@ -25,18 +25,30 @@ class FlutterBleLibClient extends BluetoothClient {
 }
 
 class FlutterBleLibDevice extends BluetoothDevice {
-  connect() {}
+  Peripheral _peripheral;
 
-  discoverAllServicesAndCharacteristics() {}
+  String? get name => _peripheral.name;
+  String get identifier => _peripheral.identifier;
 
-  Future<void> disconnectOrCancelConnection() {}
+  FlutterBleLibDevice._fromPeripheral(Peripheral p) : _peripheral = p;
 
-  monitorCharacteristic(String c2_rowing_primary_service_uuid,
-      String c2_rowing_end_of_workout_summary_characteristic_uuid) {}
 
-  writeCharacteristic() {}
+  Future<void> connect() {
+    return _peripheral.connect();
+  }
 
-  readCharacteristic() {}
+  Future<void> discoverAllServicesAndCharacteristics() {
+    return _peripheral.discoverAllServicesAndCharacteristics();
+  }
+
+  Future<void> disconnectOrCancelConnection() {
+    return _peripheral.disconnectOrCancelConnection();
+  }
+
+  Stream<> monitorCharacteristic(String serviceUuid, String characteristicUuid) {
+    return _peripheral.monitorCharacteristic(serviceUuid, characteristicUuid);
+  }
+
   Stream<BluetoothConnectionState> observeConnectionState() {
     return _peripheral.observeConnectionState().asyncMap((connectionState) {
       switch (connectionState) {
@@ -52,5 +64,15 @@ class FlutterBleLibDevice extends BluetoothDevice {
           return BluetoothConnectionState.disconnected;
       }
     });
+  }
+
+  Future<void> writeCharacteristic() {
+    return _peripheral.writeCharacteristic(serviceUuid, characteristicUuid, value, withResponse).then((characteristic) => {
+  
+    });
+  }
+
+  Future<Uint8List> readCharacteristic() {
+    return _peripheral.readCharacteristic(serviceUuid, characteristicUuid).then();
   }
 }
