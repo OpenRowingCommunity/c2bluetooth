@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:c2bluetooth/backends/interface/bluetoothclient.dart';
 import 'package:c2bluetooth/backends/interface/bluetoothdevice.dart';
 import 'package:c2bluetooth/backends/interface/bluetoothscanresult.dart';
