@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 
+import 'bluetoothdata.dart';
+
 /// A representation of a device to connect
 abstract class BluetoothDevice {
   String? get name => null;
@@ -15,7 +17,8 @@ abstract class BluetoothDevice {
   Stream<> monitorCharacteristic(String service_uuid, String characteristic_uuid);
 
   Stream<BluetoothConnectionState> observeConnectionState();
-  Future<> writeCharacteristic();
+
+  Future<BluetoothCharacteristic> writeCharacteristic();
 
   Future<Uint8List> readCharacteristic();
 }
