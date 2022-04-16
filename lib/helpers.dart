@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
 
-import '../internal/datatypes.dart';
 import 'package:csafe_fitness/csafe_fitness.dart';
 
 import 'models/workout.dart';
@@ -65,7 +64,7 @@ String durationToSplit(Duration d) {
   String millis = durSplit.last.substring(0, 1);
   // print(millis);
 
-  return "${d.inMinutes}:${time.last.padLeft(2, "0")}.${millis}";
+  return "${d.inMinutes}:${time.last.padLeft(2, "0")}.$millis";
 }
 
 //conversion functions for watts and split (from crewlab app)
