@@ -1,9 +1,6 @@
 import 'package:c2bluetooth/backends/interface/bluetoothscanresult.dart';
 
-///A wrapper around some bluetooth library that makes it easy to change what bluetooth backend is being used without affecting the operation of c2bluetooth.
-///
-
-
+/// A bluetooth client to scan for devices and get bluetooth communication started
 abstract class BluetoothClient {
   void createClient() {}
 
@@ -12,7 +9,4 @@ abstract class BluetoothClient {
   Future<void> stopPeripheralScan() {}
 
   Future<void> destroyClient() {}
-
-  
-
 }

@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+/// A representation of a device to connect
 abstract class BluetoothDevice {
   String? get name => null;
   String get identifier => "";
