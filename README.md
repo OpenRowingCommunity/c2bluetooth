@@ -52,8 +52,11 @@ Next, you need to start scanning for available devices. This uses a Stream to re
 **Important:** This library leaves things like permissions up to the application using the library. Many of these setup steps will fail if bluetooth is off or if permissions are not correct. It is the responsibility of users of this API to ensure permissions are correct before beginning a bluetooth scan.
 
 ```dart
+Ergometer myErg;
+
 bleManager.startErgScan().listen((erg) {
 	//your code for detecting an erg here.
+  myErg = erg
 });
 ```
 This block of code is where you can do things like:
