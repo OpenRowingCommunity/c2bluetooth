@@ -141,7 +141,10 @@ Overall this method of accessing workout summary data is not the most ideal, and
 This is a list of projects built using c2Bluetooth. If you find or make something that is not on this list, send us a pull request!
 
 - [CrewLAB app](https://www.crewlab.io/) (proprietary license)
-- 
+
+## Contributing
+If you are interested in making contributions to this library, please check out the [CONTRIBUTING](CONTRIBUTING.md) document, or learn how c2bluetooth works in the [API](docs/API.md) document
+
 ## Support and Licensing
 
 ![The crewLAB logo](docs/images/crewlablogo.png)
