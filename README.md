@@ -77,8 +77,29 @@ When you are done, make sure to disconnect from your erg:
 await myErg.disconnectOrCancel();
 ```
 
-### Getting workout summaries
-To get data from the erg, use one of the methods available in the `Ergometer` class. Currently this is only `monitorForWorkoutSummary()`. This is a stream that returns a `WorkoutSummary` object that allows you to access the data from a completed workout (this includes programmed pieces as well as "Just row" pieces that are longer than 1 minute)
+### Getting data from the erg
+To get data from the erg, use one of the methods available in the `Ergometer` class as described below.
+
+Concept2 offers various data via their Bluetooth interface which for our purposes are categorized as follows (from most to least granular):
+- **General status data** think periodic snapshots of what the user sees on the monitor
+- **Stroke data** a datapoint for each complete stroke taken [not yet implemented]
+- **Interval or split data** a datapoint for each split or interval in the workout [not yet implemented]
+- **Workout Summary data** data summarizing the entire workout after completion [not yet implemented]
+
+When retrieving data, here are some things to keep in mind (based on information available in the Concept2 Bluetooth smart specification, rev 1.27):
+- Bluetooth smart is a relatively low-bandwidth protocol. Under ideal conditions the maximum speed at which data can be received is about 1000 bytes per second for Android and about 640 bytes per second for iOS.
+- iOS and Android have different limitations on various bluetooth parameters that affect things like bandwidth.
+- Bluetooth is based on radio waves. Signal (and ultimately your bandwidth) can be impacted by things like other nearby bluetooth devices, physical obstacles, interference from other devices, and other things. 
+
+#### General Status Data
+To Be Implemented/Documented
+#### Stroke Data
+To Be Implemented/Documented
+#### Interval or split data
+To Be Implemented/Documented
+#### Workout Summary data
+
+Workout summary data can be `monitorForWorkoutSummary()`. This is a stream that returns a `WorkoutSummary` object that allows you to access the data from a completed workout (this includes programmed pieces as well as "Just row" pieces that are longer than 1 minute)
 
 ```dart
 myErg.monitorForWorkoutSummary().listen((workoutSummary) {
