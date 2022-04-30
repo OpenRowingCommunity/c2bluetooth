@@ -47,9 +47,9 @@ ErgBleManager bleManager = ErgBleManager();
 bleManager.init(); //ready to go!
 ```
 ### Scanning for devices
-Next, you need to start scanning for available devices. This uses a Stream to return an instance of the `Ergometer` class for each erg found. Each of these instances represents an erg and can be saved for later reuse.
+Next, you need to start scanning for available devices. This uses a Stream to return an instance of the `Ergometer` class for each erg found. Each of these instances represents an erg and should be stored for later reuse as these act as the base upon which everything else (retrieving data, sending workouts .etc) is based.
 
-**Important:** This library leaves things like permissions up to the application using the library. Many of these setup steps will fail if bluetooth is off or if permissions are not correct. It is the responsibility of users of this API to ensure permissions are correct before beginning a bluetooth scan.
+**Important:** Many of these setup steps will fail if bluetooth is off or if permissions are not correct. C2bluetooth leaves the responsibility of handling permissions up to applications implementing the library. This is mainly because different apps will want to handle the user experience of this differently.
 
 ```dart
 Ergometer myErg;
@@ -61,8 +61,8 @@ bleManager.startErgScan().listen((erg) {
 ```
 This block of code is where you can do things like:
  - determine what erg(s) you want to work with (this can be based on name, user choice, or basicaly anything)
- - store the erg instance somewhere more permanent, like a variable in a scope thats outside of this function (this allows you to access it after you stop scanning)
- - call `bleManager.stopErgScan()` if you are done. For example, one way to immediately connect to the first erg found is to unconditionally call `stopErgScan` within this function. Don't forget to close the stream too!
+ - store the erg instance somewhere more permanent, like the `myErg` variable to allow you to be able to access it after you stop scanning.
+ - call `bleManager.stopErgScan()` if you know you are done scanning early. As an example, one way to immediately connect to the first erg found is to unconditionally call `stopErgScan` within this function so the scan stops after the first erg is received. Don't forget to close the stream too!
 
 
 ### Connecting and disconnecting
