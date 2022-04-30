@@ -65,11 +65,16 @@ This block of code is where you can do things like:
  - call `bleManager.stopErgScan()` if you are done. For example, one way to immediately connect to the first erg found is to unconditionally call `stopErgScan` within this function. Don't forget to close the stream too!
 
 
-### Connecting to an erg
+### Connecting and disconnecting
 Once you have the `Ergometer` instance for the erg you want to connect to, you can call `connectAndDiscover()` on it to connect.
 
 ```dart
 await myErg.connectAndDiscover();
+```
+
+When you are done, make sure to disconnect from your erg:
+```dart
+await myErg.disconnectOrCancel();
 ```
 
 ### Getting workout summaries
@@ -107,11 +112,6 @@ Futures are handy here since the erg can send back different data at different t
 
 Overall this method of accessing workout summary data is not the most ideal, and is likely to change later if a better solution is found. See #11.
 
-### Disconnecting
-When you are done, make sure to disconnect from your erg:
-```dart
-await myErg.disconnectOrCancel();
-```
 
 
 
