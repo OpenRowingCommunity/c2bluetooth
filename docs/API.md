@@ -1,10 +1,12 @@
 # API
 
-This document explains the c2bluetooth API at varying levels of detail:
+This document is the starting point for learning more about the c2bluetooth API and inner workings at varying levels of detail:
 
-- The broadest overview comes from sections like [Overall API Design](#overall-api-design) that explain some of the core concepts or goals that we wanted to achieve with the API.
-- The "middle ground" overview comes from the [Core API Concepts](#core-api-concepts) section and explains the various groups or categories of classes that are used in the API and what their purpose is.
-- The most detailed explaination comes from reading the code and inline comments or documentation generated from them. This will not be covered in this document as it should already be covered by the source code
+- The broadest overview comes from using the API as documented in the README
+- sections like [Overall API Design](#overall-api-design) explain some of the core concepts or goals that we wanted to achieve with the API.
+- For people looking to get into the internals of c2bluetooth,  the [Core API Concepts](#core-api-concepts) section below is a good mid-level overview of the various groups or categories of classes that are used in the API and what their purpose is.
+- For summaries of how c2bluetooth works internally and all the things it "takes care of" for end users, see the [internals](internals.md) document
+- Obviously the most detailed explaination of how the code works comes from reading the code and inline comments themselves. It is helpful to understand the general goals first 
 
 
 
