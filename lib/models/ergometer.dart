@@ -58,6 +58,17 @@ class Ergometer {
     });
   }
 
+  Stream<Uint8List> monitorForMultiplex() {
+    return _peripheral
+        .monitorCharacteristic(Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID,
+            Identifiers.C2_ROWING_MULTIPLEXED_INFORMATION_CHARACTERISTIC_UUID)
+        .asyncMap((datapoint) => datapoint.read())
+        .asyncMap((datapoint) {
+      print(datapoint);
+      return datapoint;
+    });
+  }
+
   /// Expose a stream of events to enable monitoring the erg's connection state
   /// This acts as a wrapper around the state provided by the internal bluetooth library to aid with swapping it out later.
   Stream<ErgometerConnectionState> monitorConnectionState() {
