@@ -132,6 +132,12 @@ class _SimpleErgViewState extends State<SimpleErgView> {
     targetDevice?.configureWorkout(Workout.single(WorkoutGoal.meters(10000)));
   }
 
+  listenForMultiplex() async {
+    if (targetDevice == null) return;
+
+    targetDevice?.monitorForMultiplex();
+  }
+
   disconnectFromDevice() async {
     if (targetDevice == null) return;
 
@@ -198,6 +204,11 @@ class _SimpleErgViewState extends State<SimpleErgView> {
         Center(
           child:
               TextButton(onPressed: setup10k, child: Text("Configure a 10k")),
+        ),
+        Center(
+          child: TextButton(
+              onPressed: listenForMultiplex,
+              child: Text("Listen for multiplex data")),
         ),
       ]),
     );
