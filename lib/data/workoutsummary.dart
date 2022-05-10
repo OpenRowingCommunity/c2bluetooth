@@ -64,27 +64,27 @@ class WorkoutSummary {
 
   /// Construct a WorkoutSummary from the bytes returned from the erg
   void _setBasicBytes(Uint8List data) {
-    _timestamp.completeIfNotAlready(Concept2DateExtension.fromBytes(data.sublist(0, 4)));
-    _workTime.completeIfNotAlready(
+    _timestamp = Concept2DateExtension.fromBytes(data.sublist(0, 4)));
+    _workTime = 
         CsafeIntExtension.fromBytes(data.sublist(4, 7), endian: Endian.little) /
             100); //divide by 100 to convert to seconds
-    _workDistance.completeIfNotAlready(CsafeIntExtension.fromBytes(data.sublist(7, 10),
+    _workDistance = CsafeIntExtension.fromBytes(data.sublist(7, 10),
             endian: Endian.little) /
         10); //divide by 10 to convert to meters
-    _avgSPM.completeIfNotAlready(data.elementAt(10));
-    _endHeartRate.completeIfNotAlready(data.elementAt(11));
-    _avgHeartRate.completeIfNotAlready(data.elementAt(12));
-    _minHeartRate.completeIfNotAlready(data.elementAt(13));
-    _maxHeartRate.completeIfNotAlready(data.elementAt(14));
-    _avgDragFactor.completeIfNotAlready(data.elementAt(15));
+    _avgSPM = data.elementAt(10));
+    _endHeartRate = data.elementAt(11));
+    _avgHeartRate = data.elementAt(12));
+    _minHeartRate = data.elementAt(13));
+    _maxHeartRate = data.elementAt(14));
+    _avgDragFactor = data.elementAt(15));
     //recovery heart rate here
     int recHRVal = data.elementAt(16);
     // 0 is not a valid value here according to the spec
     if (recHRVal > 0) {
-      _recoveryHeartRate.completeIfNotAlready(recHRVal);
+      _recoveryHeartRate = recHRVal);
     }
-    _workoutType.completeIfNotAlready(WorkoutTypeExtension.fromInt(data.elementAt(17)));
-    _avgPace.completeIfNotAlready(CsafeIntExtension.fromBytes(data.sublist(18, 20),
+    _workoutType = WorkoutTypeExtension.fromInt(data.elementAt(17)));
+    _avgPace = CsafeIntExtension.fromBytes(data.sublist(18, 20),
             endian: Endian.little) /
         10); //{
   }
@@ -96,21 +96,22 @@ class WorkoutSummary {
     //     throw ArgumentError(
     //         "Bytes passed to WorkoutSummary from multiple characteristics must have the same timestamp");
     //   }
-    _intervalType.completeIfNotAlready(IntervalTypeExtension.fromInt(data.elementAt(4)));
-    _intervalSize.completeIfNotAlready(
-        CsafeIntExtension.fromBytes(data.sublist(5, 7), endian: Endian.little));
-    _intervalCount.completeIfNotAlready(data.elementAt(7));
-    _totalCalories.completeIfNotAlready(CsafeIntExtension.fromBytes(data.sublist(8, 10),
-        endian: Endian.little));
-    _watts.completeIfNotAlready(CsafeIntExtension.fromBytes(data.sublist(10, 12),
-        endian: Endian.little));
-    _totalRestDistance.completeIfNotAlready(CsafeIntExtension.fromBytes(
+        
+    intervalType = IntervalTypeExtension.fromInt(data.elementAt(4));
+    intervalSize = 
+        CsafeIntExtension.fromBytes(data.sublist(5, 7), endian: Endian.little);
+    intervalCount = data.elementAt(7);
+    totalCalories = CsafeIntExtension.fromBytes(data.sublist(8, 10),
+        endian: Endian.little);
+    watts = CsafeIntExtension.fromBytes(data.sublist(10, 12),
+        endian: Endian.little);
+    totalRestDistance = CsafeIntExtension.fromBytes(
         data.sublist(12, 15),
-        endian: Endian.little));
-    _intervalRestTime.completeIfNotAlready(CsafeIntExtension.fromBytes(data.sublist(15, 17),
-        endian: Endian.little));
-    _avgCalories.completeIfNotAlready(CsafeIntExtension.fromBytes(data.sublist(17, 19),
-        endian: Endian.little));
+        endian: Endian.little);
+    intervalRestTime = CsafeIntExtension.fromBytes(data.sublist(15, 17),
+        endian: Endian.little);
+    avgCalories = CsafeIntExtension.fromBytes(data.sublist(17, 19),
+        endian: Endian.little);
   }
 
   @override
