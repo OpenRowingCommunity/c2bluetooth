@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:c2bluetooth/extensions.dart';
 import 'package:csafe_fitness/csafe_fitness.dart';
 
-import '../helpers.dart';
+import '../../helpers.dart';
 import 'package:c2bluetooth/enums.dart';
 
 ///Represents a data packet from Concept2 that is stamped with a date.
