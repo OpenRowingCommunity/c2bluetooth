@@ -1,28 +1,11 @@
 import 'dart:typed_data';
 import 'dart:async';
 
-import 'package:c2bluetooth/extensions.dart';
 import 'package:csafe_fitness/csafe_fitness.dart';
 
 import '../../helpers.dart';
 import 'package:c2bluetooth/enums.dart';
-
-///Represents a data packet from Concept2 that is stamped with a date.
-class TimestampedData {
-  DateTime timestamp;
-
-  TimestampedData.fromBytes(Uint8List bytes)
-      : timestamp = Concept2DateExtension.fromBytes(bytes.sublist(0, 4));
-}
-
-///Represents a data packet from Concept2 that is stamped with a duration.
-
-class DurationstampedData {
-  Duration elapsedTime;
-
-  DurationstampedData.fromBytes(Uint8List data)
-      : elapsedTime = Concept2DurationExtension.fromBytes(data.sublist(0, 3));
-}
+import './base.dart';
 
 /// Represents a summary of a completed workout
 ///
