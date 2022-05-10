@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'dart:async';
 
+import 'package:c2bluetooth/extensions.dart';
 import 'package:csafe_fitness/csafe_fitness.dart';
 
 import '../helpers.dart';
@@ -63,7 +64,7 @@ class WorkoutSummary {
 
   /// Construct a WorkoutSummary from the bytes returned from the erg
   void _setBasicBytes(Uint8List data) {
-    _timestamp.completeIfNotAlready(timeFromBytes(data.sublist(0, 4)));
+    _timestamp.completeIfNotAlready(Concept2DateExtension.fromBytes(data.sublist(0, 4)));
     _workTime.completeIfNotAlready(
         CsafeIntExtension.fromBytes(data.sublist(4, 7), endian: Endian.little) /
             100); //divide by 100 to convert to seconds
@@ -90,7 +91,7 @@ class WorkoutSummary {
 
   void _setExtendedBytes(Uint8List data) {
     // if (data.length > 20) {
-    //   var timestamp2 = timeFromBytes(data.sublist(20, 24));
+    //   var timestamp2 = Concept2DateExtension.fromBytes(data.sublist(20, 24));
     //   if (timestamp != timestamp2) {
     //     throw ArgumentError(
     //         "Bytes passed to WorkoutSummary from multiple characteristics must have the same timestamp");
