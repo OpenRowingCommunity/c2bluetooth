@@ -103,8 +103,10 @@ class WorkoutSummary extends TimestampedData {
             endian: Endian.little) /
         10); //{
   }
+}
 
-  void _setExtendedBytes(Uint8List data) {
+class WorkoutSummary2 {
+  WorkoutSummary2.fromBytes(Uint8List data) {
     // if (data.length > 20) {
     //   var timestamp2 = Concept2DateExtension.fromBytes(data.sublist(20, 24));
     //   if (timestamp != timestamp2) {
