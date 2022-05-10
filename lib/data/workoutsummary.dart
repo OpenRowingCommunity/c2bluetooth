@@ -29,54 +29,17 @@ class DurationstampedData {
 ///
 /// This takes care of processesing the raw byte data from workout summary characteristics into easily accessible fields. This class also takes care of things like byte endianness, combining multiple high and low bytes .etc, allowing applications to access things in terms of flutter native types.
 class WorkoutSummary extends TimestampedData {
-  Completer<double> _workTime = new Completer<double>();
-  Completer<double> _workDistance = new Completer<double>();
-  Completer<int> _avgSPM = new Completer<int>();
-  Completer<int> _endHeartRate = new Completer<int>();
-  Completer<int> _avgHeartRate = new Completer<int>();
-  Completer<int> _minHeartRate = new Completer<int>();
-  Completer<int> _maxHeartRate = new Completer<int>();
-  Completer<int> _avgDragFactor = new Completer<int>();
-  Completer<int> _recoveryHeartRate = new Completer<int>();
-  Completer<WorkoutType> _workoutType = new Completer<WorkoutType>();
-  Completer<double> _avgPace = new Completer<double>();
-  Completer<IntervalType> _intervalType = new Completer<IntervalType>();
-  Completer<int> _intervalSize = new Completer<int>();
-  Completer<int> _intervalCount = new Completer<int>();
-  Completer<int> _totalCalories = new Completer<int>();
-  Completer<int> _watts = new Completer<int>();
-  Completer<int> _totalRestDistance = new Completer<int>();
-  Completer<int> _intervalRestTime = new Completer<int>();
-  Completer<int> _avgCalories = new Completer<int>();
-
-  // external getters for clients to get futures for the data they want
-  Future<double> get workTime => _workTime.future;
-  Future<double> get workDistance => _workDistance.future;
-  Future<int> get avgSPM => _avgSPM.future;
-  Future<int> get endHeartRate => _endHeartRate.future;
-  Future<int> get avgHeartRate => _avgHeartRate.future;
-  Future<int> get minHeartRate => _minHeartRate.future;
-  Future<int> get maxHeartRate => _maxHeartRate.future;
-  Future<int> get avgDragFactor => _avgDragFactor.future;
-  //recoveryHeartRate is sent as an amended packet later. zero is not valid
-  Future<int> get recoveryHeartRate => _recoveryHeartRate.future;
-  Future<WorkoutType> get workoutType => _workoutType.future;
-  Future<double> get avgPace => _avgPace.future;
-  Future<IntervalType> get intervalType => _intervalType.future;
-  Future<int> get intervalSize => _intervalSize.future;
-  Future<int> get intervalCount => _intervalCount.future;
-  Future<int> get totalCalories => _totalCalories.future;
-  Future<int> get watts => _watts.future;
-  Future<int> get totalRestDistance => _totalRestDistance.future;
-  Future<int> get intervalRestTime => _intervalRestTime.future;
-  Future<int> get avgCalories => _avgCalories.future;
-
-  WorkoutSummary.fromBytes(Uint8List data) {
-    _setBasicBytes(data.sublist(0, 20));
-    if (data.length > 20) {
-      _setExtendedBytes(data.sublist(20));
-    }
-  }
+  double workTime;
+  double workDistance;
+  int avgSPM;
+  int endHeartRate;
+  int avgHeartRate;
+  int minHeartRate;
+  int maxHeartRate;
+  int avgDragFactor;
+  int recoveryHeartRate;
+  WorkoutType workoutType;
+  double avgPace;
 
   /// Construct a WorkoutSummary from the bytes returned from the erg
   WorkoutSummary.fromBytes(Uint8List data) : super(data) {
@@ -106,6 +69,15 @@ class WorkoutSummary extends TimestampedData {
 }
 
 class WorkoutSummary2 {
+  IntervalType intervalType;
+  int intervalSize;
+  int intervalCount;
+  int totalCalories;
+  int watts;
+  int totalRestDistance;
+  int intervalRestTime;
+  int avgCalories;
+
   WorkoutSummary2.fromBytes(Uint8List data) {
     // if (data.length > 20) {
     //   var timestamp2 = Concept2DateExtension.fromBytes(data.sublist(20, 24));
