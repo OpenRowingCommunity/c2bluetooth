@@ -29,3 +29,17 @@ extension Concept2DateExtension on DateTime {
     return Uint8List.fromList(bytes);
   }
 }
+
+extension Concept2DurationExtension on Duration {
+  static Duration fromBytes(Uint8List bytes) {
+    // the value out of the data is an integer number of hundredths of seconds, multiply by 10 to get to milliseconds
+    return Duration(
+        milliseconds: CsafeIntExtension.fromBytes(bytes.sublist(0, 3),
+                endian: Endian.little) *
+            10);
+  }
+
+  Uint8List toBytes() {
+    return (inMilliseconds ~/ 10).toBytes(fillBytes: 3, endian: Endian.little);
+  }
+}
