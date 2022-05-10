@@ -7,11 +7,28 @@ import 'package:csafe_fitness/csafe_fitness.dart';
 import '../helpers.dart';
 import 'package:c2bluetooth/enums.dart';
 
+
+///Represents a data packet from Concept2 that is stamped with a date.
+class TimestampedData {
+  DateTime timestamp;
+
+  TimestampedData.fromBytes(Uint8List bytes): timestamp = Concept2DateExtension.fromBytes(bytes.sublist(0, 4));
+
+}
+
+///Represents a data packet from Concept2 that is stamped with a duration.
+
+class DurationstampedData {
+  Duration elapsedTime;
+
+  DurationstampedData.fromBytes(Uint8List data) : elapsedTime = Concept2DurationExtension.fromBytes(data.sublist(0, 3));
+}
+
+
 /// Represents a summary of a completed workout
 ///
 /// This takes care of processesing the raw byte data from workout summary characteristics into easily accessible fields. This class also takes care of things like byte endianness, combining multiple high and low bytes .etc, allowing applications to access things in terms of flutter native types.
-class WorkoutSummary {
-  Completer<DateTime> _timestamp = new Completer<DateTime>();
+class WorkoutSummary extends TimestampedData {
   Completer<double> _workTime = new Completer<double>();
   Completer<double> _workDistance = new Completer<double>();
   Completer<int> _avgSPM = new Completer<int>();
@@ -33,7 +50,6 @@ class WorkoutSummary {
   Completer<int> _avgCalories = new Completer<int>();
 
   // external getters for clients to get futures for the data they want
-  Future<DateTime> get timestamp => _timestamp.future;
   Future<double> get workTime => _workTime.future;
   Future<double> get workDistance => _workDistance.future;
   Future<int> get avgSPM => _avgSPM.future;
@@ -63,8 +79,7 @@ class WorkoutSummary {
   }
 
   /// Construct a WorkoutSummary from the bytes returned from the erg
-  void _setBasicBytes(Uint8List data) {
-    _timestamp = Concept2DateExtension.fromBytes(data.sublist(0, 4)));
+  WorkoutSummary.fromBytes(Uint8List data) : super(data) {
     _workTime = 
         CsafeIntExtension.fromBytes(data.sublist(4, 7), endian: Endian.little) /
             100); //divide by 100 to convert to seconds
