@@ -3,7 +3,7 @@ import 'dart:async';
 
 import 'package:csafe_fitness/csafe_fitness.dart';
 
-import '../../helpers.dart';
+import 'package:c2bluetooth/helpers.dart';
 import 'package:c2bluetooth/enums.dart';
 import './base.dart';
 
