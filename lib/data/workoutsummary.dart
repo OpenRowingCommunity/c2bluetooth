@@ -41,7 +41,7 @@ class WorkoutSummary extends TimestampedData {
   double avgPace;
 
   /// Construct a WorkoutSummary from the bytes returned from the erg
-  WorkoutSummary.fromBytes(Uint8List data) : super(data) {
+  WorkoutSummary.fromBytes(Uint8List data) : super.fromBytes(data) {
     _workTime =
         CsafeIntExtension.fromBytes(data.sublist(4, 7), endian: Endian.little) /
             100; //divide by 100 to convert to seconds
