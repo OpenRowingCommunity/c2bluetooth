@@ -7,13 +7,12 @@ import 'package:csafe_fitness/csafe_fitness.dart';
 import '../helpers.dart';
 import 'package:c2bluetooth/enums.dart';
 
-
 ///Represents a data packet from Concept2 that is stamped with a date.
 class TimestampedData {
   DateTime timestamp;
 
-  TimestampedData.fromBytes(Uint8List bytes): timestamp = Concept2DateExtension.fromBytes(bytes.sublist(0, 4));
-
+  TimestampedData.fromBytes(Uint8List bytes)
+      : timestamp = Concept2DateExtension.fromBytes(bytes.sublist(0, 4));
 }
 
 ///Represents a data packet from Concept2 that is stamped with a duration.
@@ -21,9 +20,9 @@ class TimestampedData {
 class DurationstampedData {
   Duration elapsedTime;
 
-  DurationstampedData.fromBytes(Uint8List data) : elapsedTime = Concept2DurationExtension.fromBytes(data.sublist(0, 3));
+  DurationstampedData.fromBytes(Uint8List data)
+      : elapsedTime = Concept2DurationExtension.fromBytes(data.sublist(0, 3));
 }
-
 
 /// Represents a summary of a completed workout
 ///
@@ -43,28 +42,28 @@ class WorkoutSummary extends TimestampedData {
 
   /// Construct a WorkoutSummary from the bytes returned from the erg
   WorkoutSummary.fromBytes(Uint8List data) : super(data) {
-    _workTime = 
+    _workTime =
         CsafeIntExtension.fromBytes(data.sublist(4, 7), endian: Endian.little) /
-            100); //divide by 100 to convert to seconds
+            100; //divide by 100 to convert to seconds
     _workDistance = CsafeIntExtension.fromBytes(data.sublist(7, 10),
             endian: Endian.little) /
-        10); //divide by 10 to convert to meters
-    _avgSPM = data.elementAt(10));
-    _endHeartRate = data.elementAt(11));
-    _avgHeartRate = data.elementAt(12));
-    _minHeartRate = data.elementAt(13));
-    _maxHeartRate = data.elementAt(14));
-    _avgDragFactor = data.elementAt(15));
+        10; //divide by 10 to convert to meters
+    _avgSPM = data.elementAt(10);
+    _endHeartRate = data.elementAt(11);
+    _avgHeartRate = data.elementAt(12);
+    _minHeartRate = data.elementAt(13);
+    _maxHeartRate = data.elementAt(14);
+    _avgDragFactor = data.elementAt(15);
     //recovery heart rate here
     int recHRVal = data.elementAt(16);
     // 0 is not a valid value here according to the spec
     if (recHRVal > 0) {
-      _recoveryHeartRate = recHRVal);
+      _recoveryHeartRate = recHRVal;
     }
-    _workoutType = WorkoutTypeExtension.fromInt(data.elementAt(17)));
+    _workoutType = WorkoutTypeExtension.fromInt(data.elementAt(17));
     _avgPace = CsafeIntExtension.fromBytes(data.sublist(18, 20),
             endian: Endian.little) /
-        10); //{
+        10;
   }
 }
 
@@ -85,17 +84,16 @@ class WorkoutSummary2 {
     //     throw ArgumentError(
     //         "Bytes passed to WorkoutSummary from multiple characteristics must have the same timestamp");
     //   }
-        
+
     intervalType = IntervalTypeExtension.fromInt(data.elementAt(4));
-    intervalSize = 
+    intervalSize =
         CsafeIntExtension.fromBytes(data.sublist(5, 7), endian: Endian.little);
     intervalCount = data.elementAt(7);
-    totalCalories = CsafeIntExtension.fromBytes(data.sublist(8, 10),
-        endian: Endian.little);
+    totalCalories =
+        CsafeIntExtension.fromBytes(data.sublist(8, 10), endian: Endian.little);
     watts = CsafeIntExtension.fromBytes(data.sublist(10, 12),
         endian: Endian.little);
-    totalRestDistance = CsafeIntExtension.fromBytes(
-        data.sublist(12, 15),
+    totalRestDistance = CsafeIntExtension.fromBytes(data.sublist(12, 15),
         endian: Endian.little);
     intervalRestTime = CsafeIntExtension.fromBytes(data.sublist(15, 17),
         endian: Endian.little);
