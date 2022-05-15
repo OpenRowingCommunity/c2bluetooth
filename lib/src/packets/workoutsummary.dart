@@ -45,7 +45,7 @@ class WorkoutSummaryPacket extends TimestampedData {
         super.fromBytes(data);
 }
 
-class WorkoutSummaryPacket2 {
+class WorkoutSummaryPacket2 extends TimestampedData {
   IntervalType intervalType;
   int intervalSize;
   int intervalCount;
@@ -69,7 +69,9 @@ class WorkoutSummaryPacket2 {
         intervalRestTime = CsafeIntExtension.fromBytes(data.sublist(15, 17),
             endian: Endian.little),
         avgCalories = CsafeIntExtension.fromBytes(data.sublist(17, 19),
-            endian: Endian.little);
+            endian: Endian.little),
+        super.fromBytes(data);
+
   @override
   String toString() => "WorkoutSummary ("
       "Timestamp: $timestamp, "
