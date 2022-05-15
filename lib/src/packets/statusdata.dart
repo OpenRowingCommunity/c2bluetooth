@@ -12,6 +12,8 @@ class StatusData extends DurationstampedData {
                 endian: Endian.little) /
             10,
         super.fromBytes(data);
+
+  //TODO: add more data fields here
 }
 
 class StatusData1 extends DurationstampedData {
@@ -22,6 +24,7 @@ class StatusData1 extends DurationstampedData {
                 endian: Endian.little) /
             1000,
         super.fromBytes(data);
+  //TODO: add more data fields here
 }
 
 class StatusData2 extends DurationstampedData {
@@ -30,4 +33,6 @@ class StatusData2 extends DurationstampedData {
   StatusData2.fromBytes(Uint8List data)
       : intervalCount = data.elementAt(3),
         super.fromBytes(data);
+  //TODO: add more data fields here
+
 }
