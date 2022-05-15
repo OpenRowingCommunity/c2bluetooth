@@ -1,7 +1,12 @@
 import 'dart:async';
 
 /// A wrapper around StreamController to aid in delivering data from bluetooth to the user
-class CachedStreamController<T> implements StreamController<T> {
+///
+/// This is intended to add functionality enabling:
+/// - filtering of data sent to the `add` function so this stream can only send datapoints that it was created to send
+/// - caching of data in the event that users want a full set of data any time any value is updated
+/// and possibly more.
+class C2DataStreamController<T> implements StreamController<T> {
   StreamController<T> _controller;
 
   ///called when the controller loses its last subscriber
@@ -36,7 +41,7 @@ class CachedStreamController<T> implements StreamController<T> {
     _controller.onResume = newValue;
   }
 
-  CachedStreamController(
+  C2DataStreamController(
       {void onListen()?,
       void onPause()?,
       void onResume()?,
