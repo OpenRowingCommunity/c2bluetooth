@@ -48,7 +48,10 @@ class Dataplex {
     currentSubscriptions.addEntries({characteristicUuid: sub}.entries);
   }
 
-  void _readPacket(Uint8List data) {}
+  void _readPacket(Uint8List data) {
+    Concept2CharacteristicData packetType = _identifyPacketType(data);
+  }
+
   Concept2CharacteristicData _identifyPacketType(Uint8List data) {
     switch (data[0]) {
       case 0x31:
