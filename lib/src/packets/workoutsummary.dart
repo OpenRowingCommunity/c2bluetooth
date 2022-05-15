@@ -72,3 +72,7 @@ class WorkoutSummaryPacket2 extends TimestampedData {
             endian: Endian.little),
         super.fromBytes(data);
 }
+
+class WorkoutSummaryPacket3 extends TimestampedData {
+  WorkoutSummaryPacket3.fromBytes(Uint8List data) : super.fromBytes(data);
+}
