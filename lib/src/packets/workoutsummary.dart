@@ -45,7 +45,7 @@ class WorkoutSummaryPacket extends TimestampedData {
         super.fromBytes(data);
 }
 
-class WorkoutSummary2 {
+class WorkoutSummaryPacket2 {
   IntervalType intervalType;
   int intervalSize;
   int intervalCount;
@@ -55,7 +55,7 @@ class WorkoutSummary2 {
   int intervalRestTime;
   int avgCalories;
 
-  WorkoutSummary2.fromBytes(Uint8List data) {
+  WorkoutSummaryPacket2.fromBytes(Uint8List data) {
     // if (data.length > 20) {
     //   var timestamp2 = Concept2DateExtension.fromBytes(data.sublist(20, 24));
     //   if (timestamp != timestamp2) {
