@@ -40,6 +40,7 @@ class Ergometer {
   }
 
   /// Returns a stream of [WorkoutSummary] objects upon completion of any programmed piece or a "just row" piece that is longer than 1 minute.
+  @Deprecated("This API is being deprecated soon")
   Stream<WorkoutSummary> monitorForWorkoutSummary() {
     Stream<Uint8List> ws1 = _peripheral
         .monitorCharacteristic(Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID,
