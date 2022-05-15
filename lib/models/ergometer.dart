@@ -17,7 +17,7 @@ class Ergometer {
   Peripheral _peripheral;
   Csafe? _csafeClient;
 
-  Dataplex _dataplex = new Dataplex();
+  Dataplex _dataplex;
 
   /// Get the name of this erg. i.e. "PM5" + serial number
   ///
@@ -27,7 +27,9 @@ class Ergometer {
   /// Create an Ergometer from a FlutterBleLib peripheral object
   ///
   /// This is mainly intended for internal use
-  Ergometer(this._peripheral);
+  Ergometer(Peripheral peripheral)
+      : _peripheral = peripheral,
+        _dataplex = new Dataplex(peripheral);
 
   /// Connect to this erg and discover the services and characteristics that it offers
   Future<void> connectAndDiscover() async {

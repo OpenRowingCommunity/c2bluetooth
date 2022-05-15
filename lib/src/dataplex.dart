@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:c2bluetooth/models/c2datastreamcontroller.dart';
+import 'package:flutter_ble_lib_ios_15/flutter_ble_lib.dart';
 
 import './packets/statusdata.dart';
 import './packets/strokedata.dart';
@@ -9,7 +10,11 @@ import './packets/strokedata.dart';
 class Dataplex {
   // data access speed
 
+  Peripheral device;
+
   List<C2DataStreamController> outgoingStreams = [];
+
+  Dataplex(this.device);
 
   ///Keeps track of how many characteristics we are currently receiving notifications for
   int _currentSubscriptionCount = 0;
