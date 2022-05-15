@@ -9,6 +9,9 @@ import 'dart:async';
 class C2DataStreamController<T> implements StreamController<T> {
   StreamController<T> _controller;
 
+  /// A list of the identifying strings for datapoints that this controller should pass on as stream updates.
+  Set<String> datapoint_identifiers;
+
   ///called when the controller loses its last subscriber
   ///https://dart.dev/articles/libraries/creating-streams#using-a-streamcontroller
   @override
@@ -41,7 +44,7 @@ class C2DataStreamController<T> implements StreamController<T> {
     _controller.onResume = newValue;
   }
 
-  C2DataStreamController(
+  C2DataStreamController(this.datapoint_identifiers,
       {void onListen()?,
       void onPause()?,
       void onResume()?,
