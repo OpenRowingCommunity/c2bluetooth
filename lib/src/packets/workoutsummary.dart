@@ -71,11 +71,4 @@ class WorkoutSummaryPacket2 extends TimestampedData {
         avgCalories = CsafeIntExtension.fromBytes(data.sublist(17, 19),
             endian: Endian.little),
         super.fromBytes(data);
-
-  @override
-  String toString() => "WorkoutSummary ("
-      "Timestamp: $timestamp, "
-      "elapsedTime: $workTime, "
-      "distance: $workDistance, "
-      "avgSPM: $avgSPM)";
 }
