@@ -33,10 +33,17 @@ class Dataplex {
     return controller.stream;
   }
 
-  void _addSubscription(String serviceUuid, String characteristicUuid) {
+  void _addSubscription(
+      String serviceUuid, String characteristicUuid, int? dataIdentifier) {
     StreamSubscription sub = device
         .monitorCharacteristic(serviceUuid, characteristicUuid)
-        .listen((data) => data.read().then((bytes) => _readPacket(bytes)));
+        .listen((data) => data.read().then((bytes) {
+              // manually insert an identification byte if this characteristic doesnt have one already
+              if (dataIdentifier != null) {
+                bytes.insert(0, dataIdentifier);
+              }
+              _readPacket(bytes);
+            }));
     currentSubscriptions.addEntries({characteristicUuid: sub}.entries);
   }
 
