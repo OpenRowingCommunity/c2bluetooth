@@ -24,30 +24,25 @@ class WorkoutSummary extends TimestampedData {
   double avgPace;
 
   /// Construct a WorkoutSummary from the bytes returned from the erg
-  WorkoutSummary.fromBytes(Uint8List data) : super.fromBytes(data) {
-    _workTime =
-        CsafeIntExtension.fromBytes(data.sublist(4, 7), endian: Endian.little) /
-            100; //divide by 100 to convert to seconds
-    _workDistance = CsafeIntExtension.fromBytes(data.sublist(7, 10),
-            endian: Endian.little) /
-        10; //divide by 10 to convert to meters
-    _avgSPM = data.elementAt(10);
-    _endHeartRate = data.elementAt(11);
-    _avgHeartRate = data.elementAt(12);
-    _minHeartRate = data.elementAt(13);
-    _maxHeartRate = data.elementAt(14);
-    _avgDragFactor = data.elementAt(15);
-    //recovery heart rate here
-    int recHRVal = data.elementAt(16);
-    // 0 is not a valid value here according to the spec
-    if (recHRVal > 0) {
-      _recoveryHeartRate = recHRVal;
-    }
-    _workoutType = WorkoutTypeExtension.fromInt(data.elementAt(17));
-    _avgPace = CsafeIntExtension.fromBytes(data.sublist(18, 20),
-            endian: Endian.little) /
-        10;
-  }
+  WorkoutSummary.fromBytes(Uint8List data)
+      : workTime = CsafeIntExtension.fromBytes(data.sublist(4, 7),
+                endian: Endian.little) /
+            100, //divide by 100 to convert to seconds
+        workDistance = CsafeIntExtension.fromBytes(data.sublist(7, 10),
+                endian: Endian.little) /
+            10,
+        avgSPM = data.elementAt(10),
+        endHeartRate = data.elementAt(11),
+        avgHeartRate = data.elementAt(12),
+        minHeartRate = data.elementAt(13),
+        maxHeartRate = data.elementAt(14),
+        avgDragFactor = data.elementAt(15),
+        recoveryHeartRate = data.elementAt(16),
+        workoutType = WorkoutTypeExtension.fromInt(data.elementAt(17)),
+        avgPace = CsafeIntExtension.fromBytes(data.sublist(18, 20),
+                endian: Endian.little) /
+            10,
+        super.fromBytes(data);
 }
 
 class WorkoutSummary2 {
