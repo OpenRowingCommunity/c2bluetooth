@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:c2bluetooth/models/c2datastreamcontroller.dart';
 
 import './packets/statusdata.dart';
 import './packets/strokedata.dart';
@@ -8,11 +9,20 @@ import './packets/strokedata.dart';
 class Dataplex {
   // data access speed
 
+  List<C2DataStreamController> outgoingStreams = [];
+
   ///Keeps track of how many characteristics we are currently receiving notifications for
   int _currentSubscriptionCount = 0;
 
   Stream<Map<String, dynamic>> createStream(Set<String> keysRequested) {
-    
+    C2DataStreamController controller =
+        new C2DataStreamController(keysRequested);
+
+    //TODO: set up close listener.
+
+    outgoingStreams.add(controller);
+
+    return controller.stream;
   }
 
   // String _packetType(Uint8List data) {
