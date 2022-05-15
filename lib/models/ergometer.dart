@@ -5,6 +5,7 @@ import '../src/commands.dart';
 import '../src/datatypes.dart';
 import 'package:csafe_fitness/csafe_fitness.dart';
 import '../helpers.dart';
+import '../../src/dataplex.dart';
 import 'workout.dart';
 import 'package:c2bluetooth/constants.dart' as Identifiers;
 import 'package:flutter_ble_lib_ios_15/flutter_ble_lib.dart';
@@ -15,6 +16,8 @@ enum ErgometerConnectionState { connecting, connected, disconnected }
 class Ergometer {
   Peripheral _peripheral;
   Csafe? _csafeClient;
+
+  Dataplex _dataplex = new Dataplex();
 
   /// Get the name of this erg. i.e. "PM5" + serial number
   ///
@@ -37,6 +40,11 @@ class Ergometer {
   /// Disconnect from this erg or cancel the connection
   Future<void> disconnectOrCancel() async {
     return _peripheral.disconnectOrCancelConnection();
+  }
+
+  Stream<Map<String, dynamic>> monitorForData(
+      Set<String> datapointIdentifiers) {
+    return _dataplex.createStream(datapointIdentifiers);
   }
 
   /// Returns a stream of [WorkoutSummary] objects upon completion of any programmed piece or a "just row" piece that is longer than 1 minute.
