@@ -55,30 +55,21 @@ class WorkoutSummaryPacket2 {
   int intervalRestTime;
   int avgCalories;
 
-  WorkoutSummaryPacket2.fromBytes(Uint8List data) {
-    // if (data.length > 20) {
-    //   var timestamp2 = Concept2DateExtension.fromBytes(data.sublist(20, 24));
-    //   if (timestamp != timestamp2) {
-    //     throw ArgumentError(
-    //         "Bytes passed to WorkoutSummary from multiple characteristics must have the same timestamp");
-    //   }
-
-    intervalType = IntervalTypeExtension.fromInt(data.elementAt(4));
-    intervalSize =
-        CsafeIntExtension.fromBytes(data.sublist(5, 7), endian: Endian.little);
-    intervalCount = data.elementAt(7);
-    totalCalories =
-        CsafeIntExtension.fromBytes(data.sublist(8, 10), endian: Endian.little);
-    watts = CsafeIntExtension.fromBytes(data.sublist(10, 12),
-        endian: Endian.little);
-    totalRestDistance = CsafeIntExtension.fromBytes(data.sublist(12, 15),
-        endian: Endian.little);
-    intervalRestTime = CsafeIntExtension.fromBytes(data.sublist(15, 17),
-        endian: Endian.little);
-    avgCalories = CsafeIntExtension.fromBytes(data.sublist(17, 19),
-        endian: Endian.little);
-  }
-
+  WorkoutSummaryPacket2.fromBytes(Uint8List data)
+      : intervalType = IntervalTypeExtension.fromInt(data.elementAt(4)),
+        intervalSize = CsafeIntExtension.fromBytes(data.sublist(5, 7),
+            endian: Endian.little),
+        intervalCount = data.elementAt(7),
+        totalCalories = CsafeIntExtension.fromBytes(data.sublist(8, 10),
+            endian: Endian.little),
+        watts = CsafeIntExtension.fromBytes(data.sublist(10, 12),
+            endian: Endian.little),
+        totalRestDistance = CsafeIntExtension.fromBytes(data.sublist(12, 15),
+            endian: Endian.little),
+        intervalRestTime = CsafeIntExtension.fromBytes(data.sublist(15, 17),
+            endian: Endian.little),
+        avgCalories = CsafeIntExtension.fromBytes(data.sublist(17, 19),
+            endian: Endian.little);
   @override
   String toString() => "WorkoutSummary ("
       "Timestamp: $timestamp, "
