@@ -1,8 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:c2bluetooth/c2bluetooth.dart';
-import '../internal/commands.dart';
-import '../internal/datatypes.dart';
+import '../src/commands.dart';
+import '../src/datatypes.dart';
 import 'package:csafe_fitness/csafe_fitness.dart';
 import '../helpers.dart';
 import 'workout.dart';

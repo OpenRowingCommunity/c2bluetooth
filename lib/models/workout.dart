@@ -1,4 +1,4 @@
-import '../internal/datatypes.dart';
+import '../src/datatypes.dart';
 import 'package:csafe_fitness/csafe_fitness.dart';
 import 'package:equatable/equatable.dart';
 
