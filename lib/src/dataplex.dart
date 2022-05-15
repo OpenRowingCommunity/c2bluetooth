@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 import 'package:c2bluetooth/models/c2datastreamcontroller.dart';
 import 'package:flutter_ble_lib_ios_15/flutter_ble_lib.dart';
@@ -13,6 +14,8 @@ class Dataplex {
   Peripheral device;
 
   List<C2DataStreamController> outgoingStreams = [];
+
+  Map<String, StreamSubscription> currentSubscriptions = Map();
 
   Dataplex(this.device);
 
@@ -30,6 +33,14 @@ class Dataplex {
     return controller.stream;
   }
 
+  void _addSubscription(String serviceUuid, String characteristicUuid) {
+    StreamSubscription sub = device
+        .monitorCharacteristic(serviceUuid, characteristicUuid)
+        .listen((data) => data.read().then((bytes) => _readPacket(bytes)));
+    currentSubscriptions.addEntries({characteristicUuid: sub}.entries);
+  }
+
+  void _readPacket(Uint8List data) {}
   // String _packetType(Uint8List data) {
   //   switch (data[0]) {
   //     case 0x31:
@@ -68,4 +79,16 @@ class Dataplex {
   //       return "Unknown";
   //   }
   // }
+
+  void dispose() {
+    // clear current subscriptions
+    for (var entry in currentSubscriptions.entries) {
+      var key = entry.key;
+      var subscription = entry.value;
+
+      subscription.cancel();
+      currentSubscriptions.remove(key);
+    }
+    // end all current output streams
+  }
 }
