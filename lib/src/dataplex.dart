@@ -69,7 +69,8 @@ class Dataplex {
     if (packet != null) {
       //send the data to
       for (var stream in outgoingStreams) {
-        stream.add(data.sublist(1));
+        // TODO: get packet as Map<String, dynamic>
+        // stream.add(packet);
       }
     } else {
       print("unknown packet found");
