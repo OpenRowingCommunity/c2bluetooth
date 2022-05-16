@@ -6,8 +6,8 @@ import 'dart:async';
 /// - filtering of data sent to the `add` function so this stream can only send datapoints that it was created to send
 /// - caching of data in the event that users want a full set of data any time any value is updated
 /// and possibly more.
-class C2DataStreamController<T> implements StreamController<T> {
-  StreamController<T> _controller;
+class C2DataStreamController implements StreamController<Map<String, dynamic>> {
+  StreamController<Map<String, dynamic>> _controller;
 
   /// A list of the identifying strings for datapoints that this controller should pass on as stream updates.
   Set<String> datapoint_identifiers;
@@ -49,14 +49,14 @@ class C2DataStreamController<T> implements StreamController<T> {
       void onPause()?,
       void onResume()?,
       FutureOr<void> onCancel()?})
-      : _controller = new StreamController(
+      : _controller = new StreamController<Map<String, dynamic>>(
             onListen: onListen,
             onPause: onPause,
             onResume: onResume,
             onCancel: onCancel);
 
   @override
-  void add(T event) {
+  void add(Map<String, dynamic> event) {
     _controller.add(event);
   }
 
@@ -66,7 +66,7 @@ class C2DataStreamController<T> implements StreamController<T> {
   }
 
   @override
-  Future addStream(Stream<T> source, {bool? cancelOnError}) {
+  Future addStream(Stream<Map<String, dynamic>> source, {bool? cancelOnError}) {
     return _controller.addStream(source, cancelOnError: cancelOnError);
   }
 
@@ -88,8 +88,8 @@ class C2DataStreamController<T> implements StreamController<T> {
   bool get isPaused => _controller.isPaused;
 
   @override
-  StreamSink<T> get sink => _controller.sink;
+  StreamSink<Map<String, dynamic>> get sink => _controller.sink;
 
   @override
-  Stream<T> get stream => _controller.stream;
+  Stream<Map<String, dynamic>> get stream => _controller.stream;
 }
