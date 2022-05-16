@@ -30,11 +30,23 @@ class Dataplex {
     C2DataStreamController controller =
         new C2DataStreamController(keysRequested);
 
+    controller.onCancel = _generateOutputCloseListener(controller);
+
     //TODO: set up close listener.
 
     outgoingStreams.add(controller);
 
     return controller.stream;
+  }
+
+  /// Generate a function that removes the provided controller from the outgoing streams list
+  FutureOr<void> Function()? _generateOutputCloseListener(
+      C2DataStreamController controller) {
+    FutureOr<void> remove() {
+      outgoingStreams.remove(controller);
+    }
+
+    return remove;
   }
 
   void _addSubscription(
