@@ -53,6 +53,16 @@ class Dataplex {
 
   void _readPacket(Uint8List data) {
     Concept2CharacteristicData? packet = _parsePacket(data);
+
+    if (packet != null) {
+      //send the data to
+      for (var stream in outgoingStreams) {
+        stream.add(data.sublist(1));
+      }
+    } else {
+      print("unknown packet found");
+      print("packet data: $data");
+    }
   }
 
   Concept2CharacteristicData? _parsePacket(Uint8List data) {
