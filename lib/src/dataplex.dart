@@ -52,10 +52,10 @@ class Dataplex {
   }
 
   void _readPacket(Uint8List data) {
-    Concept2CharacteristicData packetType = _identifyPacketType(data);
+    Concept2CharacteristicData? packet = _parsePacket(data);
   }
 
-  Concept2CharacteristicData _identifyPacketType(Uint8List data) {
+  Concept2CharacteristicData? _parsePacket(Uint8List data) {
     switch (data[0]) {
       case 0x31:
         StatusData parsed = StatusData.fromBytes(data.sublist(1));
