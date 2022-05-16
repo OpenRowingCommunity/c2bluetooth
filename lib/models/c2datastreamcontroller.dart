@@ -57,7 +57,13 @@ class C2DataStreamController implements StreamController<Map<String, dynamic>> {
 
   @override
   void add(Map<String, dynamic> event) {
-    _controller.add(event);
+    //source: https://stackoverflow.com/a/21131220
+    final filteredMap = new Map<String, dynamic>.fromIterable(
+        event.keys.where((k) => datapoint_identifiers.contains(k)),
+        value: (k) => event[k]);
+    if (filteredMap.length > 0) {
+      _controller.add(filteredMap);
+    }
   }
 
   @override
