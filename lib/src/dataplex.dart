@@ -5,6 +5,9 @@ import 'package:flutter_ble_lib_ios_15/flutter_ble_lib.dart';
 
 import './packets/statusdata.dart';
 import './packets/strokedata.dart';
+import './packets/segmentdata.dart';
+import './packets/workoutsummary.dart';
+
 import 'packets/base.dart';
 
 /// Handles mapping between data coming from bluetooth notfications and the data the user requested.
@@ -72,22 +75,21 @@ class Dataplex {
         // print("intervalcount ${parsed.intervalCount.toString()}");
         return parsed;
       case 0x35:
-        return "stroke data";
+        return StrokeData.fromBytes(data.sublist(1));
       case 0x36:
-        return "stroke data 1";
+        return StrokeData2.fromBytes(data.sublist(1));
       case 0x37:
-        return "split/interval data";
+        return SegmentData.fromBytes(data.sublist(1));
       case 0x38:
-        return "split/interval data 2";
+        return SegmentData2.fromBytes(data.sublist(1));
       case 0x39:
-        return "workout data";
+        return WorkoutSummaryPacket.fromBytes(data.sublist(1));
       case 0x3A:
-        return "workout data 1";
+        return WorkoutSummaryPacket2.fromBytes(data.sublist(1));
       case 0x3C:
-        print(data);
-        return "workout data 2";
+        return WorkoutSummaryPacket3.fromBytes(data.sublist(1));
       default:
-        return "Unknown";
+        return null;
     }
   }
 
