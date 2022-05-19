@@ -7,6 +7,7 @@ import './packets/statusdata.dart';
 import './packets/strokedata.dart';
 import './packets/segmentdata.dart';
 import './packets/workoutsummary.dart';
+import './packets/forcecurvepacket.dart';
 
 import 'packets/base.dart';
 
@@ -110,7 +111,7 @@ class Dataplex {
       case 0x3A:
         return WorkoutSummaryPacket2.fromBytes(data.sublist(1));
       case 0x3C:
-        return WorkoutSummaryPacket3.fromBytes(data.sublist(1));
+        return ForceCurveData.fromBytes(data.sublist(1));
       default:
         return null;
     }
