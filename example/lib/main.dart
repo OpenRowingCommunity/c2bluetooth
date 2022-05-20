@@ -151,10 +151,22 @@ class _SimpleErgViewState extends State<SimpleErgView> {
     });
 
     targetDevice!.monitorForWorkoutSummary().listen((summary) {
-      setState(() {
-        displayText = "distance: ${summary.workDistance}";
-        displayText2 = "datetime: ${summary.timestamp}";
-        displayText3 = "sr: ${summary.avgSPM}";
+      print(summary);
+      //TODO: update this for futures
+      summary.workDistance.then((dist) {
+        setState(() {
+          displayText = "distance: $dist";
+        });
+      });
+      summary.timestamp.then((time) {
+        setState(() {
+          displayText2 = "datetime: $time";
+        });
+      });
+      summary.avgSPM.then((spm) {
+        setState(() {
+          displayText3 = "sr: $spm";
+        });
       });
     });
   }
