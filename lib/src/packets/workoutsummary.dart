@@ -43,6 +43,25 @@ class WorkoutSummaryPacket extends TimestampedData {
                 endian: Endian.little) /
             10,
         super.fromBytes(data);
+
+  Map<String, dynamic> asMap() {
+
+    return {
+      "workout.timestamp": timestamp,
+      // "workout.time": workTime,
+      // workDistance
+      "workout.stroke_rate.average": avgSPM,
+      "workout.heart_rate.last": endHeartRate,
+      "workout.heart_rate.average": avgHeartRate,
+      "workout.heart_rate.min": minHeartRate,
+      "workout.heart_rate.max": maxHeartRate,
+      "workout.pace.average": avgPace,
+      "workout.drag_factor.average": avgDragFactor,
+      "workout.heart_rate.recovery": recoveryHeartRate,
+      // workoutType,
+      // "something.something.average":
+    };
+  }
 }
 
 class WorkoutSummaryPacket2 extends TimestampedData {
@@ -71,4 +90,19 @@ class WorkoutSummaryPacket2 extends TimestampedData {
         avgCalories = CsafeIntExtension.fromBytes(data.sublist(17, 19),
             endian: Endian.little),
         super.fromBytes(data);
+
+  Map<String, dynamic> asMap() {
+    return {
+      "workout.timestamp": timestamp,
+
+      "workout.spl-int_count": intervalSize,
+      "workout.spl-int_size": intervalCount,
+      "workout.calories": totalCalories,
+      "workout.watts": watts,
+      "workout.rest_distance": totalRestDistance,
+      // "workout.interval_rest_distance": ,
+      "workout.rest_time": intervalRestTime,
+      "workout.calories.average": avgCalories
+    };
+  }
 }
