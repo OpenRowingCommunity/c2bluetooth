@@ -17,6 +17,7 @@ dependencies:
   rxdart: ^0.27.3
 
 dev_dependencies:
+  csv: ^5.0.1
   flutter_test:
     sdk: flutter
 
