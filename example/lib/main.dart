@@ -1,8 +1,12 @@
 import 'dart:async';
+import 'dart:developer';
+import 'dart:io';
 
 import 'package:c2bluetooth/c2bluetooth.dart';
 import 'package:c2bluetooth/models/workout.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   runApp(MyApp());
@@ -26,12 +30,69 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: SimpleErgView(),
+      home: SimpleErgView(storage: CounterStorage()),
     );
   }
 }
 
+class CounterStorage {
+  String now = DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now());
+
+  Future<String> get _localPath async {
+    final directory = await getExternalStorageDirectory();
+
+    print(directory!.path);
+    return directory.path;
+    // "/storage/emulated/0/Documents";
+  }
+
+  Future<File> get _localFile async {
+    final path = await _localPath;
+    String filepath = '$path/ergmultiplexdata-$now.txt';
+    print(filepath);
+    return File(filepath);
+  }
+
+  // Future<int> readCounter() async {
+  //   try {
+  //     final file = await _localFile;
+
+  //     // Read the file
+  //     final contents = await file.readAsString();
+
+  //     return int.parse(contents);
+  //   } catch (e) {
+  //     // If encountering an error, return 0
+  //     return 0;
+  //   }
+  // }
+
+  Future<File> writeCounter(String counter) async {
+    final file = await _localFile;
+
+    var contents;
+    //     // Read the file
+    try {
+      contents = await file.readAsString();
+      print("file contents:");
+
+      print(contents);
+    } catch (e) {
+      print("no file contents:");
+
+      contents = "";
+    }
+
+    // Write the file
+    return file.writeAsString(contents + counter);
+  }
+}
+
 class SimpleErgView extends StatefulWidget {
+  const SimpleErgView({super.key, required this.storage});
+
+  final CounterStorage storage;
+
   @override
   _SimpleErgViewState createState() => _SimpleErgViewState();
 }
@@ -127,6 +188,7 @@ class _SimpleErgViewState extends State<SimpleErgView> {
   }
 
   setup10k() async {
+    widget.storage.writeCounter("setting up 10k\n");
     if (targetDevice == null) return;
 
     targetDevice?.configureWorkout(Workout.single(WorkoutGoal.meters(10000)));
@@ -135,7 +197,9 @@ class _SimpleErgViewState extends State<SimpleErgView> {
   listenForMultiplex() async {
     if (targetDevice == null) return;
 
-    targetDevice?.monitorForMultiplex();
+    targetDevice?.monitorForMultiplex().listen((data) {
+      widget.storage.writeCounter(data.toList().toString() + "\n");
+    });
   }
 
   disconnectFromDevice() async {
