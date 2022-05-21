@@ -220,13 +220,7 @@ class _SimpleErgViewState extends State<SimpleErgView> {
       displayText = "Setting up streams";
     });
 
-    targetDevice!.monitorForWorkoutSummary().listen((summary) {
-      setState(() {
-        displayText = "distance: ${summary.workDistance}";
-        displayText2 = "datetime: ${summary.timestamp}";
-        displayText3 = "sr: ${summary.avgSPM}";
-      });
-    });
+    listenForMultiplex();
   }
 
   @override
