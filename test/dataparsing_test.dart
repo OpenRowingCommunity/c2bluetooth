@@ -14,15 +14,21 @@ import 'package:csv/csv.dart';
 // import '../lib/src/helpers.dart';
 // import '../lib/models/ergblemanager.dart';
 
+Future<List<List>> getCsvData(String filename) async {
+  final input = new File(filename).openRead();
+  final fields = await input
+      .transform(utf8.decoder)
+      .transform(new CsvToListConverter(eol: '\n'))
+      .toList();
+  return fields;
+}
+
 void main() {
   group("test-multiplex-data6", () {
     test('- print', () async {
-      final input = new File('./test/test-multiplex-data6.csv').openRead();
-      final fields = await input
-          .transform(utf8.decoder)
-          .transform(new CsvToListConverter(eol: '\n'))
-          .toList();
       // print(fields);
+
+      final fields = await getCsvData('./test/test-multiplex-data6.csv');
 
       for (List<dynamic> row in fields) {
         List<int> ints = row.cast<int>();
