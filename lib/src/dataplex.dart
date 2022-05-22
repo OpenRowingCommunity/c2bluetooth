@@ -9,6 +9,7 @@ import './packets/segmentdata.dart';
 import './packets/workoutsummary.dart';
 import './packets/forcecurvepacket.dart';
 
+import 'helpers.dart';
 import 'packets/base.dart';
 
 /// Handles mapping between data coming from bluetooth notfications and the data the user requested.
@@ -65,7 +66,7 @@ class Dataplex {
   }
 
   void _readPacket(Uint8List data) {
-    Concept2CharacteristicData? packet = _parsePacket(data);
+    Concept2CharacteristicData? packet = parsePacket(data);
 
     if (packet != null) {
       //send the data to
@@ -76,44 +77,6 @@ class Dataplex {
     } else {
       print("unknown packet found");
       print("packet data: $data");
-    }
-  }
-
-  Concept2CharacteristicData? _parsePacket(Uint8List data) {
-    switch (data[0]) {
-      case 0x31:
-        StatusData parsed = StatusData.fromBytes(data.sublist(1));
-        print(parsed.elapsedTime.toString());
-        print("distance ${parsed.distance.toString()}");
-
-        return parsed;
-      case 0x32:
-        StatusData1 parsed = StatusData1.fromBytes(data.sublist(1));
-        print(parsed.elapsedTime.toString());
-        print("speed ${parsed.speed.toString()}");
-
-        return parsed;
-      case 0x33:
-        StatusData2 parsed = StatusData2.fromBytes(data.sublist(1));
-        print(parsed.elapsedTime.toString());
-        // print("intervalcount ${parsed.intervalCount.toString()}");
-        return parsed;
-      case 0x35:
-        return StrokeData.fromBytes(data.sublist(1));
-      case 0x36:
-        return StrokeData2.fromBytes(data.sublist(1));
-      case 0x37:
-        return SegmentData.fromBytes(data.sublist(1));
-      case 0x38:
-        return SegmentData2.fromBytes(data.sublist(1));
-      case 0x39:
-        return WorkoutSummaryPacket.fromBytes(data.sublist(1));
-      case 0x3A:
-        return WorkoutSummaryPacket2.fromBytes(data.sublist(1));
-      case 0x3C:
-        return ForceCurveData.fromBytes(data.sublist(1));
-      default:
-        return null;
     }
   }
 
