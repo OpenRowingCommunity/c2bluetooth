@@ -12,11 +12,10 @@ class TimestampedData extends Concept2CharacteristicData {
       : timestamp = Concept2DateExtension.fromBytes(bytes.sublist(0, 4));
 }
 
-///Represents a data packet from Concept2 that is stamped with a duration.
-
-class DurationstampedData extends Concept2CharacteristicData {
+///Represents a data packet from Concept2 that begins with the current elapsed time
+class ElapsedtimeStampedData extends Concept2CharacteristicData {
   Duration elapsedTime;
 
-  DurationstampedData.fromBytes(Uint8List data)
+  ElapsedtimeStampedData.fromBytes(Uint8List data)
       : elapsedTime = Concept2DurationExtension.fromBytes(data.sublist(0, 3));
 }

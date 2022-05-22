@@ -4,7 +4,7 @@ import 'package:csafe_fitness/csafe_fitness.dart';
 
 import './base.dart';
 
-class StatusData extends DurationstampedData {
+class StatusData extends ElapsedtimeStampedData {
   double distance;
 
   StatusData.fromBytes(Uint8List data)
@@ -16,7 +16,7 @@ class StatusData extends DurationstampedData {
   //TODO: add more data fields here
 }
 
-class StatusData1 extends DurationstampedData {
+class StatusData1 extends ElapsedtimeStampedData {
   double speed;
 
   StatusData1.fromBytes(Uint8List data)
@@ -27,7 +27,7 @@ class StatusData1 extends DurationstampedData {
   //TODO: add more data fields here
 }
 
-class StatusData2 extends DurationstampedData {
+class StatusData2 extends ElapsedtimeStampedData {
   int intervalCount;
 
   StatusData2.fromBytes(Uint8List data)
