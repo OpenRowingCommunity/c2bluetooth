@@ -21,7 +21,7 @@ Concept2CharacteristicData? parsePacket(Uint8List data) {
     case 0x36:
       return StrokeData2.fromBytes(data.sublist(1));
     case 0x37:
-      return SegmentData.fromBytes(data.sublist(1));
+      return SegmentData1.fromBytes(data.sublist(1));
     case 0x38:
       return SegmentData2.fromBytes(data.sublist(1));
     case 0x39:
