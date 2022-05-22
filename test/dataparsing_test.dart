@@ -9,6 +9,7 @@ import '../lib/src/packets/workoutsummary.dart';
 import '../lib/src/packets/forcecurvepacket.dart';
 
 import '../lib/src/packets/base.dart';
+import '../lib/src/helpers.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:csv/csv.dart';
 // import '../lib/src/helpers.dart';
@@ -33,49 +34,21 @@ void main() {
       for (List<dynamic> row in fields) {
         List<int> ints = row.cast<int>();
         Uint8List data = Uint8List.fromList(ints);
-        print(parsePacket(data));
+        Concept2CharacteristicData? packet = parsePacket(data);
+        if (packet != null) {
+          if (packet is ElapsedtimeStampedData) {
+            print("elapsed time :${packet.elapsedTime.toString()}");
+          }
+
+          if (packet is StatusData1) {
+            print("speed ${packet.speed.toString()}");
+          }
+
+          if (packet is StatusData2) {
+            print("intervalcount ${packet.intervalCount.toString()}");
+          }
+        }
       }
     });
   });
-}
-
-Concept2CharacteristicData? parsePacket(Uint8List data) {
-  switch (data[0]) {
-    case 0x31:
-      StatusData parsed = StatusData.fromBytes(data.sublist(1));
-      print("elapsed time :${parsed.elapsedTime.toString()}");
-      print("distance ${parsed.distance.toString()}");
-
-      return parsed;
-    case 0x32:
-      StatusData1 parsed = StatusData1.fromBytes(data.sublist(1));
-      print("elapsed time :${parsed.elapsedTime.toString()}");
-      print("speed ${parsed.speed.toString()}");
-
-      return parsed;
-    case 0x33:
-      StatusData2 parsed = StatusData2.fromBytes(data.sublist(1));
-      print("elapsed time :${parsed.elapsedTime.toString()}");
-      // print("intervalcount ${parsed.intervalCount.toString()}");
-      return parsed;
-    case 0x35:
-      return StrokeData.fromBytes(data.sublist(1));
-    case 0x36:
-      return StrokeData2.fromBytes(data.sublist(1));
-    case 0x37:
-      return SegmentData.fromBytes(data.sublist(1));
-    case 0x38:
-      var parsed = SegmentData2.fromBytes(data.sublist(1));
-      print("elapsed time :${parsed.elapsedTime.toString()}");
-
-      return parsed;
-    case 0x39:
-      return WorkoutSummaryPacket.fromBytes(data.sublist(1));
-    case 0x3A:
-      return WorkoutSummaryPacket2.fromBytes(data.sublist(1));
-    case 0x3C:
-      return ForceCurveData.fromBytes(data.sublist(1));
-    default:
-      return null;
-  }
 }
