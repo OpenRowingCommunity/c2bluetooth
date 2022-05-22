@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import './base.dart';
 
-class StrokeData extends TimestampedData {
+class StrokeData extends ElapsedtimeStampedData {
   StrokeData.fromBytes(Uint8List data) : super.fromBytes(data) {
     // _workTime.completeIfNotAlready(
     //     CsafeIntExtension.fromBytes(data.sublist(4, 7), endian: Endian.little) /
@@ -32,6 +32,6 @@ class StrokeData extends TimestampedData {
   }
 }
 
-class StrokeData2 extends TimestampedData {
+class StrokeData2 extends ElapsedtimeStampedData {
   StrokeData2.fromBytes(Uint8List data) : super.fromBytes(data);
 }
