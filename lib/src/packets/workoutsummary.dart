@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'dart:async';
 
+import 'package:c2bluetooth/extensions.dart';
 import 'package:csafe_fitness/csafe_fitness.dart';
 
 import 'package:c2bluetooth/helpers.dart';
@@ -11,7 +12,7 @@ import './base.dart';
 ///
 /// This takes care of processesing the raw byte data from workout summary characteristics into easily accessible fields. This class also takes care of things like byte endianness, combining multiple high and low bytes .etc, allowing applications to access things in terms of flutter native types.
 class WorkoutSummaryPacket extends TimestampedData {
-  double workTime;
+  Duration elapsedTime;
   double workDistance;
   int avgSPM;
   int endHeartRate;
@@ -25,9 +26,7 @@ class WorkoutSummaryPacket extends TimestampedData {
 
   /// Construct a WorkoutSummary from the bytes returned from the erg
   WorkoutSummaryPacket.fromBytes(Uint8List data)
-      : workTime = CsafeIntExtension.fromBytes(data.sublist(4, 7),
-                endian: Endian.little) /
-            100, //divide by 100 to convert to seconds
+      : elapsedTime = Concept2DurationExtension.fromBytes(data.sublist(4, 7)),
         workDistance = CsafeIntExtension.fromBytes(data.sublist(7, 10),
                 endian: Endian.little) /
             10,
