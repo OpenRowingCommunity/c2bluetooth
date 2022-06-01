@@ -1,3 +1,10 @@
+## v0.1.5
+ * Another Internal release
+ * improvements to documentation 
+ * fix byte length for concept2 proprietary commands
+ * move date parsing helper functions into an extension
+ * update UUID filters when scanning for ergs 
+
 ## v0.1.4
  * Another Internal release
  * updated `WorkoutSummary` interface. Each field is now a future 
