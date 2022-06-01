@@ -16,7 +16,9 @@ class ErgBleManager {
   /// Bluetooth must be on and adequate permissions must be granted to the app for this to work.
   Stream<Ergometer> startErgScan() {
     return _manager.startPeripheralScan(uuids: [
-      Identifiers.C2_ROWING_BASE_UUID
+      Identifiers.C2_ROWING_CONTROL_SERVICE_UUID,
+      Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID,
+      Identifiers.C2_DEVICE_INFO_SERVICE_UUID
     ]).map((scanResult) => Ergometer(scanResult.peripheral));
   }
 
