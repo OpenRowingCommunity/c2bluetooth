@@ -1,3 +1,7 @@
+## v0.1.6
+ * Another Internal release
+ * update UUID filters when scanning for ergs
+ 
 ## v0.1.5
  * Another Internal release
  * improvements to documentation 
