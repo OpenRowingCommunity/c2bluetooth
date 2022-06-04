@@ -7,6 +7,7 @@ import 'package:csafe_fitness/csafe_fitness.dart';
 import 'package:c2bluetooth/helpers.dart';
 import 'package:c2bluetooth/enums.dart';
 import './base.dart';
+import 'keys.dart' as Keys;
 
 /// Represents a summary of a completed workout
 ///
@@ -44,22 +45,34 @@ class WorkoutSummaryPacket extends TimestampedData {
         super.fromBytes(data);
 
   Map<String, dynamic> asMap() {
+    //     workout.date
+    // workout.time
 
-    return {
-      "workout.timestamp": timestamp,
+    // workout.heart_rate
+    // workout.spl-int_count
+    // workout.spl-int_size
+    // workout.calories
+    // workout.watts
+    // workout.rest_distance
+    // workout.interval_rest_distance
+    // workout.rest_time
+    // workout.calories.average
+    Map<String, dynamic> map = super.asMap();
+    map.addAll({
       // "workout.time": workTime,
       // workDistance
-      "workout.stroke_rate.average": avgSPM,
-      "workout.heart_rate.last": endHeartRate,
-      "workout.heart_rate.average": avgHeartRate,
-      "workout.heart_rate.min": minHeartRate,
-      "workout.heart_rate.max": maxHeartRate,
-      "workout.pace.average": avgPace,
-      "workout.drag_factor.average": avgDragFactor,
-      "workout.heart_rate.recovery": recoveryHeartRate,
+      Keys.WORKOUT_AVG_SPM_KEY: avgSPM,
+      Keys.WORKOUT_LAST_HR_KEY: endHeartRate,
+      Keys.WORKOUT_AVG_HR_KEY: avgHeartRate,
+      Keys.WORKOUT_MIN_HR_KEY: minHeartRate,
+      Keys.WORKOUT_MAX_HR_KEY: maxHeartRate,
+      Keys.WORKOUT_AVG_PACE_KEY: avgPace,
+      Keys.WORKOUT_AVG_DRAGFACTOR_KEY: avgDragFactor,
+      Keys.WORKOUT_RECOVERY_HR_KEY: recoveryHeartRate,
       // workoutType,
       // "something.something.average":
-    };
+    });
+    return map;
   }
 }
 
@@ -91,17 +104,19 @@ class WorkoutSummaryPacket2 extends TimestampedData {
         super.fromBytes(data);
 
   Map<String, dynamic> asMap() {
-    return {
-      "workout.timestamp": timestamp,
-
-      "workout.spl-int_count": intervalSize,
-      "workout.spl-int_size": intervalCount,
-      "workout.calories": totalCalories,
-      "workout.watts": watts,
-      "workout.rest_distance": totalRestDistance,
+    // workout.heart_rate
+    // workout.interval_rest_distance
+    Map<String, dynamic> map = super.asMap();
+    map.addAll({
+      Keys.WORKOUT_SEGMENT_COUNT_KEY: intervalSize,
+      Keys.WORKOUT_SEGMENT_SIZE_KEY: intervalCount,
+      Keys.WORKOUT_CALORIES_KEY: totalCalories,
+      Keys.WORKOUT_WATTS_KEY: watts,
+      Keys.WORKOUT_REST_DISTANCE_KEY: totalRestDistance,
       // "workout.interval_rest_distance": ,
-      "workout.rest_time": intervalRestTime,
-      "workout.calories.average": avgCalories
-    };
+      Keys.WORKOUT_REST_TIME_KEY: intervalRestTime,
+      Keys.WORKOUT_AVG_CALORIES_KEY: avgCalories
+    });
+    return map;
   }
 }
