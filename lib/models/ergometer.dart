@@ -21,6 +21,9 @@ class Ergometer {
   /// Returns "Unknown" if the erg does not report a name
   String get name => _peripheral.name ?? "Unknown";
 
+  /// An identifier for this peripheral, likely the MAC address
+  String get identifier => _peripheral.identifier;
+
   /// Create an Ergometer from a FlutterBleLib peripheral object
   ///
   /// This is mainly intended for internal use
