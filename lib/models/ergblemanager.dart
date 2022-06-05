@@ -47,6 +47,7 @@ class ErgBleManager {
 
   /// Stops scanning for ergs
   Future<void> stopErgScan() {
+    scanResults = [];
     return _manager.stopPeripheralScan();
   }
 
