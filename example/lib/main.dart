@@ -39,10 +39,14 @@ class FindDevicesView extends StatelessWidget {
 
   Future<void> refresh() async {
     StreamSubscription<List<Ergometer>> str =
-        ErgBleManager().scanResultStream.listen((event) {
-      print(event);
+        ErgBleManager().scanResultStream.listen((event) => {});
+
+    Future.delayed(Duration(seconds: 5), () {
+      str.cancel();
+      ErgBleManager().stopErgScan();
     });
-    return await Future.delayed(Duration(seconds: 5), str.cancel);
+
+    return;
   }
 
   @override
