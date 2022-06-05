@@ -69,6 +69,7 @@ class FindDevicesView extends StatelessWidget {
                         children: snapshot.data!
                             .map(
                               (r) => ScanResultTile(
+                                key: Key(r.identifier),
                                 result: r,
                                 onTap: () => Navigator.of(context)
                                     .push(MaterialPageRoute(builder: (context) {
