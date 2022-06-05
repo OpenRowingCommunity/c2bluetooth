@@ -1,9 +1,34 @@
+import 'dart:async';
 import 'package:c2bluetooth/constants.dart' as Identifiers;
 import 'package:flutter_ble_lib_ios_15/flutter_ble_lib.dart';
 import 'ergometer.dart';
 
 class ErgBleManager {
-  BleManager _manager = BleManager();
+  static ErgBleManager? _instance;
+
+  List<Ergometer> scanResults = [];
+  Stream<List<Ergometer>> get scanResultStream =>
+      startErgScan().asyncMap((event) {
+        print(scanResults);
+        return scanResults;
+      });
+
+  BleManager _manager;
+
+  factory ErgBleManager() {
+    var instance = _instance;
+    if (instance == null) {
+      instance = ErgBleManager._fromManager(BleManager());
+      instance.init();
+      _instance = instance;
+    }
+
+    return instance;
+  }
+
+  ErgBleManager._fromManager(this._manager) {
+    // scanResultStream =
+  }
 
   /// perform set up to get the Bluetooth client ready to scan for devices
   void init() {

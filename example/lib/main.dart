@@ -89,8 +89,10 @@ class FindDevicesView extends StatelessWidget {
   }
 }
 
+class SimpleErgView extends StatelessWidget {
 
 
+  final Ergometer? erg;
 
   const SimpleErgView({Key? key, required this.erg}) : super(key: key);
 
