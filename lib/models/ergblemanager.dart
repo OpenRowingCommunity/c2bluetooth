@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:c2bluetooth/constants.dart' as Identifiers;
 import 'package:flutter_ble_lib_ios_15/flutter_ble_lib.dart';
+import 'package:meta/meta.dart';
 import 'ergometer.dart';
 
 enum BluetoothConnectionState {
@@ -15,7 +16,10 @@ enum BluetoothConnectionState {
 class ErgBleManager {
   static ErgBleManager? _instance;
 
+  @experimental
   List<Ergometer> scanResults = [];
+
+  @experimental
   Stream<List<Ergometer>> get scanResultStream => startErgScan().map((_) {
         print(scanResults);
         return scanResults;
