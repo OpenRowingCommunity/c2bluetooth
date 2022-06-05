@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:c2bluetooth/c2bluetooth.dart';
 import 'package:c2bluetooth/models/workout.dart';
 import 'package:flutter/material.dart';
+import 'package:fresh_example/widgets.dart';
 
 void main() {
   runApp(MyApp());
@@ -26,175 +27,139 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: SimpleErgView(),
+      home: FindDevicesView(),
     );
   }
 }
 
-class SimpleErgView extends StatefulWidget {
-  @override
-  _SimpleErgViewState createState() => _SimpleErgViewState();
-}
+class FindDevicesView extends StatelessWidget {
+  // final ErgBleManager? bleManager;
 
-class _SimpleErgViewState extends State<SimpleErgView> {
-  String displayText = "hi";
-  String displayText2 = "hi";
-  String displayText3 = "hi";
+  const FindDevicesView({Key? key}) : super(key: key);
 
-  ErgBleManager bleManager = ErgBleManager();
-
-  Ergometer? targetDevice;
-  StreamSubscription<Ergometer>? scanSub;
-
-  @override
-  void initState() {
-    super.initState();
-    bleManager.init(); //ready to go!
-
-    startScan();
-  }
-
-  startScan() {
-    setState(() {
-      displayText = "Start Scanning";
+  Future<void> refresh() async {
+    StreamSubscription<List<Ergometer>> str =
+        ErgBleManager().scanResultStream.listen((event) {
+      print(event);
     });
-
-    scanSub = bleManager.startErgScan().listen((erg) {
-      //Scan one peripheral and stop scanning
-      print("Scanned Peripheral ${erg.name}");
-
-      stopScan();
-      targetDevice = erg;
-      connectToDevice();
-    });
-  }
-
-  stopScan() {
-    scanSub?.cancel();
-    scanSub = null;
-    bleManager.stopErgScan();
-  }
-
-  connectToDevice() async {
-    if (targetDevice == null) return;
-
-    setState(() {
-      displayText = "Device Connecting";
-    });
-
-    await targetDevice!.connectAndDiscover();
-
-    // if (!connected) {
-    //   targetDevice!
-    //       .observeConnectionState(
-    //           emitCurrentValue: true, completeOnDisconnect: true)
-    //       .listen((connectionState) {
-    //     print(
-    //         "Peripheral ${targetDevice!.name} connection state is $connectionState");
-    //   });
-    //   try {
-    //     await targetDevice!.connect();
-    //   } catch (BleError) {
-    //     print("a");
-    //   }
-    //   print('CONNECTING');
-    // } else {
-    //   print('DEVICE Already CONNECTED');
-    // }
-    // setState(() {
-    //   displayText = "Device Connected";
-    // });
-    // discoverServices();
-    subscribeToStreams();
-  }
-
-  setup2kH() async {
-    if (targetDevice == null) return;
-
-    targetDevice?.configure2kWorkout();
-  }
-
-  setup10kH() async {
-    if (targetDevice == null) return;
-
-    targetDevice?.configure10kWorkout();
-  }
-
-  setup2k() async {
-    if (targetDevice == null) return;
-
-    targetDevice?.configureWorkout(Workout.single(WorkoutGoal.meters(2000)));
-  }
-
-  setup10k() async {
-    if (targetDevice == null) return;
-
-    targetDevice?.configureWorkout(Workout.single(WorkoutGoal.meters(10000)));
-  }
-
-  disconnectFromDevice() async {
-    if (targetDevice == null) return;
-
-    // targetDevice!.disconnect();
-    await targetDevice?.disconnectOrCancel();
-
-    setState(() {
-      displayText = "Device Disconnected";
-    });
-  }
-
-  subscribeToStreams() async {
-    if (targetDevice == null) return;
-
-    setState(() {
-      displayText = "Setting up streams";
-    });
-
-    targetDevice!.monitorForWorkoutSummary().listen((summary) {
-      print(summary);
-      //TODO: update this for futures
-      summary.workDistance.then((dist) {
-        setState(() {
-          displayText = "distance: $dist";
-        });
-      });
-      summary.timestamp.then((time) {
-        setState(() {
-          displayText2 = "datetime: $time";
-        });
-      });
-      summary.avgSPM.then((spm) {
-        setState(() {
-          displayText3 = "sr: $spm";
-        });
-      });
-    });
+    return await Future.delayed(Duration(seconds: 5), str.cancel);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text('Find Devices'),
+      ),
+      body: RefreshIndicator(
+        onRefresh: () => refresh(),
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              StreamBuilder<List<Ergometer>>(
+                  stream: ErgBleManager().scanResultStream,
+                  initialData: [],
+                  builder: (c, snapshot) {
+                    if (snapshot.hasData) {
+                      return Column(
+                        children: snapshot.data!
+                            .map(
+                              (r) => ScanResultTile(
+                                result: r,
+                                onTap: () => Navigator.of(context)
+                                    .push(MaterialPageRoute(builder: (context) {
+                                  r.connectAndDiscover();
+                                  return SimpleErgView(erg: r);
+                                })),
+                              ),
+                            )
+                            .toList(),
+                      );
+                    } else {
+                      return FloatingActionButton(
+                          child: Icon(Icons.search),
+                          onPressed: () => refresh());
+                    }
+                  }),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+  const SimpleErgView({Key? key, required this.erg}) : super(key: key);
+
+  setup2kH() async {
+    if (erg == null) return;
+
+    erg?.configure2kWorkout();
+  }
+
+  setup10kH() async {
+    if (erg == null) return;
+
+    erg?.configure10kWorkout();
+  }
+
+  setup2k() async {
+    if (erg == null) return;
+
+    erg?.configureWorkout(Workout.single(WorkoutGoal.meters(2000)));
+  }
+
+  setup10k() async {
+    if (erg == null) return;
+
+    erg?.configureWorkout(Workout.single(WorkoutGoal.meters(10000)));
+  }
+
+  // disconnectFromDevice() async {
+  //   if (erg == null) return;
+
+  //   // erg!.disconnect();
+  //   await erg?.disconnectOrCancel();
+
+
+  subscribeToStreams() async {
+    if (erg == null) return;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    TextStyle textStyle = TextStyle(fontSize: 24, color: Colors.blue);
+
+    return Scaffold(
+      appBar: AppBar(
         title: Text("hello"),
       ),
       body: Column(children: [
-        Center(
-          child: Text(
-            displayText,
-            style: TextStyle(fontSize: 24, color: Colors.blue),
-          ),
-        ),
-        Center(
-          child: Text(
-            displayText2,
-            style: TextStyle(fontSize: 24, color: Colors.blue),
-          ),
-        ),
-        Center(
-          child: Text(
-            displayText3,
-            style: TextStyle(fontSize: 24, color: Colors.blue),
-          ),
+        StreamBuilder<WorkoutSummary>(
+          stream: erg?.monitorForWorkoutSummary(),
+          builder: (c, snapshot) => Column(children: [
+            Center(
+              child: Text(
+                "distance: ${snapshot.data?.workDistance}",
+                style: textStyle,
+              ),
+            ),
+            Center(
+              child: Text(
+                "datetime: ${snapshot.data?.workTime}",
+                style: textStyle,
+              ),
+            ),
+            Center(
+              child: Text(
+                "avg sr: ${snapshot.data?.avgSPM}",
+                style: textStyle,
+              ),
+            )
+          ]),
         ),
         Center(
           child: TextButton(
