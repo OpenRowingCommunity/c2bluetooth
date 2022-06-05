@@ -27,7 +27,16 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: FindDevicesView(),
+      home: StreamBuilder<BluetoothConnectionState>(
+          stream: ErgBleManager().monitorBluetoothState(),
+          initialData: BluetoothConnectionState.UNKNOWN,
+          builder: (c, snapshot) {
+            final state = snapshot.data;
+            if (state == BluetoothConnectionState.POWERED_ON) {
+              return FindDevicesView();
+            }
+            return BluetoothOffScreen(state: state);
+          }),
     );
   }
 }
@@ -97,9 +106,39 @@ class FindDevicesView extends StatelessWidget {
   }
 }
 
+class BluetoothOffScreen extends StatelessWidget {
+  const BluetoothOffScreen({Key? key, this.state}) : super(key: key);
+
+  final BluetoothConnectionState? state;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.lightBlue,
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Icon(
+              Icons.bluetooth_disabled,
+              size: 200.0,
+              color: Colors.white54,
+            ),
+            Text(
+              'Bluetooth Adapter is ${state != null ? state.toString().split(".").last : 'not available'}.',
+              style: Theme.of(context)
+                  .primaryTextTheme
+                  .subtitle1
+                  ?.copyWith(color: Colors.white),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class SimpleErgView extends StatelessWidget {
-
-
   final Ergometer? erg;
 
   const SimpleErgView({Key? key, required this.erg}) : super(key: key);
