@@ -7,8 +7,7 @@ class ErgBleManager {
   static ErgBleManager? _instance;
 
   List<Ergometer> scanResults = [];
-  Stream<List<Ergometer>> get scanResultStream =>
-      startErgScan().asyncMap((event) {
+  Stream<List<Ergometer>> get scanResultStream => startErgScan().map((_) {
         print(scanResults);
         return scanResults;
       });
