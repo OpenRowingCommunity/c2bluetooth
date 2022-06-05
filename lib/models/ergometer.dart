@@ -105,7 +105,8 @@ class Ergometer {
     //.asyncMap((datapoint) => datapoint.read());
   }
 
-  @Deprecated("This is a temporary function for development/experimentation and will be gone very soon")
+  @Deprecated(
+      "This is a temporary function for development/experimentation and will be gone very soon")
   void configure2kWorkout() async {
     //Workout workout
     await _csafeClient!.sendCommands([

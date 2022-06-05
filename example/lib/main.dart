@@ -185,12 +185,4 @@ class SimpleErgView extends StatelessWidget {
       ]),
     );
   }
-
-  @override
-  void dispose() {
-    disconnectFromDevice();
-    bleManager
-        .destroy(); //remember to release native resources when you're done!
-    super.dispose();
-  }
 }

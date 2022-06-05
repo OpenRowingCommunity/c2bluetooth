@@ -38,9 +38,7 @@ class ErgBleManager {
     return instance;
   }
 
-  ErgBleManager._fromManager(this._manager) {
-    // scanResultStream =
-  }
+  ErgBleManager._fromManager(this._manager);
 
   /// perform set up to get the Bluetooth client ready to scan for devices
   void init() {
