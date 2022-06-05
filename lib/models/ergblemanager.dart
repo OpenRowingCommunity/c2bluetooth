@@ -40,9 +40,14 @@ class ErgBleManager {
   /// This begins a scan for bluetooth devices with a filter applied so that only Concept2 Performance Monitors show up.
   /// Bluetooth must be on and adequate permissions must be granted to the app for this to work.
   Stream<Ergometer> startErgScan() {
-    return _manager.startPeripheralScan(uuids: [
-      Identifiers.C2_ROWING_BASE_UUID
-    ]).map((scanResult) => Ergometer(scanResult.peripheral));
+    return _manager.startPeripheralScan(
+        uuids: [Identifiers.C2_ROWING_BASE_UUID]).map((scanResult) {
+      Ergometer erg = Ergometer(scanResult.peripheral);
+      if (scanResults.indexWhere((element) => element.name == erg.name) == -1) {
+        scanResults.add(erg);
+      }
+      return erg;
+    });
   }
 
   /// Stops scanning for ergs
