@@ -3,6 +3,15 @@ import 'package:c2bluetooth/constants.dart' as Identifiers;
 import 'package:flutter_ble_lib_ios_15/flutter_ble_lib.dart';
 import 'ergometer.dart';
 
+enum BluetoothConnectionState {
+  UNKNOWN,
+  UNSUPPORTED,
+  UNAUTHORIZED,
+  POWERED_ON,
+  POWERED_OFF,
+  RESETTING,
+}
+
 class ErgBleManager {
   static ErgBleManager? _instance;
 
@@ -32,6 +41,26 @@ class ErgBleManager {
   /// perform set up to get the Bluetooth client ready to scan for devices
   void init() {
     _manager.createClient();
+  }
+
+  /// Provide a stream to allow clients to monitor the state of the bluetooth connection.
+  Stream<BluetoothConnectionState> monitorBluetoothState() {
+    return _manager.observeBluetoothState().map((btState) {
+      switch (btState) {
+        case BluetoothState.UNKNOWN:
+          return BluetoothConnectionState.UNKNOWN;
+        case BluetoothState.UNSUPPORTED:
+          return BluetoothConnectionState.UNSUPPORTED;
+        case BluetoothState.UNAUTHORIZED:
+          return BluetoothConnectionState.UNAUTHORIZED;
+        case BluetoothState.POWERED_ON:
+          return BluetoothConnectionState.POWERED_ON;
+        case BluetoothState.POWERED_OFF:
+          return BluetoothConnectionState.POWERED_OFF;
+        case BluetoothState.RESETTING:
+          return BluetoothConnectionState.RESETTING;
+      }
+    });
   }
 
   /// Begin scanning for Ergs.
