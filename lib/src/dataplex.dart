@@ -108,5 +108,8 @@ class Dataplex {
       currentSubscriptions.remove(key);
     }
     // end all current output streams
+    for (var stream in outgoingStreams) {
+      stream.close();
+    }
   }
 }
