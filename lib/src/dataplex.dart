@@ -23,6 +23,13 @@ class Dataplex {
 
   Map<String, StreamSubscription> currentSubscriptions = Map();
 
+  Map<String, Type> characteristicToPacketMap = {
+    Identifiers.C2_ROWING_END_OF_WORKOUT_SUMMARY_CHARACTERISTIC_UUID:
+        WorkoutSummaryPacket,
+    Identifiers.C2_ROWING_END_OF_WORKOUT_SUMMARY_CHARACTERISTIC2_UUID:
+        WorkoutSummaryPacket2,
+  };
+
   Dataplex(this.device);
 
   ///Keeps track of how many characteristics we are currently receiving notifications for
