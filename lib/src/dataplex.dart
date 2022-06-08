@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:c2bluetooth/models/c2datastreamcontroller.dart';
 import 'package:flutter_ble_lib_ios_15/flutter_ble_lib.dart';
 
+import '../constants.dart' as Identifiers;
 import './packets/statusdata.dart';
 import './packets/strokedata.dart';
 import './packets/segmentdata.dart';
