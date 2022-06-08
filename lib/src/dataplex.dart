@@ -35,13 +35,13 @@ class Dataplex {
   ///Keeps track of how many characteristics we are currently receiving notifications for
   int _currentSubscriptionCount = 0;
 
+  /// Create and return a new stream that provides the requested data
   Stream<Map<String, dynamic>> createStream(Set<String> keysRequested) {
     C2DataStreamController controller =
         new C2DataStreamController(keysRequested);
 
+    //set up close listener.
     controller.onCancel = _generateOutputCloseListener(controller);
-
-    //TODO: set up close listener.
 
     outgoingStreams.add(controller);
 
@@ -58,6 +58,7 @@ class Dataplex {
     return remove;
   }
 
+  /// set up a new subscription to data from an erg.
   void _addSubscription(
       String serviceUuid, String characteristicUuid, int? dataIdentifier) {
     StreamSubscription sub = device
@@ -72,6 +73,7 @@ class Dataplex {
     currentSubscriptions.addEntries({characteristicUuid: sub}.entries);
   }
 
+  /// Read a packet from an incoming stream (from the erg) and redistribute it to all outgoing streams
   void _readPacket(Uint8List data) {
     Concept2CharacteristicData? packet = parsePacket(data);
 
@@ -81,11 +83,12 @@ class Dataplex {
         stream.add(packet.asMap());
       }
     } else {
-      print("unknown packet found");
+      print("Couldnt parse packet from data");
       print("packet data: $data");
     }
   }
 
+  /// closes down this instance by cancelling all streams
   void dispose() {
     // clear current subscriptions
     for (var entry in currentSubscriptions.entries) {
