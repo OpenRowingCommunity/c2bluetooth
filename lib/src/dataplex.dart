@@ -69,10 +69,9 @@ class Dataplex {
     Concept2CharacteristicData? packet = parsePacket(data);
 
     if (packet != null) {
-      //send the data to
+      //send the data to the outgoing streams
       for (var stream in outgoingStreams) {
-        // TODO: get packet as Map<String, dynamic>
-        // stream.add(packet);
+        stream.add(packet.asMap());
       }
     } else {
       print("unknown packet found");
