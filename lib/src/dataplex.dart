@@ -88,6 +88,14 @@ class Dataplex {
     }
   }
 
+  /// Ensure that we have enough data coming in from the erg to satisfy all the currently requested data
+  ///
+  /// if there isnt enough data, set up some new subscriptions for data from the erg.
+  /// if we have too many subscriptions and the same data can be had with less, then readjust the streams so we are being efficient.
+  ///
+  /// For now this will likely just use the multiplexed data since that basically contains everything in one stream and will be easy to implement
+  void _validateStreams() {}
+
   /// closes down this instance by cancelling all streams
   void dispose() {
     // clear current subscriptions
