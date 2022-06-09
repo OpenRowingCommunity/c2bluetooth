@@ -189,26 +189,42 @@ class SimpleErgView extends StatelessWidget {
       body: Column(children: [
         StreamBuilder<WorkoutSummary>(
           stream: erg?.monitorForWorkoutSummary(),
-          builder: (c, snapshot) => Column(children: [
-            Center(
-              child: Text(
-                "distance: ${snapshot.data?.workDistance}",
+          builder: (c, snapshot) {
+            if (snapshot.hasData) {
+              return Column(children: [
+                Center(
+                  child: Text(
+                    "distance: ${snapshot.data?.workDistance}",
+                    style: textStyle,
+                  ),
+                ),
+                Center(
+                  child: Text(
+                    "datetime: ${snapshot.data?.workTime}",
+                    style: textStyle,
+                  ),
+                ),
+                Center(
+                  child: Text(
+                    "avg sr: ${snapshot.data?.avgSPM}",
+                    style: textStyle,
+                  ),
+                )
+              ]);
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text(
+                  "error: ${snapshot.error}",
+                  style: textStyle,
+                ),
+              );
+            } else {
+              return Text(
+                "Waiting for workout summary",
                 style: textStyle,
-              ),
-            ),
-            Center(
-              child: Text(
-                "datetime: ${snapshot.data?.workTime}",
-                style: textStyle,
-              ),
-            ),
-            Center(
-              child: Text(
-                "avg sr: ${snapshot.data?.avgSPM}",
-                style: textStyle,
-              ),
-            )
-          ]),
+              );
+            }
+          },
         ),
         Center(
           child: TextButton(
