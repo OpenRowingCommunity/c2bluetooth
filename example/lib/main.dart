@@ -187,6 +187,35 @@ class SimpleErgView extends StatelessWidget {
         title: Text("hello"),
       ),
       body: Column(children: [
+        StreamBuilder<ErgometerConnectionState>(
+          stream: erg.monitorConnectionState(),
+          builder: (c, snapshot) {
+            if (snapshot.hasData) {
+              return Column(children: [
+                Center(
+                  child: Text(
+                    "status: ${snapshot.data?.toString()}",
+                    style: textStyle,
+                  ),
+                )
+              ]);
+            } else if (snapshot.hasError) {
+              //why is this error showing all the time with some generic thing?
+              // answer: im dumb https://github.com/dotintent/FlutterBleLib/issues/609
+              return Center(
+                child: Text(
+                  "error: ${snapshot.error}",
+                  style: textStyle,
+                ),
+              );
+            } else {
+              return Text(
+                "Waiting for workout summary",
+                style: textStyle,
+              );
+            }
+          },
+        ),
         StreamBuilder<WorkoutSummary>(
           stream: erg?.monitorForWorkoutSummary(),
           builder: (c, snapshot) {
