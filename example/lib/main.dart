@@ -91,7 +91,7 @@ class FindDevicesView extends StatelessWidget {
                       );
                     } else if (snapshot.hasError) {
                       print(snapshot.error);
-                      return Text("error");
+                      return Text("error ${snapshot.error}");
                     } else {
                       return FloatingActionButton(
                           child: Icon(Icons.search),
