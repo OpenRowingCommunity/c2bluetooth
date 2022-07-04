@@ -24,11 +24,12 @@ class Dataplex {
 
   Map<String, StreamSubscription> currentSubscriptions = Map();
 
-  Map<String, Type> characteristicToPacketMap = {
+  /// A map of incoming UUID's to the data keys they support.
+  Map<String, Set<String>> characteristicToDataKeyMap = {
     Identifiers.C2_ROWING_END_OF_WORKOUT_SUMMARY_CHARACTERISTIC_UUID:
-        WorkoutSummaryPacket,
+        WorkoutSummaryPacket.datapointIdentifiers,
     Identifiers.C2_ROWING_END_OF_WORKOUT_SUMMARY_CHARACTERISTIC2_UUID:
-        WorkoutSummaryPacket2,
+        WorkoutSummaryPacket2.datapointIdentifiers,
   };
 
   Dataplex(this.device);
