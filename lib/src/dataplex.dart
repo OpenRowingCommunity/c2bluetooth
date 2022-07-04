@@ -96,7 +96,37 @@ class Dataplex {
   /// if we have too many subscriptions and the same data can be had with less, then readjust the streams so we are being efficient.
   ///
   /// For now this will likely just use the multiplexed data since that basically contains everything in one stream and will be easy to implement
-  void _validateStreams() {}
+  void _validateStreams() {
+    //loop over all outgoingStreams and collect a set of every key that is requested
+
+    Set<String> requestedKeys = {};
+    for (var outgoingStream in outgoingStreams) {
+      requestedKeys.addAll(outgoingStream.datapoint_identifiers.toSet());
+    }
+
+    //get a set of what keys are coming in from the active subscriptions
+    Set<String> incomingUUIDs = currentSubscriptions.keys.toSet();
+
+    Set<String> incomingKeys = {};
+
+    for (var uuid in incomingUUIDs) {
+      Set<String>? identifiers = characteristicToDataKeyMap[uuid];
+      if (identifiers != null) {
+        incomingKeys.addAll(identifiers);
+      }
+    }
+
+    // dind the difference of the two to see what we are missing
+    Set<String> missingKeys = requestedKeys.difference(incomingKeys);
+
+    // do magic to figure out what characteristics to add to get those additional keys
+
+    //make a list of those characteristics
+
+    //find out if we have any unused characteristics
+
+    //
+  }
 
   /// closes down this instance by cancelling all streams
   void dispose() {
