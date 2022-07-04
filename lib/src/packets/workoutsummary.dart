@@ -25,6 +25,9 @@ class WorkoutSummaryPacket extends TimestampedData {
   WorkoutType workoutType;
   double avgPace;
 
+  static Set<String> get datapointIdentifiers =>
+      WorkoutSummaryPacket.zero().asMap().keys.toSet();
+
   /// Construct a WorkoutSummary from the bytes returned from the erg
   WorkoutSummaryPacket.fromBytes(Uint8List data)
       : elapsedTime = Concept2DurationExtension.fromBytes(data.sublist(4, 7)),
@@ -43,6 +46,8 @@ class WorkoutSummaryPacket extends TimestampedData {
                 endian: Endian.little) /
             10,
         super.fromBytes(data);
+
+  WorkoutSummaryPacket.zero() : this.fromBytes(Uint8List(20));
 
   Map<String, dynamic> asMap() {
     //     workout.date
@@ -86,6 +91,9 @@ class WorkoutSummaryPacket2 extends TimestampedData {
   int intervalRestTime;
   int avgCalories;
 
+  static Set<String> get datapointIdentifiers =>
+      WorkoutSummaryPacket2.zero().asMap().keys.toSet();
+
   WorkoutSummaryPacket2.fromBytes(Uint8List data)
       : intervalType = IntervalTypeExtension.fromInt(data.elementAt(4)),
         intervalSize = CsafeIntExtension.fromBytes(data.sublist(5, 7),
@@ -102,6 +110,8 @@ class WorkoutSummaryPacket2 extends TimestampedData {
         avgCalories = CsafeIntExtension.fromBytes(data.sublist(17, 19),
             endian: Endian.little),
         super.fromBytes(data);
+
+  WorkoutSummaryPacket2.zero() : this.fromBytes(Uint8List(19));
 
   Map<String, dynamic> asMap() {
     // workout.heart_rate
