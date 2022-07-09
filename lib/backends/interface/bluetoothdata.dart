@@ -1,12 +1,12 @@
 import 'dart:typed_data';
 
-class BluetoothService {
+abstract class BluetoothService {
   String get identifier => "";
 
   // List<BluetoothCharacteristic> characteristics;
 }
 
-class BluetoothCharacteristic {
+abstract class BluetoothCharacteristic {
   String get identifier => "";
   
 
