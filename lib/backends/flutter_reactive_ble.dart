@@ -1,5 +1,6 @@
 import 'package:c2bluetooth/backends/interface/bluetoothclient.dart';
 import 'package:c2bluetooth/backends/interface/bluetoothdevice.dart';
+import 'package:c2bluetooth/backends/interface/bluetoothscanresult.dart';
 
 /// an implementation of the ble backend interface for FlutterBleLib and libraries based on it.
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
@@ -9,8 +10,7 @@ class FlutterReactiveClient extends BluetoothClient {
   void createClient() {
   }
   // TODO: make a ScanResult like class
-  Stream<> startPeripheralScan({List<String>? uuids}) {
-  }
+  Stream<BluetoothScanResult> startPeripheralScan({List<String>? uuids}) {}
 
   Future<void> stopPeripheralScan() {
   }
