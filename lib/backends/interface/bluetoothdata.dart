@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 class BluetoothService {
   String get identifier => "";
 
@@ -8,9 +10,9 @@ class BluetoothCharacteristic {
   String get identifier => "";
   
 
-  read();
-  write();
+  Future<Uint8List> read();
 
-  monitor()
+  Future<void> write(Uint8List value, bool withResponse);
 
+  Stream<Uint8List> monitor();
 }
