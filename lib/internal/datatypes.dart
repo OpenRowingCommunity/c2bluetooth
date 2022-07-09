@@ -9,8 +9,8 @@ import 'package:c2bluetooth/enums.dart';
 ///
 /// Concept2 seems to represent this data type differently within their own commands than CSAFE does with theirs by storing the number as a big endian number and transmitting the unit first.
 class Concept2IntegerWithUnits extends IntegerWithUnits<DurationType> {
-  Concept2IntegerWithUnits(value, unit, {int byteLength = 3})
-      : super(value, unit, byteLength - 1);
+  Concept2IntegerWithUnits(value, unit, {int byteLength = 5})
+      : super(value, unit, byteLength);
 
   Concept2IntegerWithUnits.fromBytes(Uint8List bytes,
       {Endian inputEndian = Endian.big})

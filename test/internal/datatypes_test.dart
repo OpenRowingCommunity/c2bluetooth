@@ -8,7 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('Tests for Concept2IntegerWithUnits', () {
     Uint8List dead = Uint8List.fromList([0x40, 0xDE, 0xAD]);
-    Uint8List adde = Uint8List.fromList([0x40, 0xAD, 0xDE]);
+    // Uint8List adde = Uint8List.fromList([0x40, 0xAD, 0xDE]);
 
     Uint8List deadbeef = Uint8List.fromList([0x40, 0xEF, 0xBE, 0xAD, 0xDE]);
 

@@ -47,30 +47,59 @@ ErgBleManager bleManager = ErgBleManager();
 bleManager.init(); //ready to go!
 ```
 ### Scanning for devices
-Next, you need to start scanning for available devices. This uses a Stream that returns instances of the `Ergometer` class. Each of these instances represents an erg and can be saved for later reuse.
+Next, you need to start scanning for available devices. This uses a Stream to return an instance of the `Ergometer` class for each erg found. Each of these instances represents an erg and should be stored for later reuse as these act as the base upon which everything else (retrieving data, sending workouts .etc) is based.
 
-**Important:** This library leaves things like permissions up to the application using the library. Many of these setup steps will fail if bluetooth is off or if permissions are not correct. It is the responsibility of users of this API to ensure permissions are correct before beginning a bluetooth scan.
+**Important:** Many of these setup steps will fail if bluetooth is off or if permissions are not correct. C2bluetooth leaves the responsibility of handling permissions up to applications implementing the library. This is mainly because different apps will want to handle the user experience of this differently.
 
 ```dart
+Ergometer myErg;
+
 bleManager.startErgScan().listen((erg) {
 	//your code for detecting an erg here.
+  myErg = erg
 });
 ```
 This block of code is where you can do things like:
  - determine what erg(s) you want to work with (this can be based on name, user choice, or basicaly anything)
- - store the erg instance somewhere more permanent, like a variable in a scope thats outside of this function (this allows you to access it after you stop scanning)
- - call `bleManager.stopErgScan()` if you are done. For example, one way to immediately connect to the first erg found is to unconditionally call `stopErgScan` within this function. Don't forget to close the stream too!
+ - store the erg instance somewhere more permanent, like the `myErg` variable to allow you to be able to access it after you stop scanning.
+ - call `bleManager.stopErgScan()` if you know you are done scanning early. As an example, one way to immediately connect to the first erg found is to unconditionally call `stopErgScan` within this function so the scan stops after the first erg is received. Don't forget to close the stream too!
 
 
-### Connecting to an erg
+### Connecting and disconnecting
 Once you have the `Ergometer` instance for the erg you want to connect to, you can call `connectAndDiscover()` on it to connect.
 
 ```dart
 await myErg.connectAndDiscover();
 ```
 
-### Getting workout summaries
-To get data from the erg, use one of the methods available in the `Ergometer` class. Currently this is only `monitorForWorkoutSummary()`. This is a stream that returns a `WorkoutSummary` object that allows you to access the data from a completed workout (this includes programmed pieces as well as "Just row" pieces that are longer than 1 minute)
+When you are done, make sure to disconnect from your erg:
+```dart
+await myErg.disconnectOrCancel();
+```
+
+### Getting data from the erg
+To get data from the erg, use one of the methods available in the `Ergometer` class as described below.
+
+Concept2 offers various data via their Bluetooth interface which for our purposes are categorized as follows (from most to least granular):
+- **General status data** think periodic snapshots of what the user sees on the monitor
+- **Stroke data** a datapoint for each complete stroke taken [not yet implemented]
+- **Interval or split data** a datapoint for each split or interval in the workout [not yet implemented]
+- **Workout Summary data** data summarizing the entire workout after completion [not yet implemented]
+
+When retrieving data, here are some things to keep in mind (based on information available in the Concept2 Bluetooth smart specification, rev 1.27):
+- Bluetooth smart is a relatively low-bandwidth protocol. Under ideal conditions the maximum speed at which data can be received is about 1000 bytes per second for Android and about 640 bytes per second for iOS.
+- iOS and Android have different limitations on various bluetooth parameters that affect things like bandwidth.
+- Bluetooth is based on radio waves. Signal (and ultimately your bandwidth) can be impacted by things like other nearby bluetooth devices, physical obstacles, interference from other devices, and other things. 
+
+#### General Status Data
+To Be Implemented/Documented
+#### Stroke Data
+To Be Implemented/Documented
+#### Interval or split data
+To Be Implemented/Documented
+#### Workout Summary data
+
+Workout summary data can be `monitorForWorkoutSummary()`. This is a stream that returns a `WorkoutSummary` object that allows you to access the data from a completed workout (this includes programmed pieces as well as "Just row" pieces that are longer than 1 minute)
 
 ```dart
 myErg.monitorForWorkoutSummary().listen((workoutSummary) {
@@ -78,11 +107,32 @@ myErg.monitorForWorkoutSummary().listen((workoutSummary) {
 });
 ```
 
-### Disconnecting
-When you are done, make sure to disconnect from your erg:
-```dart
-await myErg.disconnectOrCancel();
-```
+Each workout summary is a flutter object that contains the following fields:
+- `Future<DateTime> timestamp`
+- `Future<double> workTime`
+- `Future<double> workDistance`
+- `Future<int> avgSPM`
+- `Future<int> endHeartRate`
+- `Future<int> avgHeartRate`
+- `Future<int> minHeartRate`
+- `Future<int> maxHeartRate`
+- `Future<int> avgDragFactor`
+- `Future<int> recoveryHeartRate`
+- `Future<WorkoutType> workoutType`
+- `Future<double> avgPace`
+- `Future<IntervalType> intervalType`
+- `Future<int> intervalSize`
+- `Future<int> intervalCount`
+- `Future<int> totalCalories`
+- `Future<int> watts`
+- `Future<int> totalRestDistance`
+- `Future<int> intervalRestTime`
+- `Future<int> avgCalories`
+
+Futures are handy here since the erg can send back different data at different times. The primary reason for this is the `recoveryHeartRate` field which the erg sends after the user has been resting for 1 minute. If the workout is cancelled or the erg is turned off before the end of this minute, the data may never arrive. See #10.
+
+Overall this method of accessing workout summary data is not the most ideal, and is likely to change later if a better solution is found. See #11.
+
 
 
 
@@ -91,7 +141,10 @@ await myErg.disconnectOrCancel();
 This is a list of projects built using c2Bluetooth. If you find or make something that is not on this list, send us a pull request!
 
 - [CrewLAB app](https://www.crewlab.io/) (proprietary license)
-- 
+
+## Contributing
+If you are interested in making contributions to this library, please check out the [CONTRIBUTING](CONTRIBUTING.md) document, or learn how c2bluetooth works in the [API](docs/API.md) document
+
 ## Support and Licensing
 
 ![The crewLAB logo](docs/images/crewlablogo.png)

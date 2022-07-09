@@ -1,7 +1,6 @@
 import 'package:c2bluetooth/enums.dart';
 import 'package:c2bluetooth/models/workout.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:c2bluetooth/models/workout.dart';
 
 void main() {
   group("Workout - ", () {

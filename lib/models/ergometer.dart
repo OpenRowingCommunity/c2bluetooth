@@ -4,7 +4,6 @@ import 'package:c2bluetooth/c2bluetooth.dart';
 import '../internal/commands.dart';
 import '../internal/datatypes.dart';
 import 'package:csafe_fitness/csafe_fitness.dart';
-import 'package:c2bluetooth/enums.dart';
 import '../helpers.dart';
 import 'workout.dart';
 import '../data/workoutsummary.dart';

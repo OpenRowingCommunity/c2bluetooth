@@ -247,86 +247,85 @@ extension ScreenTypeExtension on ScreenType {
 
 enum WorkoutScreenValue {
   NONE,
-  /**< None value (0). */
+  /// None value (0).
   PREPARETOROWWORKOUT,
-  /**< Prepare to workout type (1). */
+  /// Prepare to workout type (1).
   TERMINATEWORKOUT,
-  /**< Terminate workout type (2). */
+  /// Terminate workout type (2).
   REARMWORKOUT,
-  /**< Rearm workout type (3). */
+  /// Rearm workout type (3).
   REFRESHLOGCARD,
-  /**< Refresh local copies of logcard structures(4). */
+  /// Refresh local copies of logcard structures(4).
   PREPARETORACESTART,
-  /**< Prepare to race start (5). */
+  /// Prepare to race start (5).
   GOTOMAINSCREEN,
-  /**< Goto to main screen (6). */
+  /// Goto to main screen (6).
   LOGCARDBUSYWARNING,
-  /**< Log device busy warning (7). */
+  /// Log device busy warning (7).
   LOGCARDSELECTUSER,
-  /**< Log device select user (8). */
+  /// Log device select user (8).
   RESETRACEPARAMS,
-  /**< Reset race parameters (9). */
+  /// Reset race parameters (9).
   CABLETESTSLAVE,
-  /**< Cable test slave indication(10). */
+  /// Cable test slave indication(10).
   FISHGAME,
-  /**< Fish game (11). */
+  /// Fish game (11).
   DISPLAYPARTICIPANTINFO,
-  /**< Display participant info (12). */
+  /// Display participant info (12).
   DISPLAYPARTICIPANTINFOCONFIRM,
-  /**< Display participant info w/ confirmation
-  (13). */
+  /// Display participant info w/ confirmation  (13).
   CHANGEDISPLAYTYPETARGET,
-  /**< Display type set to target (20). */
+  /// Display type set to target (20).
   CHANGEDISPLAYTYPESTANDARD,
-  /**< Display type set to standard (21). */
+  /// Display type set to standard (21).
   CHANGEDISPLAYTYPEFORCEVELOCITY,
-  /**< Display type set to forcevelocity (22). */
+  /// Display type set to forcevelocity (22).
   CHANGEDISPLAYTYPEPACEBOAT,
-  /**< Display type set to Paceboat (23). */
+  /// Display type set to Paceboat (23).
   CHANGEDISPLAYTYPEPERSTROKE,
-  /**< Display type set to perstroke (24). */
+  /// Display type set to perstroke (24).
   CHANGEDISPLAYTYPESIMPLE,
-  /**< Display type set to simple (25). */
+  /// Display type set to simple (25).
   CHANGEUNITSTYPETIMEMETERS,
-  /**< Units type set to timemeters (30). */
+  /// Units type set to timemeters (30).
   CHANGEUNITSTYPEPACE,
-  /**< Units type set to pace (31). */
+  /// Units type set to pace (31).
   CHANGEUNITSTYPEWATTS,
-  /**< Units type set to watts (32). */
+  /// Units type set to watts (32).
   CHANGEUNITSTYPECALORICBURNRATE,
-  /**< Units type set to caloric burn rate(33). */
+  /// Units type set to caloric burn rate(33).
   TARGETGAMEBASIC,
-  /**< Gasic target game (34). */
+  /// Gasic target game (34).
   TARGETGAMEADVANCED,
-  /**< Advanced target game (35). */
+  /// Advanced target game (35).
   DARTGAME,
-  /**< Dart game (36). */
+  /// Dart game (36).
   GOTOUSBWAITREADY,
-  /**< USB wait ready (37). */
+  /// USB wait ready (37).
   TACHCABLETESTDISABLE,
-  /**< Tach cable test disable (38). */
+  /// Tach cable test disable (38).
   TACHSIMDISABLE,
-  /**< Tach simulator disable (39). */
+  /// Tach simulator disable (39).
   TACHSIMENABLERATE1,
-  /**< Tach simulator enable, rate = 1:12 (40). */
+  /// Tach simulator enable, rate = 1:12 (40).
   TACHSIMENABLERATE2,
-  /**< Tach simulator enable, rate = 1:35 (41). */
+  /// Tach simulator enable, rate = 1:35 (41).
   TACHSIMENABLERATE3,
-  /**< Tach simulator enable, rate = 1:42 (42). */
+  /// Tach simulator enable, rate = 1:42 (42).
   TACHSIMENABLERATE4,
-  /**< Tach simulator enable, rate = 3:04 (43). */
+  /// Tach simulator enable, rate = 3:04 (43).
   TACHSIMENABLERATE5,
-  /**< Tach simulator enable, rate = 3:14 (44). */
+  /// Tach simulator enable, rate = 3:14 (44).
   TACHCABLETESTENABLE,
-  /**< Tach cable test enable (45). */
+  /// Tach cable test enable (45).
   CHANGEUNITSTYPECALORIES,
-  /**< Units type set to calories(46). */
+  /// Units type set to calories(46).
   VIRTUALKEY_A,
-  /**< Virtual key select A (47). */
+  /// Virtual key select A (47).
   VIRTUALKEY_B,
-  /**< Virtual key select B (48). */
+  /// Virtual key select B (48).
   VIRTUALKEY_C,
-  /**< Virtual key select C (49). */
+  /// Virtual key select C (49).
   VIRTUALKEY_D,
   VIRTUALKEY_E,
   VIRTUALKEY_UNITS,

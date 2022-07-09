@@ -1,7 +1,7 @@
+import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
 
-import '../internal/datatypes.dart';
 import 'package:csafe_fitness/csafe_fitness.dart';
 
 import 'models/workout.dart';
@@ -64,7 +64,7 @@ String durationToSplit(Duration d) {
   String millis = durSplit.last.substring(0, 1);
   // print(millis);
 
-  return "${d.inMinutes}:${time.last.padLeft(2, "0")}.${millis}";
+  return "${d.inMinutes}:${time.last.padLeft(2, "0")}.$millis";
 }
 
 //conversion functions for watts and split (from crewlab app)
@@ -90,4 +90,18 @@ String wattsToSplit(double watts) {
   var millis = (seconds * Duration.millisecondsPerSecond).round();
   var split = durationToSplit(Duration(milliseconds: millis));
   return split;
+}
+
+extension IdempotentCompleter<T> on Completer<T> {
+  void completeIfNotAlready([FutureOr<T>? value]) {
+    if (!this.isCompleted) {
+      this.complete(value);
+    }
+  }
+
+  void completeErrorIfNotAlready(Object error, [StackTrace? stackTrace]) {
+    if (!this.isCompleted) {
+      this.completeError(error, stackTrace);
+    }
+  }
 }
