@@ -58,6 +58,7 @@ class C2DataStreamController implements StreamController<Map<String, dynamic>> {
   @override
   void add(Map<String, dynamic> event) {
     //source: https://stackoverflow.com/a/21131220
+    // filter keys so that only ones that affect this stream get added to the controller
     final filteredMap = new Map<String, dynamic>.fromIterable(
         event.keys.where((k) => datapoint_identifiers.contains(k)),
         value: (k) => event[k]);

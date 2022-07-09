@@ -22,6 +22,7 @@ class Dataplex {
 
   List<C2DataStreamController> outgoingStreams = [];
 
+  /// Map of characteristic UUID's to the sunscription instance for that characteristic
   Map<String, StreamSubscription> currentSubscriptions = Map();
 
   /// A map of incoming UUID's to the data keys they support.
@@ -50,7 +51,8 @@ class Dataplex {
     return controller.stream;
   }
 
-  /// Generate a function that removes the provided controller from the outgoing streams list
+  /// Generates a function to remove the provided controller from the outgoing streams list
+  /// This is useful for handling when consumers of outging streams cloose the streams themselves
   FutureOr<void> Function()? _generateOutputCloseListener(
       C2DataStreamController controller) {
     FutureOr<void> remove() {
@@ -139,6 +141,7 @@ class Dataplex {
       currentSubscriptions.remove(key);
     }
     // end all current output streams
+    // it is assumed that this also triggers their close handlers and removes them.
     for (var stream in outgoingStreams) {
       stream.close();
     }
