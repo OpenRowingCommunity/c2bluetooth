@@ -6,8 +6,8 @@ class ErgBleManager {
   BleManager _manager = BleManager();
 
   /// perform set up to get the Bluetooth client ready to scan for devices
-  void init() {
-    _manager.createClient();
+  Future<void> init() async {
+    await _manager.createClient(restoreStateIdentifier: "example-restore-state-identifier");
   }
 
   /// Begin scanning for Ergs.
