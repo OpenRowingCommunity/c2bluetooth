@@ -13,6 +13,7 @@ import 'package:rxdart/rxdart.dart';
 enum ErgometerConnectionState { connecting, connected, disconnected }
 
 class Ergometer {
+  final _manager = FlutterReactiveBle();
   DiscoveredDevice _peripheral;
   Csafe? _csafeClient;
 
