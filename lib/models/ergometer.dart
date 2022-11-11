@@ -27,29 +27,30 @@ class Ergometer {
   Ergometer(this._peripheral);
 
   /// Connect to this erg and discover the services and characteristics that it offers
-  Future<void> connectAndDiscover() async {
-    await _peripheral.connect();
-    await _peripheral.discoverAllServicesAndCharacteristics();
-
+  Stream<ConnectionStateUpdate> connectAndDiscover() async {
+    //having this first might cause problems
     _csafeClient = Csafe(_readCsafe, _writeCsafe);
+
+    //this may cause problems if the device goes out of range between scenning and trying to connect. maybe use connectToAdvertisingDevice instead to mitigate this and prevent a hang on android
+
+    //if no services are specified in the `servicesWithCharacteristicsToDiscover` parameter, then full service discovery will be performed
+    return connectToDevice(id: _peripheral.id)
+
   }
 
   /// Disconnect from this erg or cancel the connection
-  Future<void> disconnectOrCancel() async {
-    return _peripheral.disconnectOrCancelConnection();
-  }
 
   /// Returns a stream of [WorkoutSummary] objects upon completion of any programmed piece or a "just row" piece that is longer than 1 minute.
   Stream<WorkoutSummary> monitorForWorkoutSummary() {
-    Stream<Uint8List> ws1 = _peripheral
-        .monitorCharacteristic(Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID,
-            Identifiers.C2_ROWING_END_OF_WORKOUT_SUMMARY_CHARACTERISTIC_UUID)
-        .asyncMap((datapoint) => datapoint.read());
+  
+    var workoutSummaryCharacteristic1 = QualifiedCharacteristic(serviceId: Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID, characteristicId: Identifiers.C2_ROWING_END_OF_WORKOUT_SUMMARY_CHARACTERISTIC_UUID, deviceId: _peripheral.id);
 
-    Stream<Uint8List> ws2 = _peripheral
-        .monitorCharacteristic(Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID,
-            Identifiers.C2_ROWING_END_OF_WORKOUT_SUMMARY_CHARACTERISTIC2_UUID)
-        .asyncMap((datapoint) => datapoint.read());
+    var workoutSummaryCharacteristic2 = QualifiedCharacteristic(serviceId: Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID, characteristicId: Identifiers.C2_ROWING_END_OF_WORKOUT_SUMMARY_CHARACTERISTIC2_UUID, deviceId: _peripheral.id);
+
+    Stream<Uint8List> ws1 = flutterReactiveBle.subscribeToCharacteristic(workoutSummaryCharacteristic1).asyncMap((datapoint) => Uint8List.fromList(datapoint));
+
+
+    Stream<Uint8List> ws2 = flutterReactiveBle.subscribeToCharacteristic(workoutSummaryCharacteristic2).asyncMap((datapoint) => Uint8List.fromList(datapoint));
 
     return Rx.zip2(ws1, ws2, (Uint8List ws1Result, Uint8List ws2Result) {
       List<int> combinedList = ws1Result.toList();
@@ -81,10 +82,9 @@ class Ergometer {
   ///
   /// Intended for passing to the csafe_fitness library to allow it to read data from the erg
   Stream<Uint8List> _readCsafe() {
-    return _peripheral
-        .monitorCharacteristic(Identifiers.C2_ROWING_CONTROL_SERVICE_UUID,
-            Identifiers.C2_ROWING_PM_TRANSMIT_CHARACTERISTIC_UUID)
-        .asyncMap((datapoint) {
+    var csafeRxCharacteristic = QualifiedCharacteristic(serviceId: Identifiers.C2_ROWING_CONTROL_SERVICE_UUID, characteristicId: Identifiers.C2_ROWING_PM_TRANSMIT_CHARACTERISTIC_UUID, deviceId: _peripheral.id)
+
+    return flutterReactiveBle.subscribeToCharacteristic(csafeRxCharacteristic).asyncMap((datapoint) => Uint8List.fromList(datapoint)).asyncMap((datapoint) {
       print("reading data: ${datapoint.value}");
       return datapoint.value;
     });
@@ -94,12 +94,16 @@ class Ergometer {
   ///
   /// Intended for passing to the csafe_fitness library to allow it to write data to the erg
   Future<Characteristic> _writeCsafe(Uint8List value) {
-    return _peripheral.writeCharacteristic(
-        Identifiers.C2_ROWING_CONTROL_SERVICE_UUID,
-        Identifiers.C2_ROWING_PM_RECEIVE_CHARACTERISTIC_UUID,
-        value,
-        true);
-    //.asyncMap((datapoint) => datapoint.read());
+    var csafeTxCharacteristic = QualifiedCharacteristic(serviceId: Identifiers.C2_ROWING_CONTROL_SERVICE_UUID, characteristicId: Identifiers.C2_ROWING_PM_RECEIVE_CHARACTERISTIC_UUID, deviceId: _peripheral.id)
+
+    // return _peripheral.writeCharacteristic(
+    //     Identifiers.C2_ROWING_CONTROL_SERVICE_UUID,
+    //     Identifiers.C2_ROWING_PM_RECEIVE_CHARACTERISTIC_UUID,
+    //     value,
+    //     true);
+    // //.asyncMap((datapoint) => datapoint.read());
+
+    await flutterReactiveBle.writeCharacteristicWithResponse(csafeTxCharacteristic, value.asList())
   }
 
   @Deprecated("This is a temporary function for development/experimentation and will be gone very soon")
