@@ -28,14 +28,31 @@ class Ergometer {
   Ergometer(this._peripheral);
 
   /// Connect to this erg and discover the services and characteristics that it offers
-  Stream<ConnectionStateUpdate> connectAndDiscover() async {
+  /// this returns a stream of events to enable monitoring the erg's connection state
+  /// This acts as a wrapper around the state provided by the internal bluetooth library.
+  Stream<ErgometerConnectionState> connectAndDiscover() async {
     //having this first might cause problems
     _csafeClient = Csafe(_readCsafe, _writeCsafe);
 
     //this may cause problems if the device goes out of range between scenning and trying to connect. maybe use connectToAdvertisingDevice instead to mitigate this and prevent a hang on android
 
     //if no services are specified in the `servicesWithCharacteristicsToDiscover` parameter, then full service discovery will be performed
-    return connectToDevice(id: _peripheral.id)
+    return connectToDevice(id: _peripheral.id).asyncMap((connectionStateUpdate) {
+      switch (connectionStateUpdate.connectionState) {
+        case DeviceConnectionState.connecting:
+          return ErgometerConnectionState.connecting;
+        case DeviceConnectionState.connected:
+          return ErgometerConnectionState.connected;
+        case DeviceConnectionState.disconnecting:
+          return ErgometerConnectionState.disconnected;
+        case DeviceConnectionState.disconnected:
+          return ErgometerConnectionState.disconnected;
+        default:
+          return ErgometerConnectionState.disconnected;
+      }
+    });
+
+  }
 
   }
 
@@ -57,25 +74,6 @@ class Ergometer {
       List<int> combinedList = ws1Result.toList();
       combinedList.addAll(ws2Result.toList());
       return WorkoutSummary.fromBytes(Uint8List.fromList(combinedList));
-    });
-  }
-
-  /// Expose a stream of events to enable monitoring the erg's connection state
-  /// This acts as a wrapper around the state provided by the internal bluetooth library to aid with swapping it out later.
-  Stream<ErgometerConnectionState> monitorConnectionState() {
-    return _peripheral.observeConnectionState().asyncMap((connectionState) {
-      switch (connectionState) {
-        case PeripheralConnectionState.connecting:
-          return ErgometerConnectionState.connecting;
-        case PeripheralConnectionState.connected:
-          return ErgometerConnectionState.connected;
-        case PeripheralConnectionState.disconnecting:
-          return ErgometerConnectionState.disconnected;
-        case PeripheralConnectionState.disconnected:
-          return ErgometerConnectionState.disconnected;
-        default:
-          return ErgometerConnectionState.disconnected;
-      }
     });
   }
 
