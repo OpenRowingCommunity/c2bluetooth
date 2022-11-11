@@ -13,7 +13,7 @@ import 'package:rxdart/rxdart.dart';
 enum ErgometerConnectionState { connecting, connected, disconnected }
 
 class Ergometer {
-  Peripheral _peripheral;
+  DiscoveredDevice _peripheral;
   Csafe? _csafeClient;
 
   /// Get the name of this erg. i.e. "PM5" + serial number
