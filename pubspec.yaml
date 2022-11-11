@@ -15,6 +15,7 @@ dependencies:
   flutter_ble_lib_ios_15: ^2.5.2
   csafe_fitness: ^0.1.0
   rxdart: ^0.27.3
+  flutter_reactive_ble: ^5.0.2
 
 dev_dependencies:
   flutter_test:
