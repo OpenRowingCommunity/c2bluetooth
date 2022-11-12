@@ -41,5 +41,19 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+    <key>NSBonjourServices</key>
+    <array>
+        <string>_dartobservatory._tcp</string>
+    </array>
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>The app uses bluetooth to find, connect and transfer data between different devices</string>
+    <key>NSBluetoothPeripheralUsageDescription</key>
+    <string>The app uses bluetooth to find, connect and transfer data between different devices</string>
+    <key>UIBackgroundModes</key>
+    <array>
+    <string>bluetooth-central</string>
+    </array>
 </dict>
 </plist>

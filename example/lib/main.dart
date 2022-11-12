@@ -49,8 +49,6 @@ class _SimpleErgViewState extends State<SimpleErgView> {
   @override
   void initState() {
     super.initState();
-    bleManager.init(); //ready to go!
-
     startScan();
   }
 
@@ -72,7 +70,7 @@ class _SimpleErgViewState extends State<SimpleErgView> {
   stopScan() {
     scanSub?.cancel();
     scanSub = null;
-    bleManager.stopErgScan();
+//    bleManager.stopErgScan();
   }
 
   connectToDevice() async {
@@ -82,7 +80,7 @@ class _SimpleErgViewState extends State<SimpleErgView> {
       displayText = "Device Connecting";
     });
 
-    await targetDevice!.connectAndDiscover();
+    targetDevice!.connectAndDiscover();
 
     // if (!connected) {
     //   targetDevice!
@@ -132,16 +130,16 @@ class _SimpleErgViewState extends State<SimpleErgView> {
     targetDevice?.configureWorkout(Workout.single(WorkoutGoal.meters(10000)));
   }
 
-  disconnectFromDevice() async {
-    if (targetDevice == null) return;
-
-    // targetDevice!.disconnect();
-    await targetDevice?.disconnectOrCancel();
-
-    setState(() {
-      displayText = "Device Disconnected";
-    });
-  }
+  // disconnectFromDevice() async {
+  //   if (targetDevice == null) return;
+  //
+  //   // targetDevice!.disconnect();
+  //   await targetDevice?.disconnectOrCancel();
+  //
+  //   setState(() {
+  //     displayText = "Device Disconnected";
+  //   });
+  // }
 
   subscribeToStreams() async {
     if (targetDevice == null) return;
@@ -217,7 +215,7 @@ class _SimpleErgViewState extends State<SimpleErgView> {
 
   @override
   void dispose() {
-    disconnectFromDevice();
+    //disconnectFromDevice();
     bleManager
         .destroy(); //remember to release native resources when you're done!
     super.dispose();
