@@ -38,8 +38,8 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.example.fresh_example"
         // You can update the following value to match your application needs.
-        minSdk flutter.minSdkVersion
-        targetSdk flutter.targetSdkVersion
+        minSdkVersion flutter.minSdkVersion
+        targetSdkVersion flutter.targetSdkVersion
         // You can set these values in the property declaration or use a variable
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
