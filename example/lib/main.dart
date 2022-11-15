@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:c2bluetooth/c2bluetooth.dart';
 import 'package:c2bluetooth/models/workout.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() {
   runApp(MyApp());
@@ -52,7 +54,22 @@ class _SimpleErgViewState extends State<SimpleErgView> {
     startScan();
   }
 
-  startScan() {
+  startScan() async {
+    var goForIt = false;
+
+    if (Platform.isAndroid) {
+      PermissionStatus locationPermission = await Permission.location.request();
+      PermissionStatus finePermission =
+          await Permission.locationWhenInUse.request();
+      // TODO user feedback on no location
+      if (locationPermission == PermissionStatus.granted &&
+          finePermission == PermissionStatus.granted) {
+        goForIt = true;
+      }
+    } else if (Platform.isIOS) {
+      goForIt = true;
+    }
+
     setState(() {
       displayText = "Start Scanning";
     });
