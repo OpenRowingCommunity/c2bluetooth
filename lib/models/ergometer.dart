@@ -37,7 +37,7 @@ class Ergometer {
     //this may cause problems if the device goes out of range between scenning and trying to connect. maybe use connectToAdvertisingDevice instead to mitigate this and prevent a hang on android
 
     //if no services are specified in the `servicesWithCharacteristicsToDiscover` parameter, then full service discovery will be performed
-    return flutterReactiveBle.connectToDevice(id: _peripheral.id).asyncMap((connectionStateUpdate) {
+    return _flutterReactiveBle.connectToDevice(id: _peripheral.id).asyncMap((connectionStateUpdate) {
       switch (connectionStateUpdate.connectionState) {
         case DeviceConnectionState.connecting:
           return ErgometerConnectionState.connecting;
@@ -63,10 +63,10 @@ class Ergometer {
 
     var workoutSummaryCharacteristic2 = QualifiedCharacteristic(serviceId: Uuid.parse(Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID), characteristicId: Uuid.parse(Identifiers.C2_ROWING_END_OF_WORKOUT_SUMMARY_CHARACTERISTIC2_UUID), deviceId: _peripheral.id);
 
-    Stream<Uint8List> ws1 = flutterReactiveBle.subscribeToCharacteristic(workoutSummaryCharacteristic1).asyncMap((datapoint) => Uint8List.fromList(datapoint));
+    Stream<Uint8List> ws1 = _flutterReactiveBle.subscribeToCharacteristic(workoutSummaryCharacteristic1).asyncMap((datapoint) => Uint8List.fromList(datapoint));
 
 
-    Stream<Uint8List> ws2 = flutterReactiveBle.subscribeToCharacteristic(workoutSummaryCharacteristic2).asyncMap((datapoint) => Uint8List.fromList(datapoint));
+    Stream<Uint8List> ws2 = _flutterReactiveBle.subscribeToCharacteristic(workoutSummaryCharacteristic2).asyncMap((datapoint) => Uint8List.fromList(datapoint));
 
     return Rx.zip2(ws1, ws2, (Uint8List ws1Result, Uint8List ws2Result) {
       List<int> combinedList = ws1Result.toList();
@@ -81,7 +81,7 @@ class Ergometer {
   Stream<Uint8List> _readCsafe() {
     var csafeRxCharacteristic = QualifiedCharacteristic(serviceId: Uuid.parse(Identifiers.C2_ROWING_CONTROL_SERVICE_UUID), characteristicId: Uuid.parse(Identifiers.C2_ROWING_PM_TRANSMIT_CHARACTERISTIC_UUID), deviceId: _peripheral.id);
 
-    return flutterReactiveBle.subscribeToCharacteristic(csafeRxCharacteristic).asyncMap((datapoint) => Uint8List.fromList(datapoint)).asyncMap((datapoint) {
+    return _flutterReactiveBle.subscribeToCharacteristic(csafeRxCharacteristic).asyncMap((datapoint) => Uint8List.fromList(datapoint)).asyncMap((datapoint) {
       print("reading data: $datapoint");
       return datapoint;
     });
@@ -100,7 +100,7 @@ class Ergometer {
     //     true);
     // //.asyncMap((datapoint) => datapoint.read());
 
-    flutterReactiveBle.writeCharacteristicWithResponse(csafeTxCharacteristic, value: value);
+    _flutterReactiveBle.writeCharacteristicWithResponse(csafeTxCharacteristic, value: value);
   }
 
   @Deprecated("This is a temporary function for development/experimentation and will be gone very soon")
