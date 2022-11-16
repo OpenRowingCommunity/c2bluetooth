@@ -51,11 +51,11 @@ class _SimpleErgViewState extends State<SimpleErgView> {
   @override
   void initState() {
     super.initState();
-    startScan();
+    //startScan();
   }
 
   startScan() async {
-    var goForIt = false;
+    bool goForIt = false;
 
     if (Platform.isAndroid) {
       PermissionStatus locationPermission = await Permission.location.request();
@@ -87,6 +87,9 @@ class _SimpleErgViewState extends State<SimpleErgView> {
   stopScan() {
     scanSub?.cancel();
     scanSub = null;
+    setState(() {
+      displayText = "Stopped Scanning";
+    });
 //    bleManager.stopErgScan();
   }
 
@@ -97,30 +100,11 @@ class _SimpleErgViewState extends State<SimpleErgView> {
       displayText = "Device Connecting";
     });
 
-    targetDevice!.connectAndDiscover();
-
-    // if (!connected) {
-    //   targetDevice!
-    //       .observeConnectionState(
-    //           emitCurrentValue: true, completeOnDisconnect: true)
-    //       .listen((connectionState) {
-    //     print(
-    //         "Peripheral ${targetDevice!.name} connection state is $connectionState");
-    //   });
-    //   try {
-    //     await targetDevice!.connect();
-    //   } catch (BleError) {
-    //     print("a");
-    //   }
-    //   print('CONNECTING');
-    // } else {
-    //   print('DEVICE Already CONNECTED');
-    // }
-    // setState(() {
-    //   displayText = "Device Connected";
-    // });
-    // discoverServices();
-    subscribeToStreams();
+    targetDevice!.connectAndDiscover().listen((event) {
+      if(event == ErgometerConnectionState.connected) {
+        subscribeToStreams();
+      }
+    });
   }
 
   setup2kH() async {
@@ -147,17 +131,6 @@ class _SimpleErgViewState extends State<SimpleErgView> {
     targetDevice?.configureWorkout(Workout.single(WorkoutGoal.meters(10000)));
   }
 
-  // disconnectFromDevice() async {
-  //   if (targetDevice == null) return;
-  //
-  //   // targetDevice!.disconnect();
-  //   await targetDevice?.disconnectOrCancel();
-  //
-  //   setState(() {
-  //     displayText = "Device Disconnected";
-  //   });
-  // }
-
   subscribeToStreams() async {
     if (targetDevice == null) return;
 
@@ -181,6 +154,14 @@ class _SimpleErgViewState extends State<SimpleErgView> {
         title: Text("hello"),
       ),
       body: Column(children: [
+        Visibility(
+          visible: scanSub == null && targetDevice == null,
+          child: ElevatedButton(onPressed: () {
+            startScan();
+          },
+              child: Text("Start Scan"),
+          ),
+        ),
         Center(
           child: Text(
             displayText,
