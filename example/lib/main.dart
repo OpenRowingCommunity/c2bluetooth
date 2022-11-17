@@ -112,12 +112,14 @@ class _SimpleErgViewState extends State<SimpleErgView> {
   setup2kH() async {
     if (targetDevice == null) return;
 
+    // ignore: deprecated_member_use
     targetDevice?.configure2kWorkout();
   }
 
   setup10kH() async {
     if (targetDevice == null) return;
 
+    // ignore: deprecated_member_use
     targetDevice?.configure10kWorkout();
   }
 
