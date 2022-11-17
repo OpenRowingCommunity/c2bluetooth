@@ -69,7 +69,11 @@ class _SimpleErgViewState extends State<SimpleErgView> {
     } else if (Platform.isIOS) {
       goForIt = true;
     }
-
+    if(!goForIt) {
+      print('Your device is experiencing a permission issue. Make sure you allow location services.');
+      displayText = "Permission Issue Stopped Scanning";
+      return;
+    }
     setState(() {
       displayText = "Start Scanning";
     });
@@ -87,10 +91,6 @@ class _SimpleErgViewState extends State<SimpleErgView> {
   stopScan() {
     scanSub?.cancel();
     scanSub = null;
-    setState(() {
-      displayText = "Stopped Scanning";
-    });
-//    bleManager.stopErgScan();
   }
 
   connectToDevice() async {
