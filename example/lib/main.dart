@@ -69,8 +69,9 @@ class _SimpleErgViewState extends State<SimpleErgView> {
     } else if (Platform.isIOS) {
       goForIt = true;
     }
-    if(!goForIt) {
-      print('Your device is experiencing a permission issue. Make sure you allow location services.');
+    if (!goForIt) {
+      print(
+          'Your device is experiencing a permission issue. Make sure you allow location services.');
       setState(() {
         displayText = "Permission Issue Stopped Scanning";
       });
@@ -103,7 +104,7 @@ class _SimpleErgViewState extends State<SimpleErgView> {
     });
 
     targetDevice!.connectAndDiscover().listen((event) {
-      if(event == ErgometerConnectionState.connected) {
+      if (event == ErgometerConnectionState.connected) {
         subscribeToStreams();
       }
     });
@@ -160,10 +161,11 @@ class _SimpleErgViewState extends State<SimpleErgView> {
       body: Column(children: [
         Visibility(
           visible: scanSub == null && targetDevice == null,
-          child: ElevatedButton(onPressed: () {
-            startScan();
-          },
-              child: Text("Start Scan"),
+          child: ElevatedButton(
+            onPressed: () {
+              startScan();
+            },
+            child: Text("Start Scan"),
           ),
         ),
         Center(
