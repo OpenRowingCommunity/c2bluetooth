@@ -48,9 +48,9 @@
         <string>_dartobservatory._tcp</string>
     </array>
     <key>NSBluetoothAlwaysUsageDescription</key>
-    <string>The app uses bluetooth to find, connect and transfer data between different devices</string>
+    <string>The app uses bluetooth to connect and pull data from Concept2 Ergometer PM5 monitors</string>
     <key>NSBluetoothPeripheralUsageDescription</key>
-    <string>The app uses bluetooth to find, connect and transfer data between different devices</string>
+    <string>The app uses bluetooth to connect and pull data from Concept2 Ergometer PM5 monitor</string>
     <key>UIBackgroundModes</key>
     <array>
     <string>bluetooth-central</string>
