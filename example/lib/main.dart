@@ -71,7 +71,9 @@ class _SimpleErgViewState extends State<SimpleErgView> {
     }
     if(!goForIt) {
       print('Your device is experiencing a permission issue. Make sure you allow location services.');
-      displayText = "Permission Issue Stopped Scanning";
+      setState(() {
+        displayText = "Permission Issue Stopped Scanning";
+      });
       return;
     }
     setState(() {
