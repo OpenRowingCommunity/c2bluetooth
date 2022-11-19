@@ -54,8 +54,6 @@ class Ergometer {
 
   }
 
-  /// Disconnect from this erg or cancel the connection
-
   /// Returns a stream of [WorkoutSummary] objects upon completion of any programmed piece or a "just row" piece that is longer than 1 minute.
   Stream<WorkoutSummary> monitorForWorkoutSummary() {
   
