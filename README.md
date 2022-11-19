@@ -114,40 +114,7 @@ To Be Implemented/Documented
 To Be Implemented/Documented
 #### Workout Summary data
 
-Workout summary data can be `monitorForWorkoutSummary()`. This is a stream that returns a `WorkoutSummary` object that allows you to access the data from a completed workout (this includes programmed pieces as well as "Just row" pieces that are longer than 1 minute)
-
-```dart
-myErg.monitorForWorkoutSummary().listen((workoutSummary) {
-  //do whatever here
-});
-```
-
-Each workout summary is a flutter object that contains the following fields:
-- `Future<DateTime> timestamp`
-- `Future<double> workTime`
-- `Future<double> workDistance`
-- `Future<int> avgSPM`
-- `Future<int> endHeartRate`
-- `Future<int> avgHeartRate`
-- `Future<int> minHeartRate`
-- `Future<int> maxHeartRate`
-- `Future<int> avgDragFactor`
-- `Future<int> recoveryHeartRate`
-- `Future<WorkoutType> workoutType`
-- `Future<double> avgPace`
-- `Future<IntervalType> intervalType`
-- `Future<int> intervalSize`
-- `Future<int> intervalCount`
-- `Future<int> totalCalories`
-- `Future<int> watts`
-- `Future<int> totalRestDistance`
-- `Future<int> intervalRestTime`
-- `Future<int> avgCalories`
-
-Futures are handy here since the erg can send back different data at different times. The primary reason for this is the `recoveryHeartRate` field which the erg sends after the user has been resting for 1 minute. If the workout is cancelled or the erg is turned off before the end of this minute, the data may never arrive. See #10.
-
-Overall this method of accessing workout summary data is not the most ideal, and is likely to change later if a better solution is found. See #11.
-
+To be implemented.
 
 
 
