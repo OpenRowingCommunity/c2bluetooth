@@ -5,6 +5,12 @@ Only people interested in modifying c2bluetooth should need to understand things
 
 This also can be thought of as an outline of many of the (often low-level) things that c2bluetooth "takes care of" for impleenting applications in keeping with the [Silent Protector principle](API.md#the-silent-protector).
 
+
+## Terms used
+
+### Segment
+One key difference you may notice between this library and the source documentation that this is based on (such as the Concept2 Bluetooth API specifications) is the appearance of the term "segment". This is useful because splits and intervals are fundamentally similar enough that concept2 uses the same API to convey both split and interval data (the two are mutually exclusive anyway). Concept2's documentation, however, refers to it as "Split/interval", so the term segment was introduced to make this a little easier to think about and help differentiate data points that are unique to either splits or intervals. 
+
 ## Internal API Concepts
 #### Commands
 The command classes are based on the similarly named classes in the csafe-fitness library. There is a command superclass that is responsible for implementing general-purpose command structures from the relevant CSAFE/Concept2 specifications. These general command classes can then be subclassed to make clearly-named human readable shortcuts that pre-fill details like the identifier and command type while also performing validation of the command data.
