@@ -10,6 +10,10 @@
          location information, you can strongly assert that your app
          doesn't derive physical location. -->
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+
+    <!-- Needed only if your app uses Bluetooth scan results to derive physical location. -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
    <application
         android:label="fresh_example"
         android:icon="@mipmap/ic_launcher">
