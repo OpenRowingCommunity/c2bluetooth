@@ -45,13 +45,6 @@ This library is built from a few core concepts, some of which are shared with th
 These concepts are roughly divided up into "external" (i.e. those that are part of the libraries public API) and "internal". If you are just using the library in your app, the external concepts should be all you need. Anyone looking to contribute to this library might find the "internal" concepts helpful 
 
 ### External Concepts
-#### Data Objects
-Data objects, such as the WorkoutSummary class, are  essentially wrappers around data exposed by the PM (Performance Monitor)'s bluetooth interface. This makes it easier for applications to access this data by providing a more object-oriented interface.
-
-Data objects are primarily a form of one-way communication from a PM to your application.
-
-Data objects are located in the `data` directory and represent the parts of c2bluetooth's public API that are most likely to be useful to an application. 
-
 
 #### Model Objects
 This is a gairly general group of classes that represent various indoor rowing concepts (in the form of objects). Some examples of classses in this category are the `Ergometer` and `Workout` classes. Unlike Data Objects, they are intended to be able to enable bidirectional data flow. For example, an `Ergometer` object may have properties for getting data (such as Data Objects) but also may contain methods like `sendWorkout()` that allow you to provide a `Workout` object to set up on the erg. `Workout` objects could also be returned by other methods as a way to represent a workout.  
