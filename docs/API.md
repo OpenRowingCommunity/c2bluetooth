@@ -13,8 +13,17 @@ This document is the starting point for learning more about the c2bluetooth API 
 "implementor" generally refers to users of this library. This is intended to be an audience of primarily other flutter developers looking to use this library in their apps.
 
 
+## Core values
 
-## Overall API design
+These are some of the core values that were considered as part of the development of this library and forms the ethos/soul of the project. These should be used as general guidance when questions of scope or direction of the library are considered. 
+
+### The Silent Protector
+
+This principle shares its name with the [popular meme template](https://knowyourmeme.com/memes/the-silent-protector) depicting a soldier kneeling over and protecting a sleeping child.
+
+![A remix of the "silent protector" meme depicting c2bluetooth protecting the apps that use it from low-level details of bluetooth communications with a concept2 erg](../docs/images/silent-protector.jpg)
+
+This is essentially a graphical analogy to represent the idea that this library aims to "take on" as much responsibility for abstracting low-level details and hiding away various "gotchas" and complexities of the Concept2 Bluetooth interface specification as possible
 
 ### Inspiration
 In order for this library to be a good fit within the community and provide a good user experience for developers, the goal is to design the interface for this library after other existing libraries interfacing with Concept2 rowing machines. The libraries looked at were [Py3Row](https://github.com/droogmic/Py3Row) (Python, BSD-2), [BoutFitness/Concept2-SDK](https://github.com/BoutFitness/Concept2-SDK) (Swift, MIT), [ErgometerJS](https://github.com/tijmenvangulik/ErgometerJS) (Javascript, Apache 2).
