@@ -8,15 +8,15 @@ import './base.dart';
 /// Segment refers to the concept of "split or interval" from Concept2's specification since the two are mutually exclusive.
 ///
 /// Both segment data packets seem to start with the elapsed time have the [segmentNumber] stored at byte 18, so this class abstracts those two fields
-class SegmentData extends ElapsedtimeStampedData {
+class SharedSegmentData extends ElapsedtimeStampedData {
   int segmentNumber;
-  SegmentData.fromBytes(Uint8List data)
+  SharedSegmentData.fromBytes(Uint8List data)
       : segmentNumber = data.elementAt(17),
         super.fromBytes(data);
 }
 
 /// Represents the first kind of [SegmentData] packet containing part of the full set of data about a segment of a workout
-class SegmentData1 extends SegmentData {
+class SegmentData1 extends SharedSegmentData {
   double elapsedDistance;
   // double segmentTime;
   int segmentDistance;
