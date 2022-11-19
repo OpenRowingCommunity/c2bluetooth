@@ -11,7 +11,7 @@ import './base.dart';
 class SegmentData extends ElapsedtimeStampedData {
   int segmentNumber;
   SegmentData.fromBytes(Uint8List data)
-      : segmentNumber = data.elementAt(18),
+      : segmentNumber = data.elementAt(17),
         super.fromBytes(data);
 }
 
