@@ -18,18 +18,17 @@ class Ergometer {
   Csafe? _csafeClient;
 
   /// Get the name of this erg. i.e. "PM5" + serial number
-  ///
-  /// Returns "Unknown" if the erg does not report a name
   String get name => _peripheral.name;
 
-  /// Create an Ergometer from a FlutterBleLib peripheral object
+  /// Create an [Ergometer] from a discovered bluetooth device object
   ///
-  /// This is mainly intended for internal use
+  /// This is intended only for internal use by [ErgBleManager.startErgScan].
+  /// Consider this method a private API that is subject to unannounced breaking
+  /// changes. There are likely much better methods to use for whatever you are trying to do.
   Ergometer(this._peripheral);
 
   /// Connect to this erg and discover the services and characteristics that it offers
-  /// this returns a stream of events to enable monitoring the erg's connection state
-  /// This acts as a wrapper around the state provided by the internal bluetooth library.
+  /// this returns a stream of [ErgometerConnectionState] events to enable monitoring the erg's connection state and disconnecting.
   Stream<ErgometerConnectionState> connectAndDiscover() {
     //having this first might cause problems
     _csafeClient = Csafe(_readCsafe, _writeCsafe);
@@ -54,7 +53,7 @@ class Ergometer {
 
   }
 
-  /// Returns a stream of [WorkoutSummary] objects upon completion of any programmed piece or a "just row" piece that is longer than 1 minute.
+  /// Returns a stream of [WorkoutSummary] objects upon completion of any workout that would normally be saved to the Erg's memory. This includes any pre-programmed piece and any "just row" pieces longer than 1 minute.
   Stream<WorkoutSummary> monitorForWorkoutSummary() {
   
     var workoutSummaryCharacteristic1 = QualifiedCharacteristic(serviceId: Uuid.parse(Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID), characteristicId: Uuid.parse(Identifiers.C2_ROWING_END_OF_WORKOUT_SUMMARY_CHARACTERISTIC_UUID), deviceId: _peripheral.id);
@@ -73,9 +72,9 @@ class Ergometer {
     });
   }
 
-  /// A read function for the PM over bluetooth.
+  /// An internal read function for accessing the PM's CSAFE API over bluetooth.
   ///
-  /// Intended for passing to the csafe_fitness library to allow it to read data from the erg
+  /// Intended for passing to the csafe_fitness library to allow it to read response data  from the erg
   Stream<Uint8List> _readCsafe() {
     var csafeRxCharacteristic = QualifiedCharacteristic(serviceId: Uuid.parse(Identifiers.C2_ROWING_CONTROL_SERVICE_UUID), characteristicId: Uuid.parse(Identifiers.C2_ROWING_PM_TRANSMIT_CHARACTERISTIC_UUID), deviceId: _peripheral.id);
 
@@ -85,9 +84,9 @@ class Ergometer {
     });
   }
 
-  /// A write function for the PM over bluetooth.
+  /// An internal write function for accessing the PM's CSAFE API over bluetooth.
   ///
-  /// Intended for passing to the csafe_fitness library to allow it to write data to the erg
+  /// Intended for passing to the csafe_fitness library to allow it to write commands to the erg
   void _writeCsafe(Uint8List value) {
     var csafeTxCharacteristic = QualifiedCharacteristic(serviceId: Uuid.parse(Identifiers.C2_ROWING_CONTROL_SERVICE_UUID), characteristicId: Uuid.parse(Identifiers.C2_ROWING_PM_RECEIVE_CHARACTERISTIC_UUID), deviceId: _peripheral.id);
 
@@ -140,7 +139,7 @@ class Ergometer {
 
   /// Program a workout into the PM with particular parameters
   ///
-  ///Currently only the more basic of workout types are supported, such as basic single intervals, single distance, and single time pieces
+  /// Currently only the more basic of workout types are supported, such as basic single intervals, single distance, and single time pieces
   void configureWorkout(Workout workout, [bool startImmediately = true]) async {
     //Workout workout
 
