@@ -17,14 +17,14 @@ class SegmentData extends ElapsedtimeStampedData {
 
 /// Represents the first kind of [SegmentData] packet containing part of the full set of data about a segment of a workout
 class SegmentData1 extends SegmentData {
-  double distance;
+  double elapsedDistance;
   // double segmentTime;
   int segmentDistance;
   int segmentRestTime;
   int segmentRestDistance;
 
   SegmentData1.fromBytes(Uint8List data)
-      : distance = CsafeIntExtension.fromBytes(data.sublist(3, 6),
+      : elapsedDistance = CsafeIntExtension.fromBytes(data.sublist(3, 6),
                 endian: Endian.little) /
             10,
         // segmentTime = 6,9,
