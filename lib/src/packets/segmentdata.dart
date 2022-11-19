@@ -1,4 +1,6 @@
 import 'dart:typed_data';
+import 'package:c2bluetooth/enums.dart';
+import 'package:c2bluetooth/extensions.dart';
 import 'package:csafe_fitness/csafe_fitness.dart';
 
 import './base.dart';
@@ -18,26 +20,60 @@ class SharedSegmentData extends ElapsedtimeStampedData {
 /// Represents the first kind of [SegmentData] packet containing part of the full set of data about a segment of a workout
 class SegmentData1 extends SharedSegmentData {
   double elapsedDistance;
-  // double segmentTime;
+  double segmentTime;
   int segmentDistance;
-  int segmentRestTime;
-  int segmentRestDistance;
+  int intervalRestTime;
+  int intervalRestDistance;
+  IntervalType segmentType;
 
   SegmentData1.fromBytes(Uint8List data)
       : elapsedDistance = CsafeIntExtension.fromBytes(data.sublist(3, 6),
                 endian: Endian.little) /
             10,
-        // segmentTime = 6,9,
+        segmentTime = CsafeIntExtension.fromBytes(data.sublist(6, 9),
+                endian: Endian.little) /
+            10,
         segmentDistance = CsafeIntExtension.fromBytes(data.sublist(9, 12),
             endian: Endian.little),
-        segmentRestDistance = CsafeIntExtension.fromBytes(data.sublist(12, 14),
+        intervalRestTime = CsafeIntExtension.fromBytes(data.sublist(12, 14),
             endian: Endian.little),
-        segmentRestTime = CsafeIntExtension.fromBytes(data.sublist(14, 16),
+        intervalRestDistance = CsafeIntExtension.fromBytes(data.sublist(14, 16),
             endian: Endian.little),
+        segmentType = IntervalTypeExtension.fromInt(data.elementAt(16)),
         super.fromBytes(data);
 }
 
 /// Represents the second kind of [SegmentData] packet containing the remaining part of the full set of data about a segment of a workout
-class SegmentData2 extends SegmentData {
-  SegmentData2.fromBytes(Uint8List data) : super.fromBytes(data);
+class SegmentData2 extends SharedSegmentData {
+  int segmentAvgStrokeRate;
+  int segmentWorkHeartRate;
+  int segmentRestHeartRate;
+  double segmentAveragePace;
+  int segmentTotalCalories;
+  int segmentAverageCalories;
+  double segmentSpeed;
+  int segmentPower;
+  int splitAverageDragFactor;
+  MachineType machineType;
+
+  SegmentData2.fromBytes(Uint8List data)
+      : segmentAvgStrokeRate = data.elementAt(3),
+        segmentWorkHeartRate = data.elementAt(4),
+        segmentRestHeartRate = data.elementAt(5),
+        segmentAveragePace = CsafeIntExtension.fromBytes(data.sublist(6, 8),
+                endian: Endian.little) /
+            10,
+        segmentTotalCalories = CsafeIntExtension.fromBytes(data.sublist(8, 10),
+            endian: Endian.little),
+        segmentAverageCalories = CsafeIntExtension.fromBytes(
+            data.sublist(10, 12),
+            endian: Endian.little),
+        segmentSpeed = CsafeIntExtension.fromBytes(data.sublist(12, 14),
+                endian: Endian.little) /
+            1000,
+        segmentPower = CsafeIntExtension.fromBytes(data.sublist(14, 16),
+            endian: Endian.little),
+        splitAverageDragFactor = data.elementAt(16),
+        machineType = MachineTypeExtension.fromInt(data.elementAt(18)),
+        super.fromBytes(data);
 }
