@@ -20,7 +20,7 @@ class Dataplex {
 
   final _flutterReactiveBle = FlutterReactiveBle();
 
-  DiscoveredDevice device;
+  DiscoveredDevice _device;
 
   List<C2DataStreamController> outgoingStreams = [];
 
@@ -35,7 +35,7 @@ class Dataplex {
         WorkoutSummaryPacket2.datapointIdentifiers,
   };
 
-  Dataplex(this.device);
+  Dataplex(this._device);
 
   ///Keeps track of how many characteristics we are currently receiving notifications for
   int _currentSubscriptionCount = 0;
@@ -70,7 +70,7 @@ class Dataplex {
     var characteristic = QualifiedCharacteristic(
         serviceId: Uuid.parse(serviceUuid),
         characteristicId: Uuid.parse(characteristicUuid),
-        deviceId: device.id);
+        deviceId: _device.id);
 
     // this stream should get cancelled in [dispose]
     // ignore: cancel_subscriptions
