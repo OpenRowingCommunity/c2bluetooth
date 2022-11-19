@@ -54,6 +54,7 @@ class Ergometer {
   }
 
   /// Returns a stream of [WorkoutSummary] objects upon completion of any workout that would normally be saved to the Erg's memory. This includes any pre-programmed piece and any "just row" pieces longer than 1 minute.
+  @Deprecated("This API is being deprecated in an upcoming version")
   Stream<WorkoutSummary> monitorForWorkoutSummary() {
   
     var workoutSummaryCharacteristic1 = QualifiedCharacteristic(serviceId: Uuid.parse(Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID), characteristicId: Uuid.parse(Identifiers.C2_ROWING_END_OF_WORKOUT_SUMMARY_CHARACTERISTIC_UUID), deviceId: _peripheral.id);
