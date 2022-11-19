@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:c2bluetooth/models/c2datastreamcontroller.dart';
-import 'package:flutter_ble_lib_ios_15/flutter_ble_lib.dart';
+import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 
 import '../constants.dart' as Identifiers;
 import './packets/statusdata.dart';
@@ -18,7 +18,9 @@ import 'packets/base.dart';
 class Dataplex {
   // data access speed
 
-  Peripheral device;
+  final _flutterReactiveBle = FlutterReactiveBle();
+
+  DiscoveredDevice device;
 
   List<C2DataStreamController> outgoingStreams = [];
 
@@ -65,15 +67,23 @@ class Dataplex {
   /// set up a new subscription to data from an erg.
   void _addSubscription(
       String serviceUuid, String characteristicUuid, int? dataIdentifier) {
-    StreamSubscription sub = device
-        .monitorCharacteristic(serviceUuid, characteristicUuid)
-        .listen((data) => data.read().then((bytes) {
-              // manually insert an identification byte if this characteristic doesnt have one already
-              if (dataIdentifier != null) {
-                bytes.insert(0, dataIdentifier);
-              }
-              _readPacket(bytes);
-            }));
+    var characteristic = QualifiedCharacteristic(
+        serviceId: Uuid.parse(serviceUuid),
+        characteristicId: Uuid.parse(characteristicUuid),
+        deviceId: device.id);
+
+    // this stream should get cancelled in [dispose]
+    // ignore: cancel_subscriptions
+    StreamSubscription sub = _flutterReactiveBle
+        .subscribeToCharacteristic(characteristic)
+        .asyncMap((datapoint) => Uint8List.fromList(datapoint))
+        .listen((bytes) {
+      // manually insert an identification byte if this characteristic doesnt have one already
+      if (dataIdentifier != null) {
+        bytes.insert(0, dataIdentifier);
+      }
+      _readPacket(bytes);
+    });
     currentSubscriptions.addEntries({characteristicUuid: sub}.entries);
   }
 
