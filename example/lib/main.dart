@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:c2bluetooth/c2bluetooth.dart';
 import 'package:c2bluetooth/models/workout.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() {
   runApp(MyApp());
@@ -49,30 +51,52 @@ class _SimpleErgViewState extends State<SimpleErgView> {
   @override
   void initState() {
     super.initState();
-    bleManager.init(); //ready to go!
-
-    startScan();
+    //startScan();
   }
 
-  startScan() {
-    setState(() {
-      displayText = "Start Scanning";
-    });
+  startScan() async {
+    await Future.wait<PermissionStatus>([
+      Permission.location.request(),
+      Permission.locationWhenInUse.request()
+    ]).then((results) {
+      PermissionStatus locationPermission = results[0];
+      PermissionStatus finePermission = results[1];
+      if (Platform.isAndroid) {
+        if (locationPermission == PermissionStatus.granted &&
+            finePermission == PermissionStatus.granted) {
+          return true;
+        }
+      } else if (Platform.isIOS) {
+        return true;
+      }
+      return false;
+    }).then((result) {
+      if (result) {
+        setState(() {
+          displayText = "Start Scanning";
+        });
 
-    scanSub = bleManager.startErgScan().listen((erg) {
-      //Scan one peripheral and stop scanning
-      print("Scanned Peripheral ${erg.name}");
+        scanSub = bleManager.startErgScan().listen((erg) {
+          //Scan one peripheral and stop scanning
+          print("Scanned Peripheral ${erg.name}");
 
-      stopScan();
-      targetDevice = erg;
-      connectToDevice();
+          stopScan();
+          targetDevice = erg;
+          connectToDevice();
+        });
+      } else {
+        print(
+            'Your device is experiencing a permission issue. Make sure you allow location services.');
+        setState(() {
+          displayText = "Permission Issue Stopped Scanning";
+        });
+      }
     });
   }
 
   stopScan() {
     scanSub?.cancel();
     scanSub = null;
-    bleManager.stopErgScan();
   }
 
   connectToDevice() async {
@@ -82,41 +106,24 @@ class _SimpleErgViewState extends State<SimpleErgView> {
       displayText = "Device Connecting";
     });
 
-    await targetDevice!.connectAndDiscover();
-
-    // if (!connected) {
-    //   targetDevice!
-    //       .observeConnectionState(
-    //           emitCurrentValue: true, completeOnDisconnect: true)
-    //       .listen((connectionState) {
-    //     print(
-    //         "Peripheral ${targetDevice!.name} connection state is $connectionState");
-    //   });
-    //   try {
-    //     await targetDevice!.connect();
-    //   } catch (BleError) {
-    //     print("a");
-    //   }
-    //   print('CONNECTING');
-    // } else {
-    //   print('DEVICE Already CONNECTED');
-    // }
-    // setState(() {
-    //   displayText = "Device Connected";
-    // });
-    // discoverServices();
-    subscribeToStreams();
+    targetDevice!.connectAndDiscover().listen((event) {
+      if (event == ErgometerConnectionState.connected) {
+        subscribeToStreams();
+      }
+    });
   }
 
   setup2kH() async {
     if (targetDevice == null) return;
 
+    // ignore: deprecated_member_use
     targetDevice?.configure2kWorkout();
   }
 
   setup10kH() async {
     if (targetDevice == null) return;
 
+    // ignore: deprecated_member_use
     targetDevice?.configure10kWorkout();
   }
 
@@ -132,17 +139,6 @@ class _SimpleErgViewState extends State<SimpleErgView> {
     targetDevice?.configureWorkout(Workout.single(WorkoutGoal.meters(10000)));
   }
 
-  disconnectFromDevice() async {
-    if (targetDevice == null) return;
-
-    // targetDevice!.disconnect();
-    await targetDevice?.disconnectOrCancel();
-
-    setState(() {
-      displayText = "Device Disconnected";
-    });
-  }
-
   subscribeToStreams() async {
     if (targetDevice == null) return;
 
@@ -151,10 +147,22 @@ class _SimpleErgViewState extends State<SimpleErgView> {
     });
 
     targetDevice!.monitorForWorkoutSummary().listen((summary) {
-      setState(() {
-        displayText = "distance: ${summary.workDistance}";
-        displayText2 = "datetime: ${summary.timestamp}";
-        displayText3 = "sr: ${summary.avgSPM}";
+      print(summary);
+      //TODO: update this for futures
+      summary.workDistance.then((dist) {
+        setState(() {
+          displayText = "distance: $dist";
+        });
+      });
+      summary.timestamp.then((time) {
+        setState(() {
+          displayText2 = "datetime: $time";
+        });
+      });
+      summary.avgSPM.then((spm) {
+        setState(() {
+          displayText3 = "sr: $spm";
+        });
       });
     });
   }
@@ -166,6 +174,15 @@ class _SimpleErgViewState extends State<SimpleErgView> {
         title: Text("hello"),
       ),
       body: Column(children: [
+        Visibility(
+          visible: scanSub == null && targetDevice == null,
+          child: ElevatedButton(
+            onPressed: () {
+              startScan();
+            },
+            child: Text("Start Scan"),
+          ),
+        ),
         Center(
           child: Text(
             displayText,
@@ -205,7 +222,7 @@ class _SimpleErgViewState extends State<SimpleErgView> {
 
   @override
   void dispose() {
-    disconnectFromDevice();
+    //disconnectFromDevice();
     bleManager
         .destroy(); //remember to release native resources when you're done!
     super.dispose();
