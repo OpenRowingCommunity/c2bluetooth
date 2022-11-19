@@ -146,23 +146,17 @@ class _SimpleErgViewState extends State<SimpleErgView> {
       displayText = "Setting up streams";
     });
 
-    targetDevice!.monitorForWorkoutSummary().listen((summary) {
-      print(summary);
-      //TODO: update this for futures
-      summary.workDistance.then((dist) {
-        setState(() {
-          displayText = "distance: $dist";
-        });
-      });
-      summary.timestamp.then((time) {
-        setState(() {
-          displayText2 = "datetime: $time";
-        });
-      });
-      summary.avgSPM.then((spm) {
-        setState(() {
-          displayText3 = "sr: $spm";
-        });
+    targetDevice!.monitorForData({
+      "workout.distance.total",
+      "workout.timestamp",
+      "stroke_rate.average"
+    }).listen((data) {
+      print(data);
+
+      setState(() {
+        displayText = "distance: ${data["workout.distance.total"]}";
+        displayText2 = "datetime: ${data["workout.timestamp"]}";
+        displayText3 = "sr: ${data["stroke_rate.average"]}";
       });
     });
   }
