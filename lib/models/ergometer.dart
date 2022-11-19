@@ -63,26 +63,6 @@ class Ergometer {
     return _dataplex.createStream(datapointIdentifiers);
   }
 
-  /// Returns a stream of [WorkoutSummary] objects upon completion of any workout that would normally be saved to the Erg's memory. This includes any pre-programmed piece and any "just row" pieces longer than 1 minute.
-  @Deprecated("This API is being deprecated soon")
-  Stream<WorkoutSummary> monitorForWorkoutSummary() {
-  
-    var workoutSummaryCharacteristic1 = QualifiedCharacteristic(serviceId: Uuid.parse(Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID), characteristicId: Uuid.parse(Identifiers.C2_ROWING_END_OF_WORKOUT_SUMMARY_CHARACTERISTIC_UUID), deviceId: _peripheral.id);
-
-    var workoutSummaryCharacteristic2 = QualifiedCharacteristic(serviceId: Uuid.parse(Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID), characteristicId: Uuid.parse(Identifiers.C2_ROWING_END_OF_WORKOUT_SUMMARY_CHARACTERISTIC2_UUID), deviceId: _peripheral.id);
-
-    Stream<Uint8List> ws1 = _flutterReactiveBle.subscribeToCharacteristic(workoutSummaryCharacteristic1).asyncMap((datapoint) => Uint8List.fromList(datapoint));
-
-
-    Stream<Uint8List> ws2 = _flutterReactiveBle.subscribeToCharacteristic(workoutSummaryCharacteristic2).asyncMap((datapoint) => Uint8List.fromList(datapoint));
-
-    return Rx.zip2(ws1, ws2, (Uint8List ws1Result, Uint8List ws2Result) {
-      List<int> combinedList = ws1Result.toList();
-      combinedList.addAll(ws2Result.toList());
-      return WorkoutSummary.fromBytes(Uint8List.fromList(combinedList));
-    });
-  }
-
   /// An internal read function for accessing the PM's CSAFE API over bluetooth.
   ///
   /// Intended for passing to the csafe_fitness library to allow it to read response data  from the erg
