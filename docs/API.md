@@ -47,7 +47,7 @@ Since a lot of the architecture is already provided by FlutterBleLib and will li
 
 
 
-## Core API Concepts
+## Basic API details
 
 This library is built from a few core concepts, some of which are shared with the `csafe-fitness` library. These core concepts represent general groupings of classes that serve a particular purpose or abstract certain aspects of communicating with an erg.
 
