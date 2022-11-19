@@ -1,7 +1,9 @@
 # Internal API and Design Concepts
 This document is meant to be similar to the [API](API.md) document, but specifically for providing an overview of the internal API organization. 
 
-Only people interested in contributing to c2bluetooth should need to understand things at this level.
+Only people interested in modifying c2bluetooth should need to understand things at this level.
+
+This also can be thought of as an outline of many of the (often low-level) things that c2bluetooth "takes care of" for impleenting applications in keeping with the [Silent Protector principle](API.md#the-silent-protector).
 
 ## Internal API Concepts
 #### Commands

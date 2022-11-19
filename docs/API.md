@@ -23,7 +23,9 @@ This principle shares its name with the [popular meme template](https://knowyour
 
 ![A remix of the "silent protector" meme depicting c2bluetooth protecting the apps that use it from low-level details of bluetooth communications with a concept2 erg](../docs/images/silent-protector.jpg)
 
-This is essentially a graphical analogy to represent the idea that this library aims to "take on" as much responsibility for abstracting low-level details and hiding away various "gotchas" and complexities of the Concept2 Bluetooth interface specification as possible
+This is essentially a graphical analogy to represent the idea that this library aims to "take on" as much responsibility for abstracting low-level details and hiding away various "gotchas" and complexities of the Concept2 Bluetooth interface specification as possible.
+
+To my knowledge this is not currently a software design principle found in the broader software industry. However I think it is an awesome way to explain the concept.
 
 ### Inspiration
 In order for this library to be a good fit within the community and provide a good user experience for developers, the goal is to design the interface for this library after other existing libraries interfacing with Concept2 rowing machines. The libraries looked at were [Py3Row](https://github.com/droogmic/Py3Row) (Python, BSD-2), [BoutFitness/Concept2-SDK](https://github.com/BoutFitness/Concept2-SDK) (Swift, MIT), [ErgometerJS](https://github.com/tijmenvangulik/ErgometerJS) (Javascript, Apache 2).
