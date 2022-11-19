@@ -6,11 +6,11 @@
 C2Bluetooth is a flutter package designed to provide an easy API for accessing data from Concept2 PM5 Indoor fitness machines via bluetooth. This library implements the [Concept2 Performance Monitor Bluetooth Smart Communications Interface Definition](https://www.concept2.com/files/pdf/us/monitors/PM5_BluetoothSmartInterfaceDefinition.pdf) Specification ([newer versions](https://www.c2forum.com/viewtopic.php?f=15&t=193697#p527068) are also available). It also relies heavily on the [CSAFE specification](https://web.archive.org/web/20060718175014/http://www.fitlinxx.com/csafe/specification.htm) from FitLinxx.
 
 ## Demo
+This package comes with a demo app in the `example/` directory.
 
-![A demo showing the distance completed after a workout](docs/images/demo/demo1-small.jpg)
+See the [`example/README.md`](example/README.md) for more detailed information about the demo app and how to use it. 
 
-This is a relatively old screenshot of the included example app using an older version of the library to display the completed distance from a short 20-second test workout. Many improvements to expose more datapoints have been made since this screenshot was taken.
-## Key Features
+## Key Library Features
 
 Currently this library supports a few basic features such as:
 - retrieving workout summary information from the erg after a workout
