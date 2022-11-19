@@ -55,39 +55,42 @@ class _SimpleErgViewState extends State<SimpleErgView> {
   }
 
   startScan() async {
-    bool goForIt = false;
-
-    if (Platform.isAndroid) {
-      PermissionStatus locationPermission = await Permission.location.request();
-      PermissionStatus finePermission =
-          await Permission.locationWhenInUse.request();
-      // TODO user feedback on no location
-      if (locationPermission == PermissionStatus.granted &&
-          finePermission == PermissionStatus.granted) {
-        goForIt = true;
+    await Future.wait<PermissionStatus>([
+      Permission.location.request(),
+      Permission.locationWhenInUse.request()
+    ]).then((results) {
+      PermissionStatus locationPermission = results[0];
+      PermissionStatus finePermission = results[1];
+      if (Platform.isAndroid) {
+        if (locationPermission == PermissionStatus.granted &&
+            finePermission == PermissionStatus.granted) {
+          return true;
+        }
+      } else if (Platform.isIOS) {
+        return true;
       }
-    } else if (Platform.isIOS) {
-      goForIt = true;
-    }
-    if (!goForIt) {
-      print(
-          'Your device is experiencing a permission issue. Make sure you allow location services.');
-      setState(() {
-        displayText = "Permission Issue Stopped Scanning";
-      });
-      return;
-    }
-    setState(() {
-      displayText = "Start Scanning";
-    });
+      return false;
+    }).then((result) {
+      if (result) {
+        setState(() {
+          displayText = "Start Scanning";
+        });
 
-    scanSub = bleManager.startErgScan().listen((erg) {
-      //Scan one peripheral and stop scanning
-      print("Scanned Peripheral ${erg.name}");
+        scanSub = bleManager.startErgScan().listen((erg) {
+          //Scan one peripheral and stop scanning
+          print("Scanned Peripheral ${erg.name}");
 
-      stopScan();
-      targetDevice = erg;
-      connectToDevice();
+          stopScan();
+          targetDevice = erg;
+          connectToDevice();
+        });
+      } else {
+        print(
+            'Your device is experiencing a permission issue. Make sure you allow location services.');
+        setState(() {
+          displayText = "Permission Issue Stopped Scanning";
+        });
+      }
     });
   }
 
