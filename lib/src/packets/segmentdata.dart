@@ -2,7 +2,7 @@ import 'dart:typed_data';
 import 'package:c2bluetooth/enums.dart';
 import 'package:c2bluetooth/extensions.dart';
 import 'package:csafe_fitness/csafe_fitness.dart';
-
+import 'keys.dart' as Keys;
 import './base.dart';
 
 /// Represents a packet containing data for a "Segment" of a workout.
@@ -15,6 +15,12 @@ class SharedSegmentData extends ElapsedtimeStampedData {
   SharedSegmentData.fromBytes(Uint8List data)
       : segmentNumber = data.elementAt(17),
         super.fromBytes(data);
+
+  Map<String, dynamic> asMap() {
+    Map<String, dynamic> map = super.asMap();
+    map.addAll({Keys.SEGMENT_NUMBER_KEY: segmentNumber});
+    return map;
+  }
 }
 
 /// Represents the first kind of [SegmentData] packet containing part of the full set of data about a segment of a workout
@@ -41,6 +47,17 @@ class SegmentData1 extends SharedSegmentData {
             endian: Endian.little),
         segmentType = IntervalTypeExtension.fromInt(data.elementAt(16)),
         super.fromBytes(data);
+
+  Map<String, dynamic> asMap() {
+    Map<String, dynamic> map = super.asMap();
+    map.addAll({
+      Keys.SEGMENT_TIME_KEY: segmentTime,
+      Keys.SEGMENT_DISTANCE_KEY: elapsedDistance,
+      Keys.SEGMENT_TYPE_KEY: segmentType,
+      Keys.SEGMENT_REST_TIME_KEY: intervalRestTime
+    });
+    return map;
+  }
 }
 
 /// Represents the second kind of [SegmentData] packet containing the remaining part of the full set of data about a segment of a workout
@@ -76,4 +93,20 @@ class SegmentData2 extends SharedSegmentData {
         splitAverageDragFactor = data.elementAt(16),
         machineType = MachineTypeExtension.fromInt(data.elementAt(18)),
         super.fromBytes(data);
+
+  Map<String, dynamic> asMap() {
+    Map<String, dynamic> map = super.asMap();
+    map.addAll({
+      Keys.SEGMENT_AVG_SPM_KEY: segmentAvgStrokeRate,
+      Keys.SEGMENT_WORK_HR_KEY: segmentWorkHeartRate,
+      Keys.SEGMENT_REST_HR_KEY: segmentRestHeartRate,
+      Keys.SEGMENT_AVG_PACE_KEY: segmentAveragePace,
+      Keys.SEGMENT_CALORIES_KEY: segmentTotalCalories,
+      Keys.SEGMENT_AVG_CALORIES_KEY: segmentAverageCalories,
+      Keys.SEGMENT_SPEED_KEY: segmentSpeed,
+      Keys.SEGMENT_POWER_KEY: segmentPower,
+      Keys.SEGMENT_AVG_DRAGFACTOR_KEY: splitAverageDragFactor
+    });
+    return map;
+  }
 }
