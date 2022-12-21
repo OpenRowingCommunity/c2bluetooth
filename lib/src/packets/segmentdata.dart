@@ -32,6 +32,8 @@ class SegmentData1 extends SharedSegmentData {
   int intervalRestDistance;
   IntervalType segmentType;
 
+  SegmentData1.zero() : this.fromBytes(Uint8List(20));
+
   SegmentData1.fromBytes(Uint8List data)
       : elapsedDistance = CsafeIntExtension.fromBytes(data.sublist(3, 6),
                 endian: Endian.little) /
@@ -72,6 +74,8 @@ class SegmentData2 extends SharedSegmentData {
   int segmentPower;
   int splitAverageDragFactor;
   MachineType machineType;
+
+  SegmentData2.zero() : this.fromBytes(Uint8List(20));
 
   SegmentData2.fromBytes(Uint8List data)
       : segmentAvgStrokeRate = data.elementAt(3),
