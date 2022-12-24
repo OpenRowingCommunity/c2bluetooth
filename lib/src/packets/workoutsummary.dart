@@ -42,7 +42,7 @@ class WorkoutSummaryPacket extends TimestampedData {
         avgDragFactor = data.elementAt(15),
         recoveryHeartRate = data.elementAt(16),
         workoutType = WorkoutTypeExtension.fromInt(data.elementAt(17)),
-        avgPace = CsafeIntExtension.fromBytes(data.sublist(18, 20),
+        avgPace = CsafeIntExtension.fromBytes(data.sublist(18),
                 endian: Endian.little) /
             10,
         super.fromBytes(data);
