@@ -147,16 +147,16 @@ class _SimpleErgViewState extends State<SimpleErgView> {
     });
 
     targetDevice!.monitorForData({
-      "workout.distance.total",
-      "workout.timestamp",
-      "stroke_rate.average"
+      Keys.ELAPSED_DISTANCE_KEY,
+      Keys.WORKOUT_TIMESTAMP_KEY,
+      Keys.WORKOUT_AVG_SPM_KEY
     }).listen((data) {
       print(data);
 
       setState(() {
-        displayText = "distance: ${data["workout.distance.total"]}";
-        displayText2 = "datetime: ${data["workout.timestamp"]}";
-        displayText3 = "sr: ${data["stroke_rate.average"]}";
+        displayText = "distance: ${data[Keys.ELAPSED_DISTANCE_KEY]}";
+        displayText2 = "datetime: ${data[Keys.WORKOUT_TIMESTAMP_KEY]}";
+        displayText3 = "sr: ${data[Keys.WORKOUT_AVG_SPM_KEY]}";
       });
     });
   }
