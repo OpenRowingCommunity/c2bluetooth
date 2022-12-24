@@ -159,6 +159,20 @@ class _SimpleErgViewState extends State<SimpleErgView> {
         displayText3 = "sr: ${data[Keys.WORKOUT_AVG_SPM_KEY]}";
       });
     });
+
+    targetDevice!.monitorForData({
+      Keys.SEGMENT_NUMBER_KEY,
+      Keys.SEGMENT_DISTANCE_KEY,
+      Keys.SEGMENT_AVG_SPM_KEY
+    }).listen((data) {
+      print(data);
+
+      setState(() {
+        displayText = "interval #: ${data[Keys.SEGMENT_NUMBER_KEY]}";
+        displayText2 = "distance: ${data[Keys.SEGMENT_DISTANCE_KEY]}";
+        displayText3 = "sr avg: ${data[Keys.SEGMENT_AVG_SPM_KEY]}";
+      });
+    });
   }
 
   @override
