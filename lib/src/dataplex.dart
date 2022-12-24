@@ -27,7 +27,7 @@ class Dataplex {
   /// Map of characteristic UUID's to the active subscription instance for that characteristic
   Map<String, StreamSubscription> currentSubscriptions = Map();
 
-  Set<String> allDatapointIdentifiers ={
+  Set<String> allDatapointIdentifiers = {
     ...StatusData.datapointIdentifiers,
     ...StatusData1.datapointIdentifiers,
     ...StatusData2.datapointIdentifiers,
@@ -37,8 +37,8 @@ class Dataplex {
     ...SegmentData2.datapointIdentifiers,
     ...WorkoutSummaryPacket.datapointIdentifiers,
     ...WorkoutSummaryPacket2.datapointIdentifiers,
-    ...ForceCurveData.datapointIdentifiers,}
-
+    ...ForceCurveData.datapointIdentifiers
+  };
 
   /// A map of incoming UUID's to the data keys they support.
   Map<String, Set<String>> characteristicToDataKeyMap = {
