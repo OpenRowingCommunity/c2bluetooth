@@ -56,8 +56,9 @@ class SegmentData1 extends SharedSegmentData {
   Map<String, dynamic> asMap() {
     Map<String, dynamic> map = super.asMap();
     map.addAll({
+      Keys.ELAPSED_DISTANCE_KEY: elapsedDistance,
       Keys.SEGMENT_TIME_KEY: segmentTime,
-      Keys.SEGMENT_DISTANCE_KEY: elapsedDistance,
+      Keys.SEGMENT_DISTANCE_KEY: segmentDistance,
       Keys.SEGMENT_TYPE_KEY: segmentType,
       Keys.SEGMENT_REST_TIME_KEY: intervalRestTime
     });
