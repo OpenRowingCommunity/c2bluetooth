@@ -48,7 +48,12 @@ class Dataplex {
         WorkoutSummaryPacket2.datapointIdentifiers,
   };
 
-  Dataplex(this._device);
+  Dataplex(this._device) {
+    _addSubscription(
+        Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID,
+        Identifiers.C2_ROWING_MULTIPLEXED_INFORMATION_CHARACTERISTIC_UUID,
+        null);
+  }
 
   ///Keeps track of how many characteristics we are currently receiving notifications for
   int _currentSubscriptionCount = 0;
