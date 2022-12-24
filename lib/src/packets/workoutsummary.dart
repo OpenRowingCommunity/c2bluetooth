@@ -7,7 +7,7 @@ import 'package:csafe_fitness/csafe_fitness.dart';
 import 'package:c2bluetooth/helpers.dart';
 import 'package:c2bluetooth/enums.dart';
 import './base.dart';
-import 'keys.dart' as Keys;
+import 'keys.dart';
 
 /// Represents a summary of a completed workout
 ///

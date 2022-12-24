@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 import 'package:c2bluetooth/extensions.dart';
 
-import 'keys.dart' as Keys;
+import 'keys.dart';
 
 /// An empty superclass to represent all types of data formats that come from Concept2 bluetooth characteristics
 class Concept2CharacteristicData {
