@@ -1,4 +1,5 @@
 const ELAPSED_TIME_KEY = "general.elapsed_time";
+const ELAPSED_DISTANCE_KEY = "general.distance";
 
 const WORKOUT_TIMESTAMP_KEY = "workout.timestamp";
 const WORKOUT_AVG_SPM_KEY = "workout.stroke_rate.average";
