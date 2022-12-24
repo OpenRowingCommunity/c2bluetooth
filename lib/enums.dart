@@ -34,10 +34,10 @@ enum MachineType {
 
 extension MachineTypeExtension on MachineType {
   static Map _machineTypeValues = {
-    MachineType.STATIC_D: 1,
-    MachineType.STATIC_C: 2,
-    MachineType.STATIC_A: 3,
-    MachineType.STATIC_B: 4,
+    MachineType.STATIC_D: 0,
+    MachineType.STATIC_C: 1,
+    MachineType.STATIC_A: 2,
+    MachineType.STATIC_B: 3,
     MachineType.STATIC_E: 5,
     MachineType.STATIC_SIMULATOR: 7,
     MachineType.STATIC_DYNAMIC: 8,
