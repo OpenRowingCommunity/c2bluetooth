@@ -3,6 +3,12 @@ import 'dart:typed_data';
 import './base.dart';
 
 class StrokeData extends ElapsedtimeStampedData {
+
+  static Set<String> get datapointIdentifiers =>
+      StrokeData.zero().asMap().keys.toSet();
+
+  StrokeData.zero() : this.fromBytes(Uint8List(20));
+
   StrokeData.fromBytes(Uint8List data) : super.fromBytes(data) {
     // _workTime.completeIfNotAlready(
     //     CsafeIntExtension.fromBytes(data.sublist(4, 7), endian: Endian.little) /
@@ -33,5 +39,12 @@ class StrokeData extends ElapsedtimeStampedData {
 }
 
 class StrokeData2 extends ElapsedtimeStampedData {
+
+  static Set<String> get datapointIdentifiers =>
+      StrokeData2.zero().asMap().keys.toSet();
+
+  StrokeData2.zero() : this.fromBytes(Uint8List(20));
+
+
   StrokeData2.fromBytes(Uint8List data) : super.fromBytes(data);
 }

@@ -32,6 +32,9 @@ class SegmentData1 extends SharedSegmentData {
   int intervalRestDistance;
   IntervalType segmentType;
 
+  static Set<String> get datapointIdentifiers =>
+      SegmentData1.zero().asMap().keys.toSet();
+
   SegmentData1.zero() : this.fromBytes(Uint8List(20));
 
   SegmentData1.fromBytes(Uint8List data)
@@ -74,6 +77,9 @@ class SegmentData2 extends SharedSegmentData {
   int segmentPower;
   int splitAverageDragFactor;
   MachineType machineType;
+
+  static Set<String> get datapointIdentifiers =>
+      SegmentData2.zero().asMap().keys.toSet();
 
   SegmentData2.zero() : this.fromBytes(Uint8List(20));
 

@@ -14,6 +14,11 @@ class Concept2CharacteristicData {
 class TimestampedData extends Concept2CharacteristicData {
   DateTime timestamp;
 
+  static Set<String> get datapointIdentifiers =>
+      TimestampedData.zero().asMap().keys.toSet();
+
+  TimestampedData.zero() : this.fromBytes(Uint8List(20));
+
   TimestampedData.fromBytes(Uint8List bytes)
       : timestamp = Concept2DateExtension.fromBytes(bytes.sublist(0, 4));
 
@@ -27,6 +32,11 @@ class TimestampedData extends Concept2CharacteristicData {
 ///Represents a data packet from Concept2 that begins with the current elapsed time
 class ElapsedtimeStampedData extends Concept2CharacteristicData {
   Duration elapsedTime;
+
+  static Set<String> get datapointIdentifiers =>
+      ElapsedtimeStampedData.zero().asMap().keys.toSet();
+
+  ElapsedtimeStampedData.zero() : this.fromBytes(Uint8List(20));
 
   ElapsedtimeStampedData.fromBytes(Uint8List data)
       : elapsedTime = Concept2DurationExtension.fromBytes(data.sublist(0, 3));
