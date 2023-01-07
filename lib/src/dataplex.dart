@@ -48,12 +48,7 @@ class Dataplex {
         WorkoutSummaryPacket2.datapointIdentifiers,
   };
 
-  Dataplex(this._device) {
-    _addSubscription(
-        Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID,
-        Identifiers.C2_ROWING_MULTIPLEXED_INFORMATION_CHARACTERISTIC_UUID,
-        null);
-  }
+  Dataplex(this._device);
 
   ///Keeps track of how many characteristics we are currently receiving notifications for
   int _currentSubscriptionCount = 0;
@@ -67,6 +62,8 @@ class Dataplex {
     controller.onCancel = _generateOutputCloseListener(controller);
 
     outgoingStreams.add(controller);
+
+    _validateStreams();
 
     return controller.stream;
   }
@@ -149,13 +146,22 @@ class Dataplex {
     // dind the difference of the two to see what we are missing
     Set<String> missingKeys = requestedKeys.difference(incomingKeys);
 
-    // do magic to figure out what characteristics to add to get those additional keys
+    if (missingKeys.length >= 1) {
+      // do magic to figure out what characteristics to add to get those additional keys
 
-    //make a list of those characteristics
+      //make a list of those characteristics
+
+      // subscribe to them
+
+      _addSubscription(
+          Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID,
+          Identifiers.C2_ROWING_MULTIPLEXED_INFORMATION_CHARACTERISTIC_UUID,
+          null);
+    }
 
     //find out if we have any unused characteristics
 
-    //
+    // unsubscribe from unused characteristics
   }
 
   /// closes down this instance by cancelling all streams
