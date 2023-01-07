@@ -80,12 +80,21 @@ class Dataplex {
   }
 
   /// set up a new subscription to data from an erg.
-  void _addSubscription(
-      String serviceUuid, String characteristicUuid, int? dataIdentifier) {
+  void _addSubscription(String serviceUuid, String characteristicUuid) {
+    Uuid charUUID = Uuid.parse(characteristicUuid);
     var characteristic = QualifiedCharacteristic(
         serviceId: Uuid.parse(serviceUuid),
-        characteristicId: Uuid.parse(characteristicUuid),
+        characteristicId: charUUID,
         deviceId: _device.id);
+
+    int? dataIdentifier = charUUID.data.sublist(2, 4).last;
+
+    //reset the idenifier to null if its for the multiplexed characteristic
+    //this allows the parser to identify that its multiplexed and detect the
+    // packet type from the first data byte
+    if (dataIdentifier == 0x80) {
+      dataIdentifier = null;
+    }
 
     // this stream should get cancelled in [dispose]
     // ignore: cancel_subscriptions
@@ -93,18 +102,15 @@ class Dataplex {
         .subscribeToCharacteristic(characteristic)
         .asyncMap((datapoint) => Uint8List.fromList(datapoint))
         .listen((bytes) {
-      // manually insert an identification byte if this characteristic doesnt have one already
-      if (dataIdentifier != null) {
-        bytes.insert(0, dataIdentifier);
-      }
-      _readPacket(bytes);
+      _readPacket(bytes, dataIdentifier: dataIdentifier);
     });
     currentSubscriptions.addEntries({characteristicUuid: sub}.entries);
   }
 
   /// Read a packet from an incoming stream (from the erg) and redistribute it to all outgoing streams
-  void _readPacket(Uint8List data) {
-    Concept2CharacteristicData? packet = parsePacket(data);
+  void _readPacket(Uint8List data, {int? dataIdentifier}) {
+    Concept2CharacteristicData? packet =
+        parsePacket(data, dataIdentifier: dataIdentifier);
 
     if (packet != null) {
       //send the data to the outgoing streams
