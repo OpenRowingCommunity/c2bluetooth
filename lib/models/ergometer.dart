@@ -23,6 +23,8 @@ class Ergometer {
   /// Get the name of this erg. i.e. "PM5" + serial number
   String get name => _peripheral.name;
 
+  String get id => _peripheral.id;
+
   /// Create an [Ergometer] from a discovered bluetooth device object
   ///
   /// This is intended only for internal use by [ErgBleManager.startErgScan].
