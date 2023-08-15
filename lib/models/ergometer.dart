@@ -34,6 +34,17 @@ class Ergometer {
       : _peripheral = peripheral,
         _dataplex = new Dataplex(peripheral);
 
+  int _idToInt(String id) {
+    var macAddressParts = id.split(":").sublist(2);
+    return int.parse(macAddressParts.join(), radix: 16);
+  }
+
+  int get hashCode => _idToInt(this.id);
+
+  bool operator ==(Object other) {
+    return other is Ergometer && (other.hashCode == hashCode);
+  }
+
   /// Connect to this erg and discover the services and characteristics that it offers
   /// this returns a stream of [ErgometerConnectionState] events to enable monitoring the erg's connection state and disconnecting.
   Stream<ErgometerConnectionState> connectAndDiscover() {
@@ -250,5 +261,10 @@ class Ergometer {
     return _csafeClient!
         .sendCommands(commands.map((e) => C2ProprietaryWrapper([e])).toList());
     // .then((value) => print(value));
+  }
+
+  @override
+  String toString() {
+    return "Ergometer($name, $id)";
   }
 }
