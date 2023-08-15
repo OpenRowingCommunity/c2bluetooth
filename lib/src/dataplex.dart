@@ -159,10 +159,8 @@ class Dataplex {
 
       // subscribe to them
 
-      _addSubscription(
-          Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID,
-          Identifiers.C2_ROWING_MULTIPLEXED_INFORMATION_CHARACTERISTIC_UUID,
-          null);
+      _addSubscription(Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID,
+          Identifiers.C2_ROWING_MULTIPLEXED_INFORMATION_CHARACTERISTIC_UUID);
     }
 
     //find out if we have any unused characteristics
