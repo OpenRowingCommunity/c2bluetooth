@@ -38,3 +38,5 @@ pubspec.lock
 ## Custom stuff
 
 coverage/
+
+*.mocks.dart

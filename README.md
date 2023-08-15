@@ -24,6 +24,18 @@ In the future, we hope to add support for things like:
 ## Documentation
 The `docs` folder contains a few `.md` (markdown) files that are meant to help explain the major components of the library. Within this folder is also a `diagrams` folder that contains `draw.io/diagrams.net` files that also hope to provide some other ways to understand how this library works. The easiest way to see these diagrams besides looking at any exported copies embedded in the markdown files is to open them in diagrams.net wither online or using their desktop app.  
 
+
+## Tests
+The unit tests require the use of code generation to support null safety
+
+To run unit tests:
+
+```
+flutter pub run build_runner build
+flutter test
+```
+
+
 ## Installation
 
 To install this package, just like any other flutter package, it needs to be included in your pubspec.yaml. Here are some templates for doing so:

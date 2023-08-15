@@ -14,7 +14,7 @@ import 'package:rxdart/rxdart.dart';
 enum ErgometerConnectionState { connecting, connected, disconnected }
 
 class Ergometer {
-  final _flutterReactiveBle = FlutterReactiveBle();
+  final _flutterReactiveBle;
   DiscoveredDevice _peripheral;
   Csafe? _csafeClient;
 
@@ -30,9 +30,11 @@ class Ergometer {
   /// This is intended only for internal use by [ErgBleManager.startErgScan].
   /// Consider this method a private API that is subject to unannounced breaking
   /// changes. There are likely much better methods to use for whatever you are trying to do.
-  Ergometer(DiscoveredDevice peripheral)
+  Ergometer(DiscoveredDevice peripheral,
+      {FlutterReactiveBle? flutterReactiveBle})
       : _peripheral = peripheral,
-        _dataplex = new Dataplex(peripheral);
+        _dataplex = new Dataplex(peripheral),
+        this._flutterReactiveBle = flutterReactiveBle ?? FlutterReactiveBle();
 
   int _idToInt(String id) {
     var macAddressParts = id.split(":").sublist(2);
