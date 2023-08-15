@@ -46,6 +46,22 @@ class Dataplex {
         WorkoutSummaryPacket.datapointIdentifiers,
     Identifiers.C2_ROWING_END_OF_WORKOUT_SUMMARY_CHARACTERISTIC2_UUID:
         WorkoutSummaryPacket2.datapointIdentifiers,
+    Identifiers.C2_ROWING_GENERAL_STATUS_CHARACTERISTIC_UUID:
+        StatusData.datapointIdentifiers,
+    Identifiers.C2_ROWING_GENERAL_STATUS_CHARACTERISTIC2_UUID:
+        StatusData1.datapointIdentifiers,
+    Identifiers.C2_ROWING_GENERAL_STATUS_CHARACTERISTIC3_UUID:
+        StatusData2.datapointIdentifiers,
+    Identifiers.C2_ROWING_STROKE_DATA_CHARACTERISTIC_UUID:
+        StrokeData.datapointIdentifiers,
+    Identifiers.C2_ROWING_STROKE_DATA_CHARACTERISTIC2_UUID:
+        StrokeData2.datapointIdentifiers,
+    Identifiers.C2_ROWING_SPLIT_INTERVAL_DATA_CHARACTERISTIC_UUID:
+        SegmentData1.datapointIdentifiers,
+    Identifiers.C2_ROWING_SPLIT_INTERVAL_DATA_CHARACTERISTIC2_UUID:
+        SegmentData2.datapointIdentifiers,
+    Identifiers.C2_ROWING_FORCE_CURVE_DATA_CHARACTERISTIC_UUID:
+        ForceCurveData.datapointIdentifiers
   };
 
   Dataplex(this._device);
