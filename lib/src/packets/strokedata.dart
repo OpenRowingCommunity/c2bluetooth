@@ -61,7 +61,7 @@ class StrokeData extends ElapsedtimeStampedData {
       Keys.STROKE_RECOVERY_TIME_KEY: recoveryTime,
       // Keys.stroke : peakDriveForce
       Keys.STROKE_AVERAGE_DRIVE_FORCE_KEY: avgDriveForce,
-      Keys.STROKE_POWER_KEY: workPerStroke, //?
+      // Keys.STROKE_POWER_KEY: workPerStroke,
       Keys.STROKE_NUMBER_KEY: strokeCount
     });
     return map;
@@ -69,12 +69,37 @@ class StrokeData extends ElapsedtimeStampedData {
 }
 
 class StrokeData2 extends ElapsedtimeStampedData {
+  int strokePower;
+  int strokeCalories;
+  int projectedWorkTime;
+  int projectedWorkDistance;
+  int strokeCount;
 
   static Set<String> get datapointIdentifiers =>
       StrokeData2.zero().asMap().keys.toSet();
 
   StrokeData2.zero() : this.fromBytes(Uint8List(20));
 
+  StrokeData2.fromBytes(Uint8List data)
+      : strokePower = CsafeIntExtension.fromBytes(data.sublist(3, 5),
+            endian: Endian.little),
+        strokeCalories = CsafeIntExtension.fromBytes(data.sublist(5, 7),
+            endian: Endian.little),
+        strokeCount = CsafeIntExtension.fromBytes(data.sublist(7, 9)),
+        projectedWorkTime = CsafeIntExtension.fromBytes(data.sublist(9, 12)),
+        projectedWorkDistance =
+            CsafeIntExtension.fromBytes(data.sublist(12, 15)),
+        super.fromBytes(data);
 
-  StrokeData2.fromBytes(Uint8List data) : super.fromBytes(data);
+  Map<String, dynamic> asMap() {
+    Map<String, dynamic> map = super.asMap();
+    map.addAll({
+      Keys.STROKE_POWER_KEY: strokePower,
+      Keys.STROKE_CALORIES_KEY: strokeCalories,
+      // Keys. : projectedWorkTime,
+      // Keys. : projectedWorkDistance,
+      Keys.STROKE_NUMBER_KEY: strokeCount
+    });
+    return map;
+  }
 }
