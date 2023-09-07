@@ -18,14 +18,14 @@ class Keys {
   static const WORKOUT_WATTS_KEY = "workout.watts";
   // rests are only applicable for intervals workouts
   static const WORKOUT_REST_DISTANCE_KEY = "workout.rest_distance";
-  static const WORKOUT_REST_TIME_KEY = "workout.rest_time";
+  static const WORKOUT_REST_TIME_KEY = "workout.rest_time"; //?
   static const WORKOUT_AVG_CALORIES_KEY = "workout.calories.average";
 
   static const SEGMENT_TIME_KEY = "segment.time";
-  static const SEGMENT_DISTANCE_KEY = "segment.distance";
+  static const SEGMENT_DISTANCE_KEY = "segment.distance"; //?
   static const SEGMENT_REST_TIME_KEY = "segment.interval.rest_time";
   static const SEGMENT_REST_DISTANCE_KEY = "segment.interval.rest_distance";
-  static const SEGMENT_TYPE_KEY = "segment.type";
+  static const SEGMENT_TYPE_KEY = "segment.type"; //?
   static const SEGMENT_NUMBER_KEY = "segment.number";
   static const SEGMENT_AVG_SPM_KEY = "segment.stroke_rate.average";
   static const SEGMENT_WORK_HR_KEY = "segment.work_heart_rate";
