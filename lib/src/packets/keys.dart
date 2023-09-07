@@ -36,4 +36,27 @@ class Keys {
   static const SEGMENT_SPEED_KEY = "segment.speed";
   static const SEGMENT_POWER_KEY = "segment.power";
   static const SEGMENT_AVG_DRAGFACTOR_KEY = "segment.drag_factor.average";
+
+  static const STATUS_WORKDISTANCE_KEY = "status.work_distance";
+  static const STATUS_WORKOUT_DURATION_KEY = "status.workout_duration";
+  static const STATUS_DRAGFACTOR_KEY = "status.drag_factor";
+  static const STATUS_SPEED_KEY = "status.speed";
+  static const STATUS_STROKERATE_KEY = "status.stroke_rate";
+  static const STATUS_HEARTRATE_KEY = "status.heart_rate";
+  static const STATUS_PACE_KEY = "status.pace";
+  static const STATUS_AVERAGE_PACE_KEY = "status.pace.average";
+  static const STATUS_INTERVAL_COUNT_KEY = "status.interval_count";
+  static const STATUS_POWER_AVERAGE_KEY = "status.power.average";
+  static const STATUS_TOTAL_CALORIES_KEY = "status.calories.total";
+
+  static const STROKE_DRIVE_LENGTH_KEY = "stroke.drive_length";
+  static const STROKE_DRIVE_TIME_KEY = "stroke.drive_time";
+  static const STROKE_RECOVERY_TIME_KEY = "stroke.recovery_time";
+  static const STROKE_DISTANCE_KEY = "stroke.distance";
+  static const STROKE_DRIVE_FORCE_KEY = "stroke.drive_force.max";
+  static const STROKE_AVERAGE_DRIVE_FORCE_KEY = "stroke.drive_force.average";
+  static const STROKE_ENERGY_KEY = "stroke.energy";
+  static const STROKE_NUMBER_KEY = "stroke.number";
+  static const STROKE_POWER_KEY = "stroke.power";
+  static const STROKE_CALORIES_KEY = "stroke.calories";
 }
