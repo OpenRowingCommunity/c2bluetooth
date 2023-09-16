@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:csafe_fitness/csafe_fitness.dart';
 
 import './base.dart';
+import 'keys.dart';
 
 class StatusData extends ElapsedtimeStampedData {
   double distance;
@@ -19,6 +20,12 @@ class StatusData extends ElapsedtimeStampedData {
         super.fromBytes(data);
 
   //TODO: add more data fields here
+
+  Map<String, dynamic> asMap() {
+    Map<String, dynamic> map = super.asMap();
+    map.addAll({Keys.ELAPSED_DISTANCE_KEY: distance});
+    return map;
+  }
 }
 
 class StatusData1 extends ElapsedtimeStampedData {
