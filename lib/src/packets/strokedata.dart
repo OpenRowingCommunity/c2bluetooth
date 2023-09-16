@@ -15,7 +15,6 @@ class StrokeData extends ElapsedtimeStampedData {
 
   double peakDriveForce;
   double avgDriveForce;
-  double workPerStroke;
   int strokeCount;
 
   static Set<String> get datapointIdentifiers =>
@@ -45,10 +44,7 @@ class StrokeData extends ElapsedtimeStampedData {
         avgDriveForce = CsafeIntExtension.fromBytes(data.sublist(14, 16),
                 endian: Endian.little) /
             10,
-        workPerStroke = CsafeIntExtension.fromBytes(data.sublist(16, 18),
-                endian: Endian.little) /
-            10,
-        strokeCount = CsafeIntExtension.fromBytes(data.sublist(18, 20)),
+        strokeCount = CsafeIntExtension.fromBytes(data.sublist(16, 18)),
         super.fromBytes(data);
 
   Map<String, dynamic> asMap() {
@@ -74,6 +70,7 @@ class StrokeData2 extends ElapsedtimeStampedData {
   int projectedWorkTime;
   int projectedWorkDistance;
   int strokeCount;
+  double workPerStroke;
 
   static Set<String> get datapointIdentifiers =>
       StrokeData2.zero().asMap().keys.toSet();
@@ -89,6 +86,9 @@ class StrokeData2 extends ElapsedtimeStampedData {
         projectedWorkTime = CsafeIntExtension.fromBytes(data.sublist(9, 12)),
         projectedWorkDistance =
             CsafeIntExtension.fromBytes(data.sublist(12, 15)),
+        workPerStroke = CsafeIntExtension.fromBytes(data.sublist(15, 17),
+                endian: Endian.little) /
+            10,
         super.fromBytes(data);
 
   Map<String, dynamic> asMap() {

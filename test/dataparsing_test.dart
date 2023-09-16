@@ -51,4 +51,36 @@ void main() {
       }
     });
   });
+
+  group("test StrokeData", () {
+    test('parse bytes', () async {
+      Uint8List bytes = Uint8List.fromList([
+        // 53, came from multiplex, so drop this one
+        55,
+        9,
+        0,
+        157,
+        1,
+        0,
+        85,
+        115,
+        251,
+        0,
+        175,
+        2,
+        180,
+        0,
+        118,
+        0,
+        7,
+        0
+      ]);
+
+      expect(bytes.length, 18);
+
+      StrokeData sdata = StrokeData.fromBytes(bytes);
+
+      print(sdata);
+    });
+  });
 }
