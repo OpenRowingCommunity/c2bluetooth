@@ -58,13 +58,13 @@ Duration parseDuration(String s) {
   return Duration(hours: hours, minutes: minutes, microseconds: micros);
 }
 
-String durationToSplit(Duration d) {
+String durationToSplit(Duration d, {bool includeTenths = true}) {
   List<String> durSplit = d.toString().split('.');
   List<String> time = durSplit.first.split(":");
-  String millis = durSplit.last.substring(0, 1);
-  // print(millis);
+  String tenths = durSplit.last.substring(0, 1);
 
-  return "${d.inMinutes}:${time.last.padLeft(2, "0")}.$millis";
+  return "${d.inMinutes}:${time.last.padLeft(2, "0")}" +
+      (includeTenths ? ".$tenths" : "");
 }
 
 //conversion functions for watts and split (from crewlab app)
@@ -81,13 +81,15 @@ double splitToWatts(Duration split) {
 
 // pace = ³√(2.80/watts); pace = seconds per meter
 // source: https://www.concept2.com/indoor-rowers/training/calculators/watts-calculator
-String wattsToSplit(double watts) {
+//TODO: add a way to
+String wattsToSplit(double watts, {bool includeTenths = true}) {
   if (watts == 0) {
     return "0:00.0";
   }
   var pace = pow((2.80 / watts), (1 / 3)).toDouble();
   var seconds = (pace * 500.0 * 10.0).round() / 10.0;
   var millis = (seconds * Duration.millisecondsPerSecond).round();
-  var split = durationToSplit(Duration(milliseconds: millis));
+  var split = durationToSplit(Duration(milliseconds: millis),
+      includeTenths: includeTenths);
   return split;
 }
