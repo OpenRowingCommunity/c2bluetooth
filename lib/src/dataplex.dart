@@ -130,6 +130,7 @@ class Dataplex {
 
     if (packet != null) {
       //send the data to the outgoing streams
+      //the individual streams are responsible for determining if the packet should be sent to listeners or not based on its data identifier
       for (var stream in outgoingStreams) {
         stream.add(packet.asMap());
       }
@@ -184,9 +185,9 @@ class Dataplex {
           Identifiers.C2_ROWING_MULTIPLEXED_INFORMATION_CHARACTERISTIC_UUID);
     }
 
-    //find out if we have any unused characteristics
+    //TODO: find out if we have any unused characteristics
 
-    // unsubscribe from unused characteristics
+    //TODO: unsubscribe from unused characteristics
   }
 
   /// closes down this instance by cancelling all streams
