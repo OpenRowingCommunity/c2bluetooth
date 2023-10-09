@@ -49,10 +49,10 @@ class C2DataStreamController implements StreamController<Map<String, dynamic>> {
       void onPause()?,
       void onResume()?,
       FutureOr<void> onCancel()?})
-      : _controller = new StreamController<Map<String, dynamic>>(
+      : _controller = new StreamController<Map<String, dynamic>>.broadcast(
             onListen: onListen,
-            onPause: onPause,
-            onResume: onResume,
+            // onPause: onPause,
+            // onResume: onResume,
             onCancel: onCancel);
 
   @override
