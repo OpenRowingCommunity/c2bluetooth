@@ -167,6 +167,11 @@ class Dataplex {
 
     // dind the difference of the two to see what we are missing
     Set<String> missingKeys = requestedKeys.difference(incomingKeys);
+    // the multiplex characteristic will return all data not returned by other individual active subscriptions, so if it is present, missingKeys is effectively empty.
+    if (incomingUUIDs.contains(
+        Identifiers.C2_ROWING_MULTIPLEXED_INFORMATION_CHARACTERISTIC_UUID)) {
+      missingKeys = {};
+    }
 
     if (missingKeys.length >= 1) {
       // do magic to figure out what characteristics to add to get those additional keys
