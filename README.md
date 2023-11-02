@@ -150,5 +150,7 @@ If you are interested in making contributions to this library, please check out 
 
 ![The crewLAB logo](docs/images/crewlablogo.png)
 
-This library is supported by [CrewLAB](https://www.crewlab.io/). If you would like to license this library for use in a proprietary app, please reach out via our [support page](https://www.crewlab.io/support).
 
+This library was created for the rowing community with support and feedback from [CrewLAB](https://www.crewlab.io/).
+
+This library is licensed in a way that can be used within proprietary apps, as long as any changes you or your company make to this library are released and publicly accessible. Full legal details are available in the [LICENSE](./LICENSE) file.
