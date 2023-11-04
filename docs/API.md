@@ -57,9 +57,11 @@ Since a lot of the architecture is already provided by FlutterBleLib and will li
 
 ## Basic API details
 
-This library is built from a few core concepts, some of which are shared with the `csafe-fitness` library. These core concepts represent general groupings of classes that serve a particular purpose or abstract certain aspects of communicating with an erg.
+Overall the C2Bluetooth API is designed around an object-oriented structure
 
-These concepts are roughly divided up into "external" (i.e. those that are part of the libraries public API) and "internal". If you are just using the library in your app, the external concepts should be all you need. Anyone looking to contribute to this library might find the "internal" concepts helpful 
+This library is built on top of a few core categories of classes that serve particular purposes or provide useful abstractions for certain aspects of communicating with an erg. Some of these categories are shared with the `csafe-fitness` library.
+
+These concepts/categories are roughly divided up into "external" (i.e. those that are part of the libraries public API) and "internal". If you are just using the library in your app, the external concepts should be all you need. Anyone looking to contribute to this library might find the "internal" concepts helpful 
 
 ### External Concepts
 
