@@ -55,7 +55,7 @@ class StrokeData extends ElapsedtimeStampedData {
       Keys.STROKE_DRIVE_LENGTH_KEY: driveLength,
       Keys.STROKE_DRIVE_TIME_KEY: driveTime,
       Keys.STROKE_RECOVERY_TIME_KEY: recoveryTime,
-      // Keys.stroke : peakDriveForce
+      Keys.STROKE_DRIVE_FORCE_KEY: peakDriveForce,
       Keys.STROKE_AVERAGE_DRIVE_FORCE_KEY: avgDriveForce,
       // Keys.STROKE_POWER_KEY: workPerStroke,
       Keys.STROKE_NUMBER_KEY: strokeCount
@@ -154,7 +154,7 @@ class StrokeDataMultiplexed extends ElapsedtimeStampedData {
       Keys.STROKE_DRIVE_LENGTH_KEY: driveLength,
       Keys.STROKE_DRIVE_TIME_KEY: driveTime,
       Keys.STROKE_RECOVERY_TIME_KEY: recoveryTime,
-      // Keys.stroke : peakDriveForce
+      Keys.STROKE_DRIVE_FORCE_KEY: peakDriveForce,
       Keys.STROKE_AVERAGE_DRIVE_FORCE_KEY: avgDriveForce,
       Keys.STROKE_NUMBER_KEY: strokeCount
     });
@@ -196,8 +196,8 @@ class StrokeDataMultiplexed2 extends ElapsedtimeStampedData {
       Keys.STROKE_CALORIES_KEY: strokeCalories,
       // Keys. : projectedWorkTime,
       // Keys. : projectedWorkDistance,
-      Keys.STROKE_NUMBER_KEY: strokeCount
-      // Keys.: workPerStroke,
+      Keys.STROKE_NUMBER_KEY: strokeCount,
+      Keys.STROKE_POWER_KEY: workPerStroke,
     });
     return map;
   }
