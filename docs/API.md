@@ -27,6 +27,12 @@ This is essentially a graphical analogy to represent the idea that this library 
 
 To my knowledge this is not currently a software design principle found in the broader software industry. However I think it is an awesome way to explain the concept.
 
+### Least Astonishment
+
+Do things in a way that creates the least amount of surprise. This includes using similar patterns to other similar API's to try and match what implementors are likely to be expecting.
+
+
+
 ### Inspiration
 In order for this library to be a good fit within the community and provide a good user experience for developers, the goal is to design the interface for this library after other existing libraries interfacing with Concept2 rowing machines. The libraries looked at were [Py3Row](https://github.com/droogmic/Py3Row) (Python, BSD-2), [BoutFitness/Concept2-SDK](https://github.com/BoutFitness/Concept2-SDK) (Swift, MIT), [ErgometerJS](https://github.com/tijmenvangulik/ErgometerJS) (Javascript, Apache 2).
 
