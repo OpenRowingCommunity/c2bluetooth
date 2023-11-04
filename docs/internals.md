@@ -14,6 +14,23 @@ One key difference you may notice between this library and the source documentat
 ## Internal API Concepts
 
 ### Dataplex/Subscription Data Multiplex
+
+**Why does it exist?**
+
+Prior to the existence of the dataplex there were separate discrete objects in the public API that represented different pieces of data, most notably one called `WorkoutSummary`. While this could have worked for a few additional types of data, ultimately it would have run into serious with operating-system-imposed limits on number of active bluetooth notifications/subscriptions.
+
+Concept2's Bluetooth specification has a mechanism for working around these limits, which essentially packages multiple data streams into one, higher traffic data stream (the C2 multiplexed information characteristic) instead of lots of smaller ones. However, because this is exposed as a separate bluetooth GATT characteristic, it wouldn't have been very compatible with the prior system that strongly connected (coupled?) the data types in the public API with specific bluetooth characteristics.
+
+**What is it?**
+
+The Dataplex is essentially the "switchboard" or control box that handles both bluetooth data streams (i.e. subscribing to characteristics) and the data requested by applications. By introducing this layer the data that applications get is decoupled from where (i.e. what characteristics) it came from, allowing the library enough room to be able to (at least in the future) intelligently manage which bluetooth characteristics the data comes from to ensure that limits are not exceeded.  
+
+problems this solves:
+- implementors dont have to track how close they are to hitting their devices bluetooth notification limits
+-  implementors dont have to worry about switching between multiple bluetooth data streams.
+
+
+
 In order to provide c2bluetooth with the most flexibility and control over data coming from the PM5, it is useful to insert an additional layer between the incoming data from the bluetooth streams from the PM5 and the stream going out to the user so that c2bluetooth can take on and abstract as much of the complexity as possible.
 
 This is similar to how a library might add a custom class of its own that wraps an existing API from one of its dependencies so that, even if the API being depended on by the library changes, users of the library are more insulated as the library has a locaton where it can perform changes to keep the API as consistent for the end user as possible.
