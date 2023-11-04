@@ -63,6 +63,24 @@ These concepts are roughly divided up into "external" (i.e. those that are part 
 
 ### External Concepts
 
+#### Data Identifiers
+Concept2 exposes many different pieces of data via the bluetooth interface. Some of these pieces of data are advertised in multiple different places in Concept2's bluetooth API. Therefore `c2bluetooth` has assigned each data point an identifier to both simplify and abstract the external API ("I want this data, I dont carewhich path it comes from") and also to make it easier to create internal processes that can intelligently determine the best/most efficient path to retrieve each specific data point from the erg.
+
+These identifiers are loosely in the following format:
+
+`<data scope>.<data point name>[.<differentiator>]`
+
+This format aims to capture the purpose, timing, and/or other attributes of a particular datapoint as there are often cases where the same datapoint is available at different resolutions (such as distance, for which data is provided on a whole-piece, split/interval, and per-stroke basis). Here is a breakdown of what each of these naming segments means:
+
+**Data Scope** is intended to be a general indicator of the granularity and frequency data is available. These generally align with the groupings of data exposed by the erg from Concept2 specification documents. The scope can have the following values (ordered from most to least frequently updated):
+
+`general` - This scope was created as a somewhat special-case category by c2bluetooth for a couple general-purpose data points such as elapsed time, total distance, and machine type that arent really specific to any other scope. This has no substantial grounding in concept2 specification documents. 
+`status` - Used for data that is sent at periodic time interval independently of any particular stroke (such as remaining distance, time, heart rate etc.)
+`stroke` - Used for data that is associated with a specific stroke (such as drive length, drive time, and recovery time).
+`segment` - Used for data that is available at the completion of a split or interval within a workout (such as the time, distance, speed .etc measured during that split/interval).
+`workout`
+
+When data is present in more one scope, its scope value is decided arbitratily to be the one that is more specific or makes the most logical sense.
 #### Model Objects
 This is a gairly general group of classes that represent various indoor rowing concepts (in the form of objects). Some examples of classses in this category are the `Ergometer` and `Workout` classes. Unlike Data Objects, they are intended to be able to enable bidirectional data flow. For example, an `Ergometer` object may have properties for getting data (such as Data Objects) but also may contain methods like `sendWorkout()` that allow you to provide a `Workout` object to set up on the erg. `Workout` objects could also be returned by other methods as a way to represent a workout.  
 
