@@ -82,6 +82,6 @@ This format aims to capture the purpose, timing, and/or other attributes of a pa
 
 When data is present in more one scope, its scope value is decided arbitratily to be the one that is more specific or makes the most logical sense.
 #### Model Objects
-This is a gairly general group of classes that represent various indoor rowing concepts (in the form of objects). Some examples of classses in this category are the `Ergometer` and `Workout` classes. Unlike Data Objects, they are intended to be able to enable bidirectional data flow. For example, an `Ergometer` object may have properties for getting data (such as Data Objects) but also may contain methods like `sendWorkout()` that allow you to provide a `Workout` object to set up on the erg. `Workout` objects could also be returned by other methods as a way to represent a workout.  
+This is a fairly general group of classes that represent various indoor rowing concepts (in the form of objects). Some examples of classses in this category are the `Ergometer` and `Workout` classes. Unlike Data Objects, they are intended to be able to enable bidirectional data flow. For example, an `Ergometer` object may have properties for getting data (such as Data Objects) but also may contain methods like `sendWorkout()` that allow you to provide a `Workout` object to set up on the erg. `Workout` objects could also be returned by other methods as a way to represent a workout.  
 
 Model objects are located in the `models` directory.
