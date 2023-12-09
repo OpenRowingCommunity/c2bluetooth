@@ -49,12 +49,12 @@ class _SimpleErgViewState extends State<SimpleErgView> {
   @override
   void initState() {
     super.initState();
-    bleManager.init(); //ready to go!
-
-    startScan();
+    unawaited(
+      bleManager.init().then((_) => startScan()),
+    );
   }
 
-  startScan() {
+  Future<void> startScan() async {
     setState(() {
       displayText = "Start Scanning";
     });
