@@ -64,11 +64,13 @@ class WorkoutSummary {
 
   /// Construct a WorkoutSummary from the bytes returned from the erg
   void _setBasicBytes(Uint8List data) {
-    _timestamp.completeIfNotAlready(Concept2DateExtension.fromBytes(data.sublist(0, 4)));
+    _timestamp.completeIfNotAlready(
+        Concept2DateExtension.fromBytes(data.sublist(0, 4)));
     _workTime.completeIfNotAlready(
         CsafeIntExtension.fromBytes(data.sublist(4, 7), endian: Endian.little) /
             100); //divide by 100 to convert to seconds
-    _workDistance.completeIfNotAlready(CsafeIntExtension.fromBytes(data.sublist(7, 10),
+    _workDistance.completeIfNotAlready(CsafeIntExtension.fromBytes(
+            data.sublist(7, 10),
             endian: Endian.little) /
         10); //divide by 10 to convert to meters
     _avgSPM.completeIfNotAlready(data.elementAt(10));
@@ -83,8 +85,10 @@ class WorkoutSummary {
     if (recHRVal > 0) {
       _recoveryHeartRate.completeIfNotAlready(recHRVal);
     }
-    _workoutType.completeIfNotAlready(WorkoutTypeExtension.fromInt(data.elementAt(17)));
-    _avgPace.completeIfNotAlready(CsafeIntExtension.fromBytes(data.sublist(18, 20),
+    _workoutType
+        .completeIfNotAlready(WorkoutTypeExtension.fromInt(data.elementAt(17)));
+    _avgPace.completeIfNotAlready(CsafeIntExtension.fromBytes(
+            data.sublist(18, 20),
             endian: Endian.little) /
         10); //{
   }
@@ -96,20 +100,25 @@ class WorkoutSummary {
     //     throw ArgumentError(
     //         "Bytes passed to WorkoutSummary from multiple characteristics must have the same timestamp");
     //   }
-    _intervalType.completeIfNotAlready(IntervalTypeExtension.fromInt(data.elementAt(4)));
+    _intervalType
+        .completeIfNotAlready(IntervalTypeExtension.fromInt(data.elementAt(4)));
     _intervalSize.completeIfNotAlready(
         CsafeIntExtension.fromBytes(data.sublist(5, 7), endian: Endian.little));
     _intervalCount.completeIfNotAlready(data.elementAt(7));
-    _totalCalories.completeIfNotAlready(CsafeIntExtension.fromBytes(data.sublist(8, 10),
+    _totalCalories.completeIfNotAlready(CsafeIntExtension.fromBytes(
+        data.sublist(8, 10),
         endian: Endian.little));
-    _watts.completeIfNotAlready(CsafeIntExtension.fromBytes(data.sublist(10, 12),
+    _watts.completeIfNotAlready(CsafeIntExtension.fromBytes(
+        data.sublist(10, 12),
         endian: Endian.little));
     _totalRestDistance.completeIfNotAlready(CsafeIntExtension.fromBytes(
         data.sublist(12, 15),
         endian: Endian.little));
-    _intervalRestTime.completeIfNotAlready(CsafeIntExtension.fromBytes(data.sublist(15, 17),
+    _intervalRestTime.completeIfNotAlready(CsafeIntExtension.fromBytes(
+        data.sublist(15, 17),
         endian: Endian.little));
-    _avgCalories.completeIfNotAlready(CsafeIntExtension.fromBytes(data.sublist(17, 19),
+    _avgCalories.completeIfNotAlready(CsafeIntExtension.fromBytes(
+        data.sublist(17, 19),
         endian: Endian.little));
   }
 
