@@ -55,42 +55,36 @@ class _SimpleErgViewState extends State<SimpleErgView> {
   }
 
   startScan() async {
-    await Future.wait<PermissionStatus>([
-      Permission.location.request(),
-      Permission.locationWhenInUse.request()
-    ]).then((results) {
-      PermissionStatus locationPermission = results[0];
-      PermissionStatus finePermission = results[1];
-      if (Platform.isAndroid) {
-        if (locationPermission == PermissionStatus.granted &&
-            finePermission == PermissionStatus.granted) {
-          return true;
-        }
-      } else if (Platform.isIOS) {
-        return true;
+    await [
+      if (Platform.isAndroid) Permission.bluetoothConnect,
+      if (Platform.isAndroid) Permission.bluetoothScan,
+      if (Platform.isIOS) Permission.bluetooth,
+      Permission.location,
+    ].request().then((result) {
+      if (result.containsValue(PermissionStatus.denied)) {
+        print('Your device is experiencing a permission issue. $result');
+        setState(() {
+          displayText = "Insufficient permissions: Stopped";
+        });
       }
-      return false;
-    }).then((result) {
-      if (result) {
+      setState(() {
+        displayText = "Start Scanning";
+      });
+
+      scanSub = bleManager.startErgScan().handleError((error) {
+        print(
+            'Your device is experiencing a bluetooth issue. ${error.message}');
         setState(() {
           displayText = "Start Scanning";
         });
+      }).listen((erg) {
+        //Scan one peripheral and stop scanning
+        print("Scanned Peripheral ${erg.name}");
 
-        scanSub = bleManager.startErgScan().listen((erg) {
-          //Scan one peripheral and stop scanning
-          print("Scanned Peripheral ${erg.name}");
-
-          stopScan();
-          targetDevice = erg;
-          connectToDevice();
-        });
-      } else {
-        print(
-            'Your device is experiencing a permission issue. Make sure you allow location services.');
-        setState(() {
-          displayText = "Permission Issue Stopped Scanning";
-        });
-      }
+        stopScan();
+        targetDevice = erg;
+        connectToDevice();
+      });
     });
   }
 
