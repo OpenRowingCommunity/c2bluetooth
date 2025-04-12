@@ -51,11 +51,11 @@ class _SimpleErgViewState extends State<SimpleErgView> {
   @override
   void initState() {
     super.initState();
-    //startScan();
+    handlePermissions();
   }
 
-  startScan() async {
-    await [
+  Future<Map<Permission, PermissionStatus>> handlePermissions() {
+    return [
       if (Platform.isAndroid) Permission.bluetoothConnect,
       if (Platform.isAndroid) Permission.bluetoothScan,
       if (Platform.isIOS) Permission.bluetooth,
@@ -67,24 +67,27 @@ class _SimpleErgViewState extends State<SimpleErgView> {
           displayText = "Insufficient permissions: Stopped";
         });
       }
+      return result;
+    });
+  }
+
+  startScan() async {
+    setState(() {
+      displayText = "Start Scanning";
+    });
+
+    scanSub = bleManager.startErgScan().handleError((error) {
+      print('Your device is experiencing a bluetooth issue. ${error.message}');
       setState(() {
-        displayText = "Start Scanning";
+        displayText = "Scanning Issue: Stopped";
       });
+    }).listen((erg) {
+      //Scan one peripheral and stop scanning
+      print("Scanned Peripheral ${erg.name}");
 
-      scanSub = bleManager.startErgScan().handleError((error) {
-        print(
-            'Your device is experiencing a bluetooth issue. ${error.message}');
-        setState(() {
-          displayText = "Start Scanning";
-        });
-      }).listen((erg) {
-        //Scan one peripheral and stop scanning
-        print("Scanned Peripheral ${erg.name}");
-
-        stopScan();
-        targetDevice = erg;
-        connectToDevice();
-      });
+      stopScan();
+      targetDevice = erg;
+      connectToDevice();
     });
   }
 
@@ -137,7 +140,7 @@ class _SimpleErgViewState extends State<SimpleErgView> {
     if (targetDevice == null) return;
 
     setState(() {
-      displayText = "Setting up streams";
+      displayText = "device: ${targetDevice!.name}";
     });
 
     targetDevice!.monitorForWorkoutSummary().listen((summary) {
