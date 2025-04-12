@@ -168,7 +168,7 @@ class _SimpleErgViewState extends State<SimpleErgView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("hello"),
+        title: Text("c2bluetooth example"),
       ),
       body: Column(children: [
         Visibility(
