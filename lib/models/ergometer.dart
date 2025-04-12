@@ -37,7 +37,7 @@ class Ergometer {
 
     //if no services are specified in the `servicesWithCharacteristicsToDiscover` parameter, then full service discovery will be performed
     _flutterReactiveBle.connectToDevice(id: _peripheral.id);
-    return monitorConnectionState;
+    return getMonitorConnectionState;
   }
 
   /// Deprecation notice: disconnect does not exists on FlutterReactiveBle library

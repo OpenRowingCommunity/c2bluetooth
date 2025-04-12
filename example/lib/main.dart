@@ -143,6 +143,7 @@ class _SimpleErgViewState extends State<SimpleErgView> {
       displayText = "device: ${targetDevice!.name}";
     });
 
+    // ignore: deprecated_member_use
     targetDevice!.monitorForWorkoutSummary().listen((summary) {
       print(summary);
       //TODO: update this for futures
