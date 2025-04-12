@@ -41,28 +41,49 @@ class Ergometer {
     //this may cause problems if the device goes out of range between scenning and trying to connect. maybe use connectToAdvertisingDevice instead to mitigate this and prevent a hang on android
 
     //if no services are specified in the `servicesWithCharacteristicsToDiscover` parameter, then full service discovery will be performed
-    return _flutterReactiveBle
-        .connectToDevice(id: _peripheral.id)
-        .asyncMap((connectionStateUpdate) {
-      switch (connectionStateUpdate.connectionState) {
-        case DeviceConnectionState.connecting:
-          return ErgometerConnectionState.connecting;
-        case DeviceConnectionState.connected:
-          return ErgometerConnectionState.connected;
-        case DeviceConnectionState.disconnecting:
-          return ErgometerConnectionState.disconnected;
-        case DeviceConnectionState.disconnected:
-          return ErgometerConnectionState.disconnected;
-        default:
-          return ErgometerConnectionState.disconnected;
-      }
-    });
+    _flutterReactiveBle.connectToDevice(id: _peripheral.id);
+    return monitorConnectionState;
+  }
+
+  /// Deprecation notice: disconnect does not exists on FlutterReactiveBle library
+  @Deprecated("Destroy the Ergometer object to disconnect")
+  void disconnectOrCancel() {
+    throw NoSuchMethodError;
+  }
+
+  /// Subscribe to a stream of data from the erg
+  ///  (ex: general.distance, stroke.drive_length, ...)
+  Stream<dynamic> monitorForData(Set<String> datakey) {
+    throw UnimplementedError('$datakey not implemented');
   }
 
   Stream<Map<String, dynamic>> monitorForData(
       Set<String> datapointIdentifiers) {
     return _dataplex.createStream(datapointIdentifiers);
   }
+
+  // Ensure compatibility
+  @Deprecated("Use getMonitorConnectionState getter")
+  Stream<ErgometerConnectionState> monitorConnectionState() {
+    return getMonitorConnectionState;
+  }
+
+  /// Expose a stream of events to enable monitoring the erg's connection state
+  /// This acts as a wrapper around the state provided by the internal bluetooth library to aid with swapping it out later.
+  Stream<ErgometerConnectionState> get getMonitorConnectionState =>
+      _flutterReactiveBle.connectedDeviceStream
+          .asyncMap((connectionStateUpdate) {
+        switch (connectionStateUpdate.connectionState) {
+          case DeviceConnectionState.connecting:
+            return ErgometerConnectionState.connecting;
+          case DeviceConnectionState.connected:
+            return ErgometerConnectionState.connected;
+          case DeviceConnectionState.disconnecting:
+            return ErgometerConnectionState.disconnected;
+          default:
+            return ErgometerConnectionState.disconnected;
+        }
+      });
 
   /// An internal read function for accessing the PM's CSAFE API over bluetooth.
   ///
