@@ -54,18 +54,19 @@ void main() {
 
     test('can extract basic values from a workout summary byte list', () {
       final summary = WorkoutSummary.fromBytes(Uint8List.fromList(basicBytes));
-      expect(summary.timestamp, DateTime(2000, 0, 0, 0, 0));
-      expect(summary.workTime, 1.28);
-      expect(summary.workDistance, 25.5);
-      expect(summary.avgSPM, 32);
-      expect(summary.endHeartRate, 190);
-      expect(summary.avgHeartRate, 170);
-      expect(summary.minHeartRate, 68);
-      expect(summary.maxHeartRate, 190);
-      expect(summary.avgDragFactor, 120);
-      expect(summary.workoutType, WorkoutType.JUSTROW_SPLITS);
-      expect(summary.avgPace, 10);
-      expect(summary.watts, null);
+      expect(summary.timestamp, completion(equals(DateTime(2000, 0, 0, 0, 0))));
+      expect(summary.workTime, completion(equals(1.28)));
+      expect(summary.workDistance, completion(equals(25.5)));
+      expect(summary.avgSPM, completion(equals(32)));
+      expect(summary.endHeartRate, completion(equals(190)));
+      expect(summary.avgHeartRate, completion(equals(170)));
+      expect(summary.minHeartRate, completion(equals(68)));
+      expect(summary.maxHeartRate, completion(equals(190)));
+      expect(summary.avgDragFactor, completion(equals(120)));
+      expect(
+          summary.workoutType, completion(equals(WorkoutType.JUSTROW_SPLITS)));
+      expect(summary.avgPace, completion(equals(10)));
+      //expect(summary.watts, completion(equals(null))); //FIXME: future should not resolve
     });
 
     test(
@@ -73,14 +74,14 @@ void main() {
         () {
       final summary = WorkoutSummary.fromBytes(Uint8List.fromList(bothSets));
       // expect(summary.timestamp, DateTime(2000, 0, 0, 0, 0));
-      expect(summary.intervalType, IntervalType.TIME);
-      expect(summary.intervalSize, 255);
-      expect(summary.intervalCount, 2);
-      expect(summary.totalCalories, 34);
-      expect(summary.watts, 196);
-      expect(summary.totalRestDistance, 72);
-      expect(summary.intervalRestTime, 55);
-      expect(summary.avgCalories, 100);
+      expect(summary.intervalType, completion(equals(IntervalType.TIME)));
+      expect(summary.intervalSize, completion(equals(255)));
+      expect(summary.intervalCount, completion(equals(2)));
+      expect(summary.totalCalories, completion(equals(34)));
+      expect(summary.watts, completion(equals(196)));
+      expect(summary.totalRestDistance, completion(equals(72)));
+      expect(summary.intervalRestTime, completion(equals(55)));
+      expect(summary.avgCalories, completion(equals(100)));
     });
 
     test('fails if it receives two different datetime values', () {
