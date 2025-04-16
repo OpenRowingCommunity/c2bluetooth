@@ -2,11 +2,10 @@ import 'dart:typed_data';
 
 import 'package:c2bluetooth/c2bluetooth.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
-import '../src/commands.dart';
-import '../src/datatypes.dart';
+import 'package:c2bluetooth/internal/commands.dart';
+import 'package:c2bluetooth/internal/datatypes.dart';
 import 'package:csafe_fitness/csafe_fitness.dart';
-import '../helpers.dart';
-import '../../src/dataplex.dart';
+import 'package:c2bluetooth/helpers.dart';
 import 'workout.dart';
 import 'package:c2bluetooth/constants.dart' as Identifiers;
 import 'package:rxdart/rxdart.dart';
@@ -14,7 +13,7 @@ import 'package:rxdart/rxdart.dart';
 enum ErgometerConnectionState { connecting, connected, disconnected }
 
 class Ergometer {
-  final _flutterReactiveBle = FlutterReactiveBle();
+  final FlutterReactiveBle _flutterReactiveBle;
   DiscoveredDevice _peripheral;
   Csafe? _csafeClient;
 
@@ -28,8 +27,9 @@ class Ergometer {
   /// This is intended only for internal use by [ErgBleManager.startErgScan].
   /// Consider this method a private API that is subject to unannounced breaking
   /// changes. There are likely much better methods to use for whatever you are trying to do.
-  Ergometer(DiscoveredDevice peripheral)
-      : _peripheral = peripheral,
+  Ergometer(DiscoveredDevice peripheral, {FlutterReactiveBle? bleClient})
+      : _flutterReactiveBle = bleClient ?? FlutterReactiveBle(),
+        _peripheral = peripheral,
         _dataplex = new Dataplex(peripheral);
 
   /// Connect to this erg and discover the services and characteristics that it offers
