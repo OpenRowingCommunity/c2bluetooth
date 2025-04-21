@@ -75,7 +75,7 @@ class WorkoutSummary extends TimestampedData {
       "avgSPM: $avgSPM)";
 }
 
-class WorkoutSummary2 {
+class WorkoutSummary2 extends TimestampedData {
   IntervalType intervalType;
   int intervalSize;
   int intervalCount;
@@ -107,5 +107,6 @@ class WorkoutSummary2 {
         intervalRestTime = CsafeIntExtension.fromBytes(data.sublist(15, 17),
             endian: Endian.little),
         avgCalories = CsafeIntExtension.fromBytes(data.sublist(17, 19),
-            endian: Endian.little) {}
+            endian: Endian.little),
+        super.fromBytes(data);
 }

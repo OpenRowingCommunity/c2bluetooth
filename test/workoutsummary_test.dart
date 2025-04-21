@@ -50,7 +50,7 @@ void main() {
       0
     ];
 
-    List<int> bothSets = basicBytes + extendedBytes;
+    // List<int> bothSets = basicBytes + extendedBytes;
 
     test('can extract basic values from a workout summary byte list', () {
       final summary = WorkoutSummary.fromBytes(Uint8List.fromList(basicBytes));
@@ -65,14 +65,12 @@ void main() {
       expect(summary.avgDragFactor, 120);
       expect(summary.workoutType, WorkoutType.JUSTROW_SPLITS);
       expect(summary.avgPace, 10);
-      expect(summary.watts, null);
     });
 
-    test(
-        'can extract basic and extended values from a workout summary byte list',
-        () {
-      final summary = WorkoutSummary.fromBytes(Uint8List.fromList(bothSets));
-      // expect(summary.timestamp, DateTime(2000, 0, 0, 0, 0));
+    test('can extract extended values from a workout summary byte list', () {
+      final summary =
+          WorkoutSummary2.fromBytes(Uint8List.fromList(extendedBytes));
+      expect(summary.timestamp, DateTime(2000, 0, 0, 0, 0));
       expect(summary.intervalType, IntervalType.TIME);
       expect(summary.intervalSize, 255);
       expect(summary.intervalCount, 2);
@@ -83,34 +81,34 @@ void main() {
       expect(summary.avgCalories, 100);
     });
 
-    test('fails if it receives two different datetime values', () {
-      List<int> modifiedDateBytes = [
-        42,
-        0,
-        0,
-        0,
-        0,
-        255,
-        0,
-        2,
-        34,
-        0,
-        196,
-        0,
-        72,
-        0,
-        0,
-        55,
-        0,
-        100,
-        0
-      ];
+    // test('fails if it receives two different datetime values', () {
+    //   List<int> modifiedDateBytes = [
+    //     42,
+    //     0,
+    //     0,
+    //     0,
+    //     0,
+    //     255,
+    //     0,
+    //     2,
+    //     34,
+    //     0,
+    //     196,
+    //     0,
+    //     72,
+    //     0,
+    //     0,
+    //     55,
+    //     0,
+    //     100,
+    //     0
+    //   ];
 
-      Uint8List differentSets =
-          Uint8List.fromList(basicBytes + modifiedDateBytes);
+    //   Uint8List differentSets =
+    //       Uint8List.fromList(basicBytes + modifiedDateBytes);
 
-      expect(
-          () => WorkoutSummary.fromBytes(differentSets), throwsArgumentError);
-    });
+    //   expect(
+    //       () => WorkoutSummary.fromBytes(differentSets), throwsArgumentError);
+    // });
   });
 }
