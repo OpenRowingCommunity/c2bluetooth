@@ -49,12 +49,12 @@ class _SimpleErgViewState extends State<SimpleErgView> {
   @override
   void initState() {
     super.initState();
-    bleManager.init(); //ready to go!
-
-    startScan();
+    unawaited(
+      bleManager.init().then((_) => startScan()),
+    );
   }
 
-  startScan() {
+  Future<void> startScan() async {
     setState(() {
       displayText = "Start Scanning";
     });
@@ -151,22 +151,10 @@ class _SimpleErgViewState extends State<SimpleErgView> {
     });
 
     targetDevice!.monitorForWorkoutSummary().listen((summary) {
-      print(summary);
-      //TODO: update this for futures
-      summary.workDistance.then((dist) {
-        setState(() {
-          displayText = "distance: $dist";
-        });
-      });
-      summary.timestamp.then((time) {
-        setState(() {
-          displayText2 = "datetime: $time";
-        });
-      });
-      summary.avgSPM.then((spm) {
-        setState(() {
-          displayText3 = "sr: $spm";
-        });
+      setState(() {
+        displayText = "distance: ${summary.workDistance}";
+        displayText2 = "datetime: ${summary.timestamp}";
+        displayText3 = "sr: ${summary.avgSPM}";
       });
     });
   }
