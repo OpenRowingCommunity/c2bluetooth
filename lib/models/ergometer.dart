@@ -1,14 +1,14 @@
 import 'dart:typed_data';
 
 import 'package:c2bluetooth/c2bluetooth.dart';
+import 'package:c2bluetooth/src/dataplex.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
-import 'package:c2bluetooth/internal/commands.dart';
-import 'package:c2bluetooth/internal/datatypes.dart';
+import 'package:c2bluetooth/src/commands.dart';
+import 'package:c2bluetooth/src/datatypes.dart';
 import 'package:csafe_fitness/csafe_fitness.dart';
 import 'package:c2bluetooth/helpers.dart';
 import 'workout.dart';
 import 'package:c2bluetooth/constants.dart' as Identifiers;
-import 'package:rxdart/rxdart.dart';
 
 enum ErgometerConnectionState { connecting, connected, disconnected }
 
@@ -30,7 +30,7 @@ class Ergometer {
   Ergometer(DiscoveredDevice peripheral, {FlutterReactiveBle? bleClient})
       : _flutterReactiveBle = bleClient ?? FlutterReactiveBle(),
         _peripheral = peripheral,
-        _dataplex = new Dataplex(peripheral);
+        _dataplex = new Dataplex(peripheral, bleClient);
 
   /// Connect to this erg and discover the services and characteristics that it offers
   /// this returns a stream of [ErgometerConnectionState] events to enable monitoring the erg's connection state and disconnecting.
@@ -53,10 +53,6 @@ class Ergometer {
 
   /// Subscribe to a stream of data from the erg
   ///  (ex: general.distance, stroke.drive_length, ...)
-  Stream<dynamic> monitorForData(Set<String> datakey) {
-    throw UnimplementedError('$datakey not implemented');
-  }
-
   Stream<Map<String, dynamic>> monitorForData(
       Set<String> datapointIdentifiers) {
     return _dataplex.createStream(datapointIdentifiers);

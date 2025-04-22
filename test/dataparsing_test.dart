@@ -3,10 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import '../lib/src/packets/statusdata.dart';
-import '../lib/src/packets/strokedata.dart';
-import '../lib/src/packets/segmentdata.dart';
-import '../lib/src/packets/workoutsummary.dart';
-import '../lib/src/packets/forcecurvepacket.dart';
 
 import '../lib/src/packets/base.dart';
 import '../lib/src/helpers.dart';

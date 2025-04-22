@@ -3,7 +3,9 @@ import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'ergometer.dart';
 
 class ErgBleManager {
-  final _manager = FlutterReactiveBle();
+  final _manager;
+
+  ErgBleManager({bleClient}) : _manager = bleClient ?? FlutterReactiveBle();
 
   /// Begin scanning for Ergs.
   ///
@@ -12,7 +14,7 @@ class ErgBleManager {
   Stream<Ergometer> startErgScan() {
     return _manager.scanForDevices(withServices: [
       Uuid.parse(Identifiers.C2_ROWING_BASE_UUID)
-    ]).map((scanResult) => Ergometer(scanResult));
+    ]).map((scanResult) => Ergometer(scanResult, bleClient: _manager));
   }
 
   /// Clean up/destroy/deallocate resources so that they are availalble again

@@ -18,7 +18,7 @@ import 'packets/base.dart';
 class Dataplex {
   // data access speed
 
-  final _flutterReactiveBle = FlutterReactiveBle();
+  final FlutterReactiveBle _flutterReactiveBle;
 
   DiscoveredDevice _device;
 
@@ -48,7 +48,7 @@ class Dataplex {
         WorkoutSummaryPacket2.datapointIdentifiers,
   };
 
-  Dataplex(this._device) {
+  Dataplex(this._device, bleClient) : _flutterReactiveBle = bleClient {
     _addSubscription(
         Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID,
         Identifiers.C2_ROWING_MULTIPLEXED_INFORMATION_CHARACTERISTIC_UUID,

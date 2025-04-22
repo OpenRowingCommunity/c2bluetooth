@@ -1,10 +1,8 @@
 import 'dart:typed_data';
-import 'dart:async';
 
 import 'package:c2bluetooth/extensions.dart';
 import 'package:csafe_fitness/csafe_fitness.dart';
 
-import 'package:c2bluetooth/helpers.dart';
 import 'package:c2bluetooth/enums.dart';
 import './base.dart';
 import 'keys.dart';

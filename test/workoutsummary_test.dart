@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:c2bluetooth/c2bluetooth.dart';
+import 'package:c2bluetooth/data/workoutsummary.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
