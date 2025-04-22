@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -90,18 +89,4 @@ String wattsToSplit(double watts) {
   var millis = (seconds * Duration.millisecondsPerSecond).round();
   var split = durationToSplit(Duration(milliseconds: millis));
   return split;
-}
-
-extension IdempotentCompleter<T> on Completer<T> {
-  void completeIfNotAlready([FutureOr<T>? value]) {
-    if (!this.isCompleted) {
-      this.complete(value);
-    }
-  }
-
-  void completeErrorIfNotAlready(Object error, [StackTrace? stackTrace]) {
-    if (!this.isCompleted) {
-      this.completeError(error, stackTrace);
-    }
-  }
 }

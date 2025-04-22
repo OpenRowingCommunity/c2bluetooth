@@ -37,8 +37,37 @@ const String C2_ROWING_END_OF_WORKOUT_SUMMARY_CHARACTERISTIC_UUID =
 const String C2_ROWING_END_OF_WORKOUT_SUMMARY_CHARACTERISTIC2_UUID =
     "CE06003A-43E5-11E4-916C-0800200C9A66";
 
+const String C2_ROWING_MULTIPLEXED_INFORMATION_CHARACTERISTIC_UUID =
+    "CE060080-43E5-11E4-916C-0800200C9A66";
+
 // CE060010-43E5-11E4-916C-0800200C9A66 //C2 device info service uuid
 // CE060012-43E5-11E4-916C-0800200C9A66 //C2 serial number string characteristic
 // CE060013-43E5-11E4-916C-0800200C9A66 //C2 hardware revision string characteristic
 // CE060014-43E5-11E4-916C-0800200C9A66 //C2 firmware revision string characteristic
 // CE060015-43E5-11E4-916C-0800200C9A66 //C2 manufacturer string characteristic
+
+const Map<String, int> dataKeyToCharacteristicMap = {
+  "something.something": 0xAB,
+  "something.something.average": 0xAB
+};
+
+Map<int, Set<String>> getCharacteristicToDataKeysMap(
+    Map<String, int> keyToCharacteristicMap) {
+  Map<int, Set<String>> out = Map();
+  for (var entry in dataKeyToCharacteristicMap.entries) {
+    var key = entry.key;
+    var value = entry.value;
+
+    var currentSet = out[value];
+
+    if (currentSet != null) {
+      currentSet.add(key);
+    } else {
+      out[value] = {key};
+    }
+  }
+  return out;
+}
+
+Map<int, Set<String>> characteristicToDataKeysMap =
+    getCharacteristicToDataKeysMap(dataKeyToCharacteristicMap);

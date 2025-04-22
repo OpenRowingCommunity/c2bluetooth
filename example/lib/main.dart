@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:c2bluetooth/c2bluetooth.dart';
 import 'package:c2bluetooth/models/workout.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() {
   runApp(MyApp());
@@ -49,30 +51,46 @@ class _SimpleErgViewState extends State<SimpleErgView> {
   @override
   void initState() {
     super.initState();
-    bleManager.init(); //ready to go!
-
-    startScan();
+    //startScan();
   }
 
-  startScan() {
-    setState(() {
-      displayText = "Start Scanning";
-    });
+  startScan() async {
+    await [
+      if (Platform.isAndroid) Permission.bluetoothConnect,
+      if (Platform.isAndroid) Permission.bluetoothScan,
+      if (Platform.isIOS) Permission.bluetooth,
+      Permission.location,
+    ].request().then((result) {
+      if (result.containsValue(PermissionStatus.denied)) {
+        print('Your device is experiencing a permission issue. $result');
+        setState(() {
+          displayText = "Insufficient permissions: Stopped";
+        });
+      }
+      setState(() {
+        displayText = "Start Scanning";
+      });
 
-    scanSub = bleManager.startErgScan().listen((erg) {
-      //Scan one peripheral and stop scanning
-      print("Scanned Peripheral ${erg.name}");
+      scanSub = bleManager.startErgScan().handleError((error) {
+        print(
+            'Your device is experiencing a bluetooth issue. ${error.message}');
+        setState(() {
+          displayText = "Start Scanning";
+        });
+      }).listen((erg) {
+        //Scan one peripheral and stop scanning
+        print("Scanned Peripheral ${erg.name}");
 
-      stopScan();
-      targetDevice = erg;
-      connectToDevice();
+        stopScan();
+        targetDevice = erg;
+        connectToDevice();
+      });
     });
   }
 
   stopScan() {
     scanSub?.cancel();
     scanSub = null;
-    bleManager.stopErgScan();
   }
 
   connectToDevice() async {
@@ -82,41 +100,24 @@ class _SimpleErgViewState extends State<SimpleErgView> {
       displayText = "Device Connecting";
     });
 
-    await targetDevice!.connectAndDiscover();
-
-    // if (!connected) {
-    //   targetDevice!
-    //       .observeConnectionState(
-    //           emitCurrentValue: true, completeOnDisconnect: true)
-    //       .listen((connectionState) {
-    //     print(
-    //         "Peripheral ${targetDevice!.name} connection state is $connectionState");
-    //   });
-    //   try {
-    //     await targetDevice!.connect();
-    //   } catch (BleError) {
-    //     print("a");
-    //   }
-    //   print('CONNECTING');
-    // } else {
-    //   print('DEVICE Already CONNECTED');
-    // }
-    // setState(() {
-    //   displayText = "Device Connected";
-    // });
-    // discoverServices();
-    subscribeToStreams();
+    targetDevice!.connectAndDiscover().listen((event) {
+      if (event == ErgometerConnectionState.connected) {
+        subscribeToStreams();
+      }
+    });
   }
 
   setup2kH() async {
     if (targetDevice == null) return;
 
+    // ignore: deprecated_member_use
     targetDevice?.configure2kWorkout();
   }
 
   setup10kH() async {
     if (targetDevice == null) return;
 
+    // ignore: deprecated_member_use
     targetDevice?.configure10kWorkout();
   }
 
@@ -132,17 +133,6 @@ class _SimpleErgViewState extends State<SimpleErgView> {
     targetDevice?.configureWorkout(Workout.single(WorkoutGoal.meters(10000)));
   }
 
-  disconnectFromDevice() async {
-    if (targetDevice == null) return;
-
-    // targetDevice!.disconnect();
-    await targetDevice?.disconnectOrCancel();
-
-    setState(() {
-      displayText = "Device Disconnected";
-    });
-  }
-
   subscribeToStreams() async {
     if (targetDevice == null) return;
 
@@ -150,23 +140,33 @@ class _SimpleErgViewState extends State<SimpleErgView> {
       displayText = "Setting up streams";
     });
 
-    targetDevice!.monitorForWorkoutSummary().listen((summary) {
-      print(summary);
-      //TODO: update this for futures
-      summary.workDistance.then((dist) {
-        setState(() {
-          displayText = "distance: $dist";
-        });
+    targetDevice!.monitorForData({
+      Keys.ELAPSED_DISTANCE_KEY,
+      Keys.WORKOUT_TIMESTAMP_KEY,
+      Keys.WORKOUT_AVG_SPM_KEY
+    }).listen((data) {
+      print(data);
+
+      setState(() {
+        displayText = "distance: ${data[Keys.ELAPSED_DISTANCE_KEY]}";
+        displayText2 = "datetime: ${data[Keys.WORKOUT_TIMESTAMP_KEY]}";
+        displayText3 = "sr: ${data[Keys.WORKOUT_AVG_SPM_KEY]}";
       });
-      summary.timestamp.then((time) {
-        setState(() {
-          displayText2 = "datetime: $time";
-        });
-      });
-      summary.avgSPM.then((spm) {
-        setState(() {
-          displayText3 = "sr: $spm";
-        });
+    });
+
+    targetDevice!.monitorForData({
+      Keys.SEGMENT_NUMBER_KEY,
+      Keys.SEGMENT_DISTANCE_KEY,
+      Keys.SEGMENT_AVG_SPM_KEY,
+      Keys.ELAPSED_DISTANCE_KEY
+    }).listen((data) {
+      print(data);
+
+      setState(() {
+        displayText = "interval #: ${data[Keys.SEGMENT_NUMBER_KEY]}";
+        displayText2 =
+            "sd: ${data[Keys.SEGMENT_DISTANCE_KEY]}, gd:  ${data[Keys.ELAPSED_DISTANCE_KEY]}";
+        displayText3 = "sr avg: ${data[Keys.SEGMENT_AVG_SPM_KEY]}";
       });
     });
   }
@@ -178,6 +178,15 @@ class _SimpleErgViewState extends State<SimpleErgView> {
         title: Text("hello"),
       ),
       body: Column(children: [
+        Visibility(
+          visible: scanSub == null && targetDevice == null,
+          child: ElevatedButton(
+            onPressed: () {
+              startScan();
+            },
+            child: Text("Start Scan"),
+          ),
+        ),
         Center(
           child: Text(
             displayText,
@@ -217,7 +226,7 @@ class _SimpleErgViewState extends State<SimpleErgView> {
 
   @override
   void dispose() {
-    disconnectFromDevice();
+    //disconnectFromDevice();
     bleManager
         .destroy(); //remember to release native resources when you're done!
     super.dispose();
