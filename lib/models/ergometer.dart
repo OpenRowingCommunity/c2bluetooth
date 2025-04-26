@@ -17,7 +17,7 @@ class Ergometer {
   DiscoveredDevice _peripheral;
   Csafe? _csafeClient;
 
-  Dataplex _dataplex;
+  late final Dataplex _dataplex;
 
   /// Get the name of this erg. i.e. "PM5" + serial number
   String get name => _peripheral.name;
@@ -29,8 +29,7 @@ class Ergometer {
   /// changes. There are likely much better methods to use for whatever you are trying to do.
   Ergometer(DiscoveredDevice peripheral, {FlutterReactiveBle? bleClient})
       : _flutterReactiveBle = bleClient ?? FlutterReactiveBle(),
-        _peripheral = peripheral,
-        _dataplex = new Dataplex(peripheral, bleClient);
+        _peripheral = peripheral;
 
   /// Connect to this erg and discover the services and characteristics that it offers
   /// this returns a stream of [ErgometerConnectionState] events to enable monitoring the erg's connection state and disconnecting.
@@ -42,6 +41,7 @@ class Ergometer {
 
     //if no services are specified in the `servicesWithCharacteristicsToDiscover` parameter, then full service discovery will be performed
     _flutterReactiveBle.connectToDevice(id: _peripheral.id);
+    _dataplex = new Dataplex(_peripheral, _flutterReactiveBle);
     return getMonitorConnectionState;
   }
 
