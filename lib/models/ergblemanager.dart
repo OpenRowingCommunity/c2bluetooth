@@ -12,7 +12,7 @@ class ErgBleManager {
   Stream<Ergometer> startErgScan() {
     return _manager.scanForDevices(withServices: [
       Uuid.parse(Identifiers.C2_ROWING_BASE_UUID)
-    ]).map((scanResult) => Ergometer(scanResult));
+    ]).map((scanResult) => Ergometer(scanResult, bleClient: _manager));
   }
 
   /// Clean up/destroy/deallocate resources so that they are availalble again
