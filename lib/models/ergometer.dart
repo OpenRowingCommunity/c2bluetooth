@@ -27,9 +27,8 @@ class Ergometer {
   /// This is intended only for internal use by [ErgBleManager.startErgScan].
   /// Consider this method a private API that is subject to unannounced breaking
   /// changes. There are likely much better methods to use for whatever you are trying to do.
-  Ergometer(DiscoveredDevice peripheral, {FlutterReactiveBle? bleClient})
-      : _flutterReactiveBle = bleClient ?? FlutterReactiveBle(),
-        _peripheral = peripheral;
+  Ergometer(this._peripheral, {required FlutterReactiveBle bleClient})
+      : _flutterReactiveBle = bleClient;
 
   /// Connect to this erg and discover the services and characteristics that it offers
   /// this returns a stream of [ErgometerConnectionState] events to enable monitoring the erg's connection state and disconnecting.
