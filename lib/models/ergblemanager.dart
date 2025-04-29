@@ -1,11 +1,17 @@
 import 'package:c2bluetooth/constants.dart' as Identifiers;
+import 'package:flutter/foundation.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'ergometer.dart';
 
 class ErgBleManager {
-  final _manager;
+  final FlutterReactiveBle _manager;
 
-  ErgBleManager({bleClient}) : _manager = bleClient ?? FlutterReactiveBle();
+  ErgBleManager() : _manager = FlutterReactiveBle();
+
+  /// Allow [ErgBleManager] to be tested using a Mocked bluetooth client
+  @visibleForTesting
+  ErgBleManager.withDependency({FlutterReactiveBle? bleClient})
+      : _manager = bleClient ?? FlutterReactiveBle();
 
   /// Begin scanning for Ergs.
   ///
