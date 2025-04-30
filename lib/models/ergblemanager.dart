@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:c2bluetooth/constants.dart' as Identifiers;
+import 'package:c2bluetooth/exceptions/c2bluetooth_exceptions.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'ergometer.dart';
@@ -25,14 +26,17 @@ class ErgBleManager {
   Stream<Ergometer> startErgScan() {
     _bleStatus = _manager.statusStream.listen((bleStatus) {
       if (bleStatus != BleStatus.ready)
-        throw Exception('Bluetooth Error: device $bleStatus');
+        throw C2ConnectionException('Bluetooth Error: device $bleStatus');
     });
-    return _manager.scanForDevices(withServices: [
-      Uuid.parse(Identifiers.C2_ROWING_BASE_UUID)
-    ]).map((scanResult) {
-      _scannedErgometers.add(Ergometer(scanResult, bleClient: _manager));
-      return _scannedErgometers.last;
-    });
+    return _manager
+        .scanForDevices(
+            withServices: [Uuid.parse(Identifiers.C2_ROWING_BASE_UUID)])
+        .handleError((error) =>
+            throw C2ConnectionException('Error when scanning', error))
+        .map((scanResult) {
+          _scannedErgometers.add(Ergometer(scanResult, bleClient: _manager));
+          return _scannedErgometers.last;
+        });
   }
 
   /// Clean up/destroy/deallocate resources so that they are availalble again
