@@ -5,6 +5,7 @@ import 'ergometer.dart';
 
 class ErgBleManager {
   final FlutterReactiveBle _manager;
+  List<Ergometer> _scannedErgometers = [];
 
   ErgBleManager() : _manager = FlutterReactiveBle();
 
@@ -20,12 +21,15 @@ class ErgBleManager {
   Stream<Ergometer> startErgScan() {
     return _manager.scanForDevices(withServices: [
       Uuid.parse(Identifiers.C2_ROWING_BASE_UUID)
-    ]).map<Ergometer>(
-        (scanResult) => Ergometer(scanResult, bleClient: _manager));
+    ]).map<Ergometer>((scanResult) {
+      _scannedErgometers.add(Ergometer(scanResult, bleClient: _manager));
+      return _scannedErgometers.last;
+    });
   }
 
   /// Clean up/destroy/deallocate resources so that they are availalble again
   Future<void> destroy() {
+    _scannedErgometers.clear();
     return _manager.deinitialize();
   }
 }
