@@ -45,6 +45,8 @@ void main() {
                 that: predicate<List<Uuid>>((services) => services
                     .contains(Uuid.parse(Identifiers.C2_ROWING_BASE_UUID))))))
         .thenAnswer((_) => fakeScan);
+    when(() => mockReactive.statusStream)
+        .thenAnswer((_) => Stream.value(BleStatus.ready));
 
     /// Ensure DiscoveredDevice events are translated as Ergometer events
     /// we expect only them in matching order
