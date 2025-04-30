@@ -83,6 +83,15 @@ StreamSubscription<Ergometer> ergConnectionStream = myErg.connectAndDiscover().l
   } else if (event == ErgometerConnectionState.disconnected) {
     //handle disconnection here
   }
+}, onError: (Object error) {
+  // Handle a possible error
+  if (error is C2ConnectionException) {
+    //handle connection errors
+  } else if (error is C2BluetoothException) {
+    print("C2Bluetooth error: ${error.message}");
+  } else {
+    print("Unknown error: $error");
+  }
 });
 ```
 
