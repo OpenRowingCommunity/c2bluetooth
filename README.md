@@ -79,13 +79,12 @@ Once you have the `Ergometer` instance for the erg you want to connect to, you c
 
 ```dart
 StreamSubscription<Ergometer> ergConnectionStream = myErg.connectAndDiscover().listen((event) {
-    if(event == ErgometerConnectionState.connected) {
-      //do stuff here once the erg is connected
-    } else if (event == ErgometerConnectionState.disconnected) {
-      //handle disconnection here
-    }
-  });
-}
+  if(event == ErgometerConnectionState.connected) {
+    //do stuff here once the erg is connected
+  } else if (event == ErgometerConnectionState.disconnected) {
+    //handle disconnection here
+  }
+});
 ```
 
 When you are done, disconnect from your erg by cancelling the stream:
