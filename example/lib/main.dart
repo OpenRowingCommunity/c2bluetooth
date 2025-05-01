@@ -39,15 +39,23 @@ class SimpleErgView extends StatefulWidget {
 }
 
 class _SimpleErgViewState extends State<SimpleErgView> {
-  String displayText = "hi";
-  String displayText2 = "hi";
-  String displayText3 = "hi";
+  String displayText = "_";
+  String displayText2 = "_";
+  String displayText3 = "_";
 
   ErgBleManager bleManager = ErgBleManager();
 
   Ergometer? targetDevice;
   StreamSubscription<Ergometer>? scanSub;
 
+  /// Storing the connection [StreamSubscription].
+  /// Call cancel() to disconnect the device
+  StreamSubscription<ErgometerConnectionState>? _ergConnection;
+
+  /// Using [ValueNotifier] to handle app states
+  ValueNotifier<ErgometerConnectionState> ergStateNotifier =
+      ValueNotifier(ErgometerConnectionState.disconnected);
+  ValueNotifier<String> messageNotifier = ValueNotifier("Welcome");
   @override
   void initState() {
     super.initState();
@@ -63,31 +71,26 @@ class _SimpleErgViewState extends State<SimpleErgView> {
     ].request().then((result) {
       if (result.containsValue(PermissionStatus.denied)) {
         print('Your device is experiencing a permission issue. $result');
-        setState(() {
-          displayText = "Insufficient permissions: Stopped";
-        });
+        messageNotifier.value = "Insufficient permissions: Stopped";
       }
       return result;
     });
   }
 
   startScan() async {
-    setState(() {
-      displayText = "Start Scanning";
-    });
+    messageNotifier.value = "Scanning...";
 
     scanSub = bleManager.startErgScan().handleError((error) {
       print('Your device is experiencing a bluetooth issue. ${error.message}');
-      setState(() {
-        displayText = "Scanning Issue: Stopped";
-      });
+      messageNotifier.value = "Scanning Issue: Stopped";
     }).listen((erg) {
       //Scan one peripheral and stop scanning
       print("Scanned Peripheral ${erg.name}");
-
       stopScan();
-      targetDevice = erg;
-      connectToDevice();
+      setState(() {
+        targetDevice = erg;
+      });
+      messageNotifier.value = "Found ${erg.name}";
     });
   }
 
@@ -97,16 +100,27 @@ class _SimpleErgViewState extends State<SimpleErgView> {
   }
 
   connectToDevice() async {
-    if (targetDevice == null) return;
+    if (targetDevice == null) {
+      messageNotifier.value = "No Device Selected";
+      ergStateNotifier.value = ErgometerConnectionState.disconnected;
+      return;
+    }
+    ergStateNotifier.value = ErgometerConnectionState.connecting;
+    messageNotifier.value = "Device Connecting";
 
-    setState(() {
-      displayText = "Device Connecting";
-    });
-
-    targetDevice!.connectAndDiscover().listen((event) {
-      if (event == ErgometerConnectionState.connected) {
-        subscribeToStreams();
+    _ergConnection =
+        targetDevice!.connectAndDiscover().listen((connectionStatus) {
+      switch (connectionStatus) {
+        case ErgometerConnectionState.connected:
+          messageNotifier.value = "device: ${targetDevice!.name}";
+          subscribeToStreams();
+        case ErgometerConnectionState.disconnected:
+          targetDevice = null;
+          messageNotifier.value = "Disconnected";
+          break;
+        default:
       }
+      ergStateNotifier.value = connectionStatus;
     });
   }
 
@@ -139,10 +153,6 @@ class _SimpleErgViewState extends State<SimpleErgView> {
   subscribeToStreams() async {
     if (targetDevice == null) return;
 
-    setState(() {
-      displayText = "device: ${targetDevice!.name}";
-    });
-
     // ignore: deprecated_member_use
     targetDevice!.monitorForWorkoutSummary().listen((summary) {
       print(summary);
@@ -169,58 +179,157 @@ class _SimpleErgViewState extends State<SimpleErgView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("c2bluetooth example"),
+        title: Center(child: Text("c2bluetooth example")),
       ),
       body: Column(children: [
-        Visibility(
-          visible: scanSub == null && targetDevice == null,
-          child: ElevatedButton(
-            onPressed: () {
-              startScan();
-            },
-            child: Text("Start Scan"),
-          ),
+        Expanded(
+          flex: 2,
+          child: workoutSummary(),
         ),
-        Center(
-          child: Text(
-            displayText,
-            style: TextStyle(fontSize: 24, color: Colors.blue),
-          ),
+        Expanded(
+          flex: 2,
+          child: configureWorkout(),
         ),
-        Center(
-          child: Text(
-            displayText2,
-            style: TextStyle(fontSize: 24, color: Colors.blue),
-          ),
-        ),
-        Center(
-          child: Text(
-            displayText3,
-            style: TextStyle(fontSize: 24, color: Colors.blue),
-          ),
-        ),
-        Center(
-          child: TextButton(
-              onPressed: setup2kH, child: Text("Configure a 2k (hardcoded)")),
-        ),
-        Center(
-          child: TextButton(
-              onPressed: setup10kH, child: Text("Configure a 10k (hardcoded)")),
-        ),
-        Center(
-          child: TextButton(onPressed: setup2k, child: Text("Configure a 2k")),
-        ),
-        Center(
-          child:
-              TextButton(onPressed: setup10k, child: Text("Configure a 10k")),
+        Expanded(
+          flex: 1,
+          child: manageDevice(),
         ),
       ]),
     );
   }
 
+  Row manageDevice() {
+    return Row(
+      children: [
+        Expanded(
+          child: Container(
+            child: Column(
+              children: [
+                Spacer(),
+                ValueListenableBuilder<ErgometerConnectionState>(
+                    valueListenable: ergStateNotifier,
+                    builder: (context, state, child) {
+                      switch (state) {
+                        case ErgometerConnectionState.connected:
+                          return ElevatedButton(
+                            onPressed: () {
+                              // Cancel StreamSubscription to disconnect targetDevice
+                              _ergConnection?.cancel().then((_) {
+                                targetDevice = null; // reset targetDevice
+                                ergStateNotifier.value = ErgometerConnectionState
+                                    .disconnected; // change state to disconnected
+                                messageNotifier.value = 'Disconnected';
+                              });
+                            },
+                            child: Text("Disconnect"),
+                          );
+                        case ErgometerConnectionState.connecting:
+                          return ElevatedButton(
+                            onPressed: () {},
+                            child: Text("Connecting..."),
+                          );
+
+                        default:
+                          return ElevatedButton(
+                            onPressed: () {
+                              targetDevice == null
+                                  ? startScan()
+                                  : connectToDevice();
+                            },
+                            child: targetDevice == null
+                                ? Text("Start Scan")
+                                : Text('Start Pairing'),
+                          );
+                      }
+                    }),
+                Spacer(),
+                Center(
+                  child: ValueListenableBuilder(
+                      valueListenable: messageNotifier,
+                      builder: (context, message, child) {
+                        return Text(
+                          message,
+                          style:
+                              TextStyle(fontSize: 18, color: Colors.blueGrey),
+                        );
+                      }),
+                ),
+                Spacer(),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row configureWorkout() {
+    return Row(
+      children: [
+        Expanded(
+          child: Column(
+            children: [
+              Center(
+                child: TextButton(
+                    onPressed: setup2kH,
+                    child: Text("Configure a 2k (hardcoded)")),
+              ),
+              Center(
+                child: TextButton(
+                    onPressed: setup10kH,
+                    child: Text("Configure a 10k (hardcoded)")),
+              ),
+              Center(
+                child: TextButton(
+                    onPressed: setup2k, child: Text("Configure a 2k")),
+              ),
+              Center(
+                child: TextButton(
+                    onPressed: setup10k, child: Text("Configure a 10k")),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row workoutSummary() {
+    return Row(
+      children: [
+        Expanded(
+          child: Column(
+            children: [
+              Center(
+                child: Text(
+                  displayText,
+                  style: TextStyle(fontSize: 24, color: Colors.blue),
+                ),
+              ),
+              Center(
+                child: Text(
+                  displayText2,
+                  style: TextStyle(fontSize: 24, color: Colors.blue),
+                ),
+              ),
+              Center(
+                child: Text(
+                  displayText3,
+                  style: TextStyle(fontSize: 24, color: Colors.blue),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   void dispose() {
-    //disconnectFromDevice();
+    // disable subscription on scan and ergometer ble connection
+    stopScan();
+    _ergConnection?.cancel().then((_) => _ergConnection = null);
     bleManager
         .destroy(); //remember to release native resources when you're done!
     super.dispose();
