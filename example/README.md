@@ -4,9 +4,7 @@ This is a sample app created from a fresh flutter project it is useful as a play
 
 Currently this app just connects to the first erg that it sees. An update is planned to make this a little more user-friendly for testing in environments with many ergs.
 
-![The example app](docs/images/demo/pre-scan.png)
-![The example app when connected](docs/images/demo/connected.png)
-![The example app when denied](docs/images/demo/permission-denied.png)
+![The example app](/docs/images/demo/connected.png)
 
 ## Sample App capabilities
 ### Get workout summary information
