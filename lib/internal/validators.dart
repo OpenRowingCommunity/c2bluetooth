@@ -11,5 +11,6 @@ Validator validateC2SplitGoal() {
           (data is Concept2IntegerWithUnits) &&
           (data.unit == DurationType.DISTANCE ||
               data.unit == DurationType.TIME),
-      (data) => ArgumentError("Value provided must be in either a distance or a time unit"));
+      (data) => ArgumentError(
+          "Value provided must be in either a distance or a time unit"));
 }
