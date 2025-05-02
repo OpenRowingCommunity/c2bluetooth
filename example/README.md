@@ -1,4 +1,4 @@
-# fresh_example
+# c2bluetooth_example
 
 This is a sample app created from a fresh flutter project it is useful as a playground for experimenting with/testing the c2bluetooth library as it is being built as well as providing an example for how this could be used in an app
 
