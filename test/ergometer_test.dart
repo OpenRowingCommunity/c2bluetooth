@@ -32,6 +32,10 @@ void main() {
         [1, 1, 1],
         [2, 2, 2]
       ]));
+      registerFallbackValue(QualifiedCharacteristic(
+          characteristicId: Uuid.parse('c5cc5bf5-2bd1-4d1a-939a-5e15fb9b81a1'),
+          serviceId: Uuid.parse('c5cc5bf5-2bd1-4d1a-939a-5e15fb9b81a2'),
+          deviceId: 'deviceId'));
     });
 
     test('Ensure DeviceConnectionState to ErgometerConnectionState translation',
@@ -63,15 +67,8 @@ void main() {
             connectionState: DeviceConnectionState.disconnected,
             failure: null)
       ]);
-      final fakeSubscriptionChar = Stream<List<int>>.fromIterable([
-        [1, 1, 1],
-        [2, 2, 2]
-      ]);
       final mockBle = MockFlutterReactiveBle();
       final erg = Ergometer(device, bleClient: mockBle);
-      when(() =>
-              mockBle.subscribeToCharacteristic(any<QualifiedCharacteristic>()))
-          .thenAnswer((_) => fakeSubscriptionChar);
       when(() => mockBle.connectedDeviceStream)
           .thenAnswer((_) => fakeConnectionUpdates);
       expect(
@@ -122,8 +119,7 @@ void main() {
           connectionTimeout: any(named: 'connectionTimeout'),
         ),
       ).thenAnswer((_) => fakeConnectionUpdates);
-      when(() =>
-              mockBle.subscribeToCharacteristic(any<QualifiedCharacteristic>()))
+      when(() => mockBle.subscribeToCharacteristic(any()))
           .thenAnswer((_) => fakeSubscriptionChar);
       expect(
           erg.connectAndDiscover(),

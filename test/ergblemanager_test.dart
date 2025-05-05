@@ -19,7 +19,7 @@ void main() {
 
     /// declare ErgBleManager with a mocked Reactive Ble
     final mockReactive = MockFlutterReactiveBle();
-    final ble = ErgBleManager(bleClient: mockReactive);
+    final ble = ErgBleManager.withDependency(bleClient: mockReactive);
 
     /// create a fake stream of Discovered devices matching C2_ROWING_BASE_UUID service
     final fakePM_1 = DiscoveredDevice(
@@ -45,6 +45,8 @@ void main() {
                 that: predicate<List<Uuid>>((services) => services
                     .contains(Uuid.parse(Identifiers.C2_ROWING_BASE_UUID))))))
         .thenAnswer((_) => fakeScan);
+    when(() => mockReactive.statusStream)
+        .thenAnswer((_) => Stream.value(BleStatus.ready));
 
     /// Ensure DiscoveredDevice events are translated as Ergometer events
     /// we expect only them in matching order
