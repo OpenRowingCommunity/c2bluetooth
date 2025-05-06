@@ -8,29 +8,28 @@ import './packets/forcecurvepacket.dart';
 
 import './packets/base.dart';
 
+typedef PacketParser = Concept2CharacteristicData Function(Uint8List data);
+
+/// Mapping of the first byte of the multiplexed packet to its parser function.
+final Map<int, PacketParser> _packetParsers = {
+  0x31: (data) => StatusData.fromBytes(data),
+  0x32: (data) => StatusData1.fromBytes(data),
+  0x33: (data) => StatusData2.fromBytes(data),
+  0x35: (data) => StrokeData.fromBytes(data),
+  0x36: (data) => StrokeData2.fromBytes(data),
+  0x37: (data) => SegmentData1.fromBytes(data),
+  0x38: (data) => SegmentData2.fromBytes(data),
+  0x39: (data) => WorkoutSummaryPacket.fromBytes(data),
+  0x3A: (data) => WorkoutSummaryPacket2.fromBytes(data),
+  0x3C: (data) => ForceCurveData.fromBytes(data),
+};
+
+/// Attempts to parse a multiplexed Concept2 data packet.
+/// Returns `null` if the packet ID is unknown or the data is empty.
 Concept2CharacteristicData? parsePacket(Uint8List data) {
-  switch (data[0]) {
-    case 0x31:
-      return StatusData.fromBytes(data.sublist(1));
-    case 0x32:
-      return StatusData1.fromBytes(data.sublist(1));
-    case 0x33:
-      return StatusData2.fromBytes(data.sublist(1));
-    case 0x35:
-      return StrokeData.fromBytes(data.sublist(1));
-    case 0x36:
-      return StrokeData2.fromBytes(data.sublist(1));
-    case 0x37:
-      return SegmentData1.fromBytes(data.sublist(1));
-    case 0x38:
-      return SegmentData2.fromBytes(data.sublist(1));
-    case 0x39:
-      return WorkoutSummaryPacket.fromBytes(data.sublist(1));
-    case 0x3A:
-      return WorkoutSummaryPacket2.fromBytes(data.sublist(1));
-    case 0x3C:
-      return ForceCurveData.fromBytes(data.sublist(1));
-    default:
-      return null;
-  }
+  if (data.isEmpty) return null;
+
+  final id = data[0];
+  final parser = _packetParsers[id];
+  return parser?.call(data.sublist(1));
 }
