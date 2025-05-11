@@ -119,7 +119,7 @@ class WorkoutSummaryPacket2 extends TimestampedData {
       Keys.WORKOUT_SEGMENT_COUNT_KEY: intervalSize,
       Keys.WORKOUT_SEGMENT_SIZE_KEY: intervalCount,
       Keys.WORKOUT_CALORIES_KEY: totalCalories,
-      Keys.WORKOUT_WATTS_KEY: watts,
+      Keys.WORKOUT_POWER_KEY: watts,
       Keys.WORKOUT_REST_DISTANCE_KEY: totalRestDistance,
       // "workout.interval_rest_distance": ,
       Keys.WORKOUT_REST_TIME_KEY: intervalRestTime,
