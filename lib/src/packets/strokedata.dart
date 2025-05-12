@@ -75,19 +75,19 @@ class StrokeData2 extends ElapsedtimeStampedData {
   StrokeData2.zero() : this.fromBytes(Uint8List(20));
 
   StrokeData2.fromBytes(Uint8List data)
-      : strokePower = CsafeIntExtension.fromBytes(data.sublist(3, 6),
+      : strokePower = CsafeIntExtension.fromBytes(data.sublist(3, 5),
             endian: Endian.little),
-        strokeCalories = CsafeIntExtension.fromBytes(data.sublist(6, 9),
+        strokeCalories = CsafeIntExtension.fromBytes(data.sublist(5, 7),
             endian: Endian.little),
-        strokeCount = CsafeIntExtension.fromBytes(data.sublist(9, 12),
+        strokeCount = CsafeIntExtension.fromBytes(data.sublist(7, 9),
             endian: Endian.little),
         projectedWorkTime = Duration(
-            seconds: CsafeIntExtension.fromBytes(data.sublist(12, 14),
+            seconds: CsafeIntExtension.fromBytes(data.sublist(9, 12),
                 endian: Endian.little)),
         projectedWorkDistance = CsafeIntExtension.fromBytes(
-            data.sublist(14, 17),
+            data.sublist(12, 15),
             endian: Endian.little),
-        workPerStroke = CsafeIntExtension.fromBytes(data.sublist(17, 19),
+        workPerStroke = CsafeIntExtension.fromBytes(data.sublist(15, 17),
                 endian: Endian.little) /
             10.0,
         super.fromBytes(data);
