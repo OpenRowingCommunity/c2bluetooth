@@ -34,6 +34,30 @@ void main() {
       expect(map[Keys.STROKE_AVG_FORCE_KEY], equals(100));
       expect(map[Keys.STROKE_COUNT_KEY], equals(1000));
     });
+    test('parsePacket handles 0x36 StrokeData2', () {
+      // Construct a byte array representing a packet.
+      final data = Uint8List.fromList([
+        0x36, // packet ID
+        0xE8, 0x03, 0x00, // elapsedTime: 1000 (0x0003E8) => 10 seconds
+        0x54, 0x01, // stroke power: 340 watts
+        0x02, 0x00, // stroke calories: 2 cal/hr
+        0xE8, 0x03, // stroke count: 1000 strokes
+        0x64, 0x00, 0x00, // projected work time: 100 seconds
+        0xE8, 0x03, 0x00, // projected work distance: 1000 meters
+        0xE8, 0x03, // work per stroke: 1000 (0x03E8) => 100 Joules
+      ]);
+      expect(data.lengthInBytes, equals(18));
+      final status = parsePacket(data);
+      final map = status!.asMap();
+      expect(map[Keys.ELAPSED_TIME_KEY], equals(Duration(seconds: 10)));
+      expect(map[Keys.WORKOUT_POWER_KEY], equals(340));
+      expect(map[Keys.WORKOUT_CALORIES_KEY], equals(2.0));
+      expect(map[Keys.STROKE_COUNT_KEY], equals(1000));
+      expect(
+          map[Keys.WORKOUT_PROJECTED_TIME_KEY], equals(Duration(seconds: 100)));
+      expect(map[Keys.WORKOUT_PROJECTED_DISTANCE_KEY], equals(1000));
+      expect(map[Keys.WORKOUT_WORK_KEY], equals(100.0));
+    });
     test('parsePacket handles 0x37 SegmentData1', () {
       // Construct a byte array representing a packet.
       final data = Uint8List.fromList([
