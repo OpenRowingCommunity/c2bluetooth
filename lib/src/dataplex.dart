@@ -160,18 +160,16 @@ class Dataplex {
 
   /// closes down this instance by cancelling all streams
   void dispose() {
-    // clear current subscriptions
-    for (var entry in currentSubscriptions.entries) {
-      var key = entry.key;
-      var subscription = entry.value;
-
-      subscription.cancel();
-      currentSubscriptions.remove(key);
+    for (var sub in currentSubscriptions.values) {
+      // clear current subscriptions
+      sub.cancel();
     }
-    // end all current output streams
-    // it is assumed that this also triggers their close handlers and removes them.
+    currentSubscriptions.clear();
+
     for (var stream in outgoingStreams) {
+      // end all current output streams
       stream.close();
     }
+    outgoingStreams.clear();
   }
 }
