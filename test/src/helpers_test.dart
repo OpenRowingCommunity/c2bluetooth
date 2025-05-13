@@ -56,7 +56,7 @@ void main() {
       expect(
           map[Keys.WORKOUT_PROJECTED_TIME_KEY], equals(Duration(seconds: 100)));
       expect(map[Keys.WORKOUT_PROJECTED_DISTANCE_KEY], equals(1000));
-      expect(map[Keys.WORKOUT_WORK_KEY], equals(100.0));
+      expect(map[Keys.STROKE_ENERGY_KEY], equals(100.0));
     });
     test('parsePacket handles 0x37 SegmentData1', () {
       // Construct a byte array representing a packet.

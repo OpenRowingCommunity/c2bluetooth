@@ -101,7 +101,7 @@ class StrokeData2 extends ElapsedtimeStampedData {
       Keys.STROKE_COUNT_KEY: strokeCount,
       Keys.WORKOUT_PROJECTED_TIME_KEY: projectedWorkTime,
       Keys.WORKOUT_PROJECTED_DISTANCE_KEY: projectedWorkDistance,
-      Keys.WORKOUT_WORK_KEY: workPerStroke,
+      Keys.STROKE_ENERGY_KEY: workPerStroke,
     });
     return map;
   }
