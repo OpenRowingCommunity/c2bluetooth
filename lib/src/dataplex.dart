@@ -54,12 +54,7 @@ class Dataplex {
     bleClient, {
     @visibleForTesting ParsePacketFn? parsePacketFn,
   })  : _flutterReactiveBle = bleClient,
-        _parsePacket = parsePacketFn ?? parsePacket {
-    _addSubscription(
-        Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID,
-        Identifiers.C2_ROWING_MULTIPLEXED_INFORMATION_CHARACTERISTIC_UUID,
-        null);
-  }
+        _parsePacket = parsePacketFn ?? parsePacket {}
 
   ///Keeps track of how many characteristics we are currently receiving notifications for
   int _currentSubscriptionCount = 0;
@@ -73,6 +68,15 @@ class Dataplex {
     controller.onCancel = _generateOutputCloseListener(controller);
 
     outgoingStreams.add(controller);
+
+    // Multiplexed characteristic during initial stream creation
+    // TODO: This section will be removed later when _validateStreams is mature
+    if (currentSubscriptions.isEmpty) {
+      _addSubscription(
+          Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID,
+          Identifiers.C2_ROWING_MULTIPLEXED_INFORMATION_CHARACTERISTIC_UUID,
+          null);
+    }
 
     return controller.stream;
   }
