@@ -18,6 +18,11 @@ class MockParse extends Mock {
   Concept2CharacteristicData? call(Uint8List bytes);
 }
 
+class FakePacket extends Fake implements Concept2CharacteristicData {
+  @override
+  Map<String, dynamic> asMap() => {'foo': 42};
+}
+
 void main() {
   setUpAll(() {
     registerFallbackValue(QualifiedCharacteristic(
@@ -29,6 +34,7 @@ void main() {
   });
 
   group('Dataplex', () {
+    // FIXME: Remove Dataplex subscription at declaration when _validateStreams is ready
     late MockBle ble;
     late DiscoveredDevice device;
 
@@ -52,6 +58,36 @@ void main() {
             )),
           ));
     });
+
+    test('forwards packet maps to outgoing streams', () async {
+      final mockParse = MockParse();
+      final fakePacket = FakePacket();
+      when(() => mockParse(any())).thenReturn(fakePacket);
+
+      final bleStream = StreamController<List<int>>();
+      when(() => ble.subscribeToCharacteristic(any()))
+          .thenAnswer((_) => bleStream.stream);
+
+      final dataplex = Dataplex(
+        device,
+        ble,
+        parsePacketFn: mockParse, // inject mock parser
+      );
+
+      final out = dataplex.createStream({'foo'}.toSet());
+
+      // Add fake bytes to simulate notification
+      bleStream.add([0x00]);
+
+      // Wait for output and verify
+      final result = await out.first;
+      expect(result, equals(fakePacket.asMap()));
+
+      verify(() => mockParse(any())).called(1);
+
+      await bleStream.close();
+    });
+
     test('dispose cancels BLE subscriptions and closes outgoing streams',
         () async {
       final bleStream = StreamController<Uint8List>();
