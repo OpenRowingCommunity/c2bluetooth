@@ -6,7 +6,7 @@ import 'package:c2bluetooth/src/packets/keys.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('Handle mutliplexed data', () {
+  group('Handle multiplexed data', () {
     test('parsePacket handles 0x35 StrokeData', () {
       // Construct a byte array representing a packet.
       final data = Uint8List.fromList([
