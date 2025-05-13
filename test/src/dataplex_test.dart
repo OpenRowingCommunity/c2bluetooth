@@ -46,9 +46,12 @@ void main() {
           .thenAnswer((_) => const Stream.empty());
     });
 
-    test('creates multiplex subscription on construction', () {
+    test('dataplex construction sanity check', () {
+      // Dataplex construction follows Ergometer one
+      // We are not connected to the machine at this stage
+      // No ble action should be triggered
       Dataplex(device, ble);
-
+      verifyNever(() => ble.connectToDevice(id: any(named: 'id')));
       verifyNever(() => ble.subscribeToCharacteristic(
             any(
                 that: isA<QualifiedCharacteristic>().having(
@@ -60,6 +63,8 @@ void main() {
     });
 
     test('forwards packet maps to outgoing streams', () async {
+      // Ensure subscribed characteristic is parsed and channeled
+      // into outgoing streams
       final mockParse = MockParse();
       final fakePacket = FakePacket();
       when(() => mockParse(any())).thenReturn(fakePacket);
