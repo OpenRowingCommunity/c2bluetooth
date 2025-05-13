@@ -8,6 +8,10 @@ import './packets/forcecurvepacket.dart';
 
 import './packets/base.dart';
 
+/// Simplify mocking on [Dataplex]
+typedef ParsePacketFn = Concept2CharacteristicData? Function(Uint8List);
+
+// Allow mapping functions
 typedef PacketParser = Concept2CharacteristicData Function(Uint8List data);
 
 /// Mapping of the first byte of the multiplexed packet to its parser function.

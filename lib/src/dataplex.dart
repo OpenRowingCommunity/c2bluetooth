@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:c2bluetooth/models/c2datastreamcontroller.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 
 import '../constants.dart' as Identifiers;
@@ -21,7 +22,7 @@ class Dataplex {
   final FlutterReactiveBle _flutterReactiveBle;
 
   DiscoveredDevice _device;
-
+  final ParsePacketFn _parsePacket;
   List<C2DataStreamController> outgoingStreams = [];
 
   /// Map of characteristic UUID's to the active subscription instance for that characteristic
@@ -48,7 +49,12 @@ class Dataplex {
         WorkoutSummaryPacket2.datapointIdentifiers,
   };
 
-  Dataplex(this._device, bleClient) : _flutterReactiveBle = bleClient {
+  Dataplex(
+    this._device,
+    bleClient, {
+    @visibleForTesting ParsePacketFn? parsePacketFn,
+  })  : _flutterReactiveBle = bleClient,
+        _parsePacket = parsePacketFn ?? parsePacket {
     _addSubscription(
         Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID,
         Identifiers.C2_ROWING_MULTIPLEXED_INFORMATION_CHARACTERISTIC_UUID,
@@ -107,7 +113,7 @@ class Dataplex {
 
   /// Read a packet from an incoming stream (from the erg) and redistribute it to all outgoing streams
   void _readPacket(Uint8List data) {
-    Concept2CharacteristicData? packet = parsePacket(data);
+    Concept2CharacteristicData? packet = _parsePacket(data);
 
     if (packet != null) {
       //send the data to the outgoing streams
