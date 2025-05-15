@@ -24,15 +24,14 @@ class Keys {
   static const WORKOUT_SPEED_KEY = "workout.speed";
   static const WORKOUT_PACE_KEY = "workout.pace";
   static const WORKOUT_POWER_KEY = "workout.watts";
-  static const WORKOUT_WORK_KEY = "workout.joules";
-
   static const STROKE_DRIVE_LENGTH_KEY = 'stroke.drive_length';
   static const STROKE_DRIVE_TIME_KEY = 'stroke.drive_time';
   static const STROKE_RECOVERY_TIME_KEY = 'stroke.recovery_time';
   static const STROKE_DISTANCE_KEY = 'stroke.stroke_distance';
-  static const STROKE_PEAK_FORCE_KEY = 'stroke.force.peak';
-  static const STROKE_AVG_FORCE_KEY = 'stroke.force.average';
+  static const STROKE_PEAK_FORCE_KEY = 'stroke.drive_force.peak';
+  static const STROKE_AVG_FORCE_KEY = 'stroke.drive_force.average';
   static const STROKE_COUNT_KEY = 'stroke.count';
+  static const STROKE_ENERGY_KEY = 'stroke.energy';
   // rests are only applicable for intervals workouts
   static const WORKOUT_REST_DISTANCE_KEY = "workout.rest_distance";
   static const WORKOUT_REST_TIME_KEY = "workout.rest_time";
