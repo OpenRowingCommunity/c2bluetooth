@@ -126,7 +126,8 @@ class Dataplex {
       }
     } else {
       print("Couldnt parse packet from data");
-      print("packet data: $data");
+      print(
+          "packet data: ${data.map((e) => e.toRadixString(16).padLeft(2, '0')).join(',')}");
     }
   }
 
