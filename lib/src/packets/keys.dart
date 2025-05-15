@@ -2,6 +2,17 @@ class Keys {
   static const ELAPSED_TIME_KEY = "general.elapsed_time";
   static const ELAPSED_DISTANCE_KEY = "general.distance";
 
+  static const STATE_SEGMENT_TYPE_KEY = "state.interval.type";
+  static const STATE_WORKOUT_KEY = "state.workout";
+  static const STATE_WORKOUT_TYPE_KEY = "state.workout_type";
+  static const STATE_ROWING_KEY = "state.rowing_activity";
+  static const STATE_ROWING_STROKE_KEY = "state.rowing_stroke";
+  static const WORKOUT_DURATION_UNIT_KEY = "workout_duration.type";
+  static const WORKOUT_DURATION_KEY = "workout_duration";
+
+  static const WORKOUT_MACHINE_TYPE_KEY = "workout.machine_type";
+  static const WORKOUT_DRAG_FACTOR_KEY = "workout.drag_factor";
+  static const WORKOUT_TOTAL_DISTANCE_KEY = "workout.distance.total";
   static const WORKOUT_TIMESTAMP_KEY = "workout.timestamp";
   static const WORKOUT_SPM_KEY = "workout.stroke_rate";
   static const WORKOUT_AVG_SPM_KEY = "workout.stroke_rate.average";
@@ -39,6 +50,8 @@ class Keys {
 
   static const SEGMENT_TIME_KEY = "segment.time";
   static const SEGMENT_DISTANCE_KEY = "segment.distance";
+  static const SEGMENT_LAST_TIME_KEY = "segment.time.last";
+  static const SEGMENT_LAST_DISTANCE_KEY = "segment.distance.last";
   static const SEGMENT_REST_TIME_KEY = "segment.interval.rest_time";
   static const SEGMENT_REST_DISTANCE_KEY = "segment.interval.rest_distance";
   static const SEGMENT_TYPE_KEY = "segment.type";
