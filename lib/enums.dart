@@ -105,8 +105,8 @@ enum DurationType {
 extension DurationTypeExtension on DurationType {
   static Map _durationTypes = {
     DurationType.TIME: 0x00,
-    DurationType.DISTANCE: 0x40,
-    DurationType.CALORIES: 0x80,
+    DurationType.CALORIES: 0x40,
+    DurationType.DISTANCE: 0x80,
     DurationType.WATTMIN: 0xC0,
   };
 
