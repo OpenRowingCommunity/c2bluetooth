@@ -33,7 +33,6 @@ class StatusData extends ElapsedtimeStampedData {
         totalWorkDistance = CsafeIntExtension.fromBytes(data.sublist(11, 14),
             endian: Endian.little),
         durationType = DurationTypeExtension.fromInt(data[17]),
-        
         workoutDuration = CsafeIntExtension.fromBytes(data.sublist(14, 17),
                 endian: Endian.little) /
             (DurationTypeExtension.fromInt(data[17]) == DurationType.TIME
@@ -102,9 +101,6 @@ class StatusData1 extends ElapsedtimeStampedData {
         ergMachineType = MachineTypeExtension.fromInt(data[18]),
         super.fromBytes(data);
 
-  factory StatusData1.fromMultiplexed(Uint8List raw) =>
-      StatusData1.fromBytes(raw.sublist(1));
-
   @override
   Map<String, dynamic> asMap() {
     Map<String, dynamic> map = super.asMap();
@@ -156,9 +152,6 @@ class StatusData2 extends ElapsedtimeStampedData {
         lastSplitDistance = CsafeIntExtension.fromBytes(data.sublist(15, 17),
             endian: Endian.little),
         super.fromBytes(data);
-
-  factory StatusData2.fromMultiplexed(Uint8List raw) =>
-      StatusData2.fromBytes(raw.sublist(1));
 
   Map<String, dynamic> asMap() {
     Map<String, dynamic> map = super.asMap();
