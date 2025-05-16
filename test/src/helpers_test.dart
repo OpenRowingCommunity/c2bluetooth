@@ -116,7 +116,7 @@ void main() {
       expect(map[Keys.STATE_OPERATIONAL_STATE_KEY],
           equals(OperationalState.OPERATIONALSTATE_IDLE));
       expect(map[Keys.STATE_WORKOUT_VERIFICATION_KEY], equals(0));
-      expect(map[Keys.STATE_SCREEN_TYPE_KEY],
+      expect(map[Keys.STATE_SCREEN_NUMBER_KEY],
           equals(WorkoutScreenValue.PREPARETORACESTART));
       expect(map[Keys.STATE_LAST_ERROR_KEY], equals(2));
       expect(map[Keys.STATE_CALIBRATION_MODE_KEY], equals(0));

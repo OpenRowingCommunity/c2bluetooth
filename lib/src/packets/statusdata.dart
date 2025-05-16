@@ -171,7 +171,7 @@ class StatusData2 extends ElapsedtimeStampedData {
 class StatusData3 extends Concept2CharacteristicData {
   final OperationalState operationalState;
   final int workoutVerificationState;
-  final WorkoutScreenValue screenNumber;
+  final int screenNumber;
   final int lastError;
   final int calibrationMode;
   final int calibrationState;
@@ -187,9 +187,8 @@ class StatusData3 extends Concept2CharacteristicData {
   StatusData3.fromBytes(Uint8List data)
       : operationalState = OperationalStateExtension.fromInt(data[0]),
         workoutVerificationState = data[1],
-        screenNumber = WorkoutScreenValueExtension.fromInt(
-            CsafeIntExtension.fromBytes(data.sublist(2, 4),
-                endian: Endian.little)),
+        screenNumber = CsafeIntExtension.fromBytes(data.sublist(2, 4),
+            endian: Endian.little),
         lastError = CsafeIntExtension.fromBytes(data.sublist(4, 6),
             endian: Endian.little),
         calibrationMode = data[6],
@@ -204,7 +203,7 @@ class StatusData3 extends Concept2CharacteristicData {
     map.addAll({
       Keys.STATE_OPERATIONAL_STATE_KEY: operationalState,
       Keys.STATE_WORKOUT_VERIFICATION_KEY: workoutVerificationState,
-      Keys.STATE_SCREEN_TYPE_KEY: screenNumber,
+      Keys.STATE_SCREEN_NUMBER_KEY: screenNumber,
       Keys.STATE_LAST_ERROR_KEY: lastError,
       Keys.STATE_CALIBRATION_MODE_KEY: calibrationMode,
       Keys.STATE_CALIBRATION_KEY: calibrationState,
