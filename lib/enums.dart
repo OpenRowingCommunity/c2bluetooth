@@ -430,3 +430,74 @@ extension WorkoutScreenValueExtension on WorkoutScreenValue {
   static WorkoutScreenValue fromInt(int i) =>
       _racingScreenValues.map((key, value) => MapEntry(value, key))[i];
 }
+
+enum OperationalState {
+  /// Reset state (0).
+  OPERATIONALSTATE_RESET,
+
+  /// Ready state (1).
+  OPERATIONALSTATE_READY,
+
+  /// Workout state (2).
+  OPERATIONALSTATE_WORKOUT,
+
+  /// Warm-up state (3).
+  OPERATIONALSTATE_WARMUP,
+
+  /// Race state (4).
+  OPERATIONALSTATE_RACE,
+
+  /// Power-off state (5).
+  OPERATIONALSTATE_POWEROFF,
+
+  /// Pause state (6).
+  OPERATIONALSTATE_PAUSE,
+
+  /// Invoke boot loader state (7).
+  OPERATIONALSTATE_INVOKEBOOTLOADER,
+
+  /// Power-off ship state (8).
+  OPERATIONALSTATE_POWEROFF_SHIP,
+
+  /// Idle charge state (9).
+  OPERATIONALSTATE_IDLE_CHARGE,
+
+  /// Idle state (10).
+  OPERATIONALSTATE_IDLE,
+
+  /// Manufacturing test state (11).
+  OPERATIONALSTATE_MFGTEST,
+
+  /// Firmware update state (12).
+  OPERATIONALSTATE_FWUPDATE,
+
+  /// Drag factor state (13).
+  OPERATIONALSTATE_DRAGFACTOR,
+
+  /// Drag factor calibration state (100).
+  OPERATIONALSTATE_DFCALIBRATION // = 100
+}
+
+extension OperationalStateExtension on OperationalState {
+  static Map _operationalStateValues = {
+    OperationalState.OPERATIONALSTATE_RESET: 0,
+    OperationalState.OPERATIONALSTATE_READY: 1,
+    OperationalState.OPERATIONALSTATE_WORKOUT: 2,
+    OperationalState.OPERATIONALSTATE_WARMUP: 3,
+    OperationalState.OPERATIONALSTATE_RACE: 4,
+    OperationalState.OPERATIONALSTATE_POWEROFF: 5,
+    OperationalState.OPERATIONALSTATE_PAUSE: 6,
+    OperationalState.OPERATIONALSTATE_INVOKEBOOTLOADER: 7,
+    OperationalState.OPERATIONALSTATE_POWEROFF_SHIP: 8,
+    OperationalState.OPERATIONALSTATE_IDLE_CHARGE: 9,
+    OperationalState.OPERATIONALSTATE_IDLE: 10,
+    OperationalState.OPERATIONALSTATE_MFGTEST: 11,
+    OperationalState.OPERATIONALSTATE_FWUPDATE: 12,
+    OperationalState.OPERATIONALSTATE_DRAGFACTOR: 13,
+    OperationalState.OPERATIONALSTATE_DFCALIBRATION: 100,
+  };
+  int get value => _operationalStateValues[this];
+  //TODO: error if values not found
+  static OperationalState fromInt(int i) =>
+      _operationalStateValues.map((key, value) => MapEntry(value, key))[i];
+}

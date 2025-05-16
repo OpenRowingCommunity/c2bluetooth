@@ -174,3 +174,51 @@ class StatusData2 extends ElapsedtimeStampedData {
     return map;
   }
 }
+
+class StatusData3 extends Concept2CharacteristicData {
+  final OperationalState operationalState;
+  final int workoutVerificationState;
+  final WorkoutScreenValue screenNumber;
+  final int lastError;
+  final int calibrationMode;
+  final int calibrationState;
+  final int calibrationStatus;
+  final GameId gameID;
+  final int gameScore;
+
+  static Set<String> get datapointIdentifiers =>
+      StatusData2.zero().asMap().keys.toSet();
+
+  StatusData3.zero() : this.fromBytes(Uint8List(20));
+
+  StatusData3.fromBytes(Uint8List data)
+      : operationalState = OperationalStateExtension.fromInt(data[0]),
+        workoutVerificationState = data[1],
+        screenNumber = WorkoutScreenValueExtension.fromInt(
+            CsafeIntExtension.fromBytes(data.sublist(2, 4),
+                endian: Endian.little)),
+        lastError = CsafeIntExtension.fromBytes(data.sublist(4, 6),
+            endian: Endian.little),
+        calibrationMode = data[6],
+        calibrationState = data[7],
+        calibrationStatus = data[8],
+        gameID = GameIdExtension.fromInt(data[9]),
+        gameScore = CsafeIntExtension.fromBytes(data.sublist(10, 12),
+            endian: Endian.little);
+
+  Map<String, dynamic> asMap() {
+    Map<String, dynamic> map = super.asMap();
+    map.addAll({
+      Keys.STATE_OPERATIONAL_STATE_KEY: operationalState,
+      Keys.STATE_WORKOUT_VERIFICATION_KEY: workoutVerificationState,
+      Keys.STATE_SCREEN_TYPE_KEY: screenNumber,
+      Keys.STATE_LAST_ERROR_KEY: lastError,
+      Keys.STATE_CALIBRATION_MODE_KEY: calibrationMode,
+      Keys.STATE_CALIBRATION_KEY: calibrationState,
+      Keys.STATE_CALIBRATION_STATUS_KEY: calibrationStatus,
+      Keys.STATE_GAME_ID_KEY: gameID,
+      Keys.STATE_GAME_SCORE_KEY: gameScore,
+    });
+    return map;
+  }
+}

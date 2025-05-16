@@ -96,6 +96,35 @@ void main() {
       expect(map[Keys.SEGMENT_LAST_TIME_KEY], equals(Duration(seconds: 161)));
       expect(map[Keys.SEGMENT_LAST_DISTANCE_KEY], equals(500));
     });
+    test('parsePacket handles 0x3E StatusData3', () {
+      // Construct a byte array representing a packet.
+      final data = Uint8List.fromList([
+        0x3E, // packet ID
+        0x0A, // operational state: 10 (0x0A) => Idle
+        0x00, // workout verification: 0 => ?
+        0x05, 0x00, // screen number: 5 => PREPARETORACESTART
+        0x02, 0x00, // last error: 2 ?
+        0x00, // calibration mode: 0
+        0x00, // calibration state: 0
+        0x00, // calibration status: 0
+        0x01, // game id: 1 => Fish
+        0x02, 0x00, // game score: 2
+      ]);
+      expect(data.lengthInBytes, equals(13));
+      final status = parsePacket(data);
+      final map = status!.asMap();
+      expect(map[Keys.STATE_OPERATIONAL_STATE_KEY],
+          equals(OperationalState.OPERATIONALSTATE_IDLE));
+      expect(map[Keys.STATE_WORKOUT_VERIFICATION_KEY], equals(0));
+      expect(map[Keys.STATE_SCREEN_TYPE_KEY],
+          equals(WorkoutScreenValue.PREPARETORACESTART));
+      expect(map[Keys.STATE_LAST_ERROR_KEY], equals(2));
+      expect(map[Keys.STATE_CALIBRATION_MODE_KEY], equals(0));
+      expect(map[Keys.STATE_CALIBRATION_KEY], equals(0));
+      expect(map[Keys.STATE_CALIBRATION_STATUS_KEY], equals(0));
+      expect(map[Keys.STATE_GAME_ID_KEY], equals(GameId.FISH));
+      expect(map[Keys.STATE_GAME_SCORE_KEY], equals(2));
+    });
     test('parsePacket handles 0x35 StrokeData', () {
       // Construct a byte array representing a packet.
       final data = Uint8List.fromList([

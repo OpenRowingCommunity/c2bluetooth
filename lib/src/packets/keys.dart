@@ -7,6 +7,15 @@ class Keys {
   static const STATE_WORKOUT_TYPE_KEY = "state.workout_type";
   static const STATE_ROWING_KEY = "state.rowing_activity";
   static const STATE_ROWING_STROKE_KEY = "state.rowing_stroke";
+  static const STATE_OPERATIONAL_STATE_KEY = "state.operational_state";
+  static const STATE_WORKOUT_VERIFICATION_KEY = "state.workout_verification";
+  static const STATE_SCREEN_TYPE_KEY = "state.screen";
+  static const STATE_LAST_ERROR_KEY = "state.error.last";
+  static const STATE_CALIBRATION_MODE_KEY = "state.calibration.mode";
+  static const STATE_CALIBRATION_KEY = "state.calibration";
+  static const STATE_CALIBRATION_STATUS_KEY = "state.calibration.status";
+  static const STATE_GAME_ID_KEY = "state.game.id";
+  static const STATE_GAME_SCORE_KEY = "state.game.score";
   static const WORKOUT_DURATION_UNIT_KEY = "workout_duration.type";
   static const WORKOUT_DURATION_KEY = "workout_duration";
 

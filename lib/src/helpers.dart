@@ -26,6 +26,7 @@ final Map<int, PacketParser> _packetParsers = {
   0x39: (data) => WorkoutSummaryPacket.fromBytes(data),
   0x3A: (data) => WorkoutSummaryPacket2.fromBytes(data),
   0x3C: (data) => ForceCurveData.fromBytes(data),
+  0x3E: (data) => StatusData3.fromBytes(data),
 };
 
 /// Attempts to parse a multiplexed Concept2 data packet.
