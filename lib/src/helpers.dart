@@ -5,6 +5,7 @@ import './packets/strokedata.dart';
 import './packets/segmentdata.dart';
 import './packets/workoutsummary.dart';
 import './packets/forcecurvepacket.dart';
+import './packets/belt.dart';
 
 import './packets/base.dart';
 
@@ -25,7 +26,7 @@ final Map<int, PacketParser> _packetParsers = {
   0x38: (data) => SegmentData2.fromBytes(data),
   0x39: (data) => WorkoutSummaryPacket.fromBytes(data),
   0x3A: (data) => WorkoutSummaryPacket1.fromBytes(data),
-  //0x3B: (data) => HeartRateBeltPacket.fromBytes(data),
+  0x3B: (data) => HeartRateBeltPacket.fromBytes(data),
   0x3C: (data) => WorkoutSummaryPacket2.fromBytes(data),
   0x3D: (data) => ForceCurveData.fromBytes(data),
   0x3E: (data) => StatusData3.fromBytes(data),

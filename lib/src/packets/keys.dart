@@ -16,6 +16,11 @@ class Keys {
   static const STATE_CALIBRATION_STATUS_KEY = "state.calibration.status";
   static const STATE_GAME_ID_KEY = "state.game.id";
   static const STATE_GAME_SCORE_KEY = "state.game.score";
+
+  static const BELT_MANUFACTURER_ID_KEY = "belt.manufacturer";
+  static const BELT_DEVICE_TYPE_KEY = "belt.type";
+  static const BELT_DEVICE_ID_KEY = "belt.id";
+
   static const WORKOUT_DURATION_UNIT_KEY = "workout_duration.type";
   static const WORKOUT_DURATION_KEY = "workout_duration";
 
