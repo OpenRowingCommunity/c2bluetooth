@@ -1,4 +1,4 @@
-import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
 
 import './packets/statusdata.dart';
 import './packets/strokedata.dart';
@@ -36,8 +36,9 @@ final Map<int, PacketParser> _packetParsers = {
 /// Returns `null` if the packet ID is unknown or the data is empty.
 Concept2CharacteristicData? parsePacket(Uint8List data) {
   if (data.isEmpty) return null;
-
   final id = data[0];
   final parser = _packetParsers[id];
+  debugPrint(
+      "packet data: ${data.map((e) => e.toRadixString(16).padLeft(2, '0')).join(',')}");
   return parser?.call(data.sublist(1));
 }
