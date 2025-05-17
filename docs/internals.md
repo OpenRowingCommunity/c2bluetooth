@@ -3,10 +3,6 @@ This document is meant to be similar to the [API](API.md) document, but specific
 
 Only people interested in contributing to c2bluetooth should need to understand things at this level.
 
-## Internal API Design
-
-TODO
-
 ## Internal API Concepts
 #### Commands
 The command classes are based on the similarly named classes in the csafe-fitness library. There is a command superclass that is responsible for implementing general-purpose command structures from the relevant CSAFE/Concept2 specifications. These general command classes can then be subclassed to make clearly-named human readable shortcuts that pre-fill details like the identifier and command type while also performing validation of the command data.
