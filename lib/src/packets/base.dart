@@ -19,8 +19,15 @@ class TimestampedData extends Concept2CharacteristicData {
 
   TimestampedData.zero() : this.fromBytes(Uint8List(20));
 
+  // DatetTime is a modified versions BCD scheme:
+  // https://github.com/MoralCode/c2-missing-spec/blob/main/concept2-the-missing-spec.md#date-and-time-formats
   TimestampedData.fromBytes(Uint8List bytes)
-      : timestamp = Concept2DateExtension.fromBytes(bytes.sublist(0, 4));
+      : timestamp = DateTime(
+            2000 + ((bytes[1] & 0xFE) >> 1),
+            bytes[0] & 0x0F,
+            ((bytes[1] & 0x01) << 4) + ((bytes[0] & 0xF0) >> 4),
+            bytes[3],
+            bytes[2]);
 
   Map<String, dynamic> asMap() {
     Map<String, dynamic> map = super.asMap();
