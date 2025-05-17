@@ -63,7 +63,7 @@ class WorkoutSummaryPacket extends TimestampedData {
     Map<String, dynamic> map = super.asMap();
     map.addAll({
       Keys.ELAPSED_TIME_KEY: elapsedTime,
-      Keys.ELAPSED_DISTANCE_KEY: workDistance,
+      Keys.WORKOUT_DISTANCE_KEY: workDistance,
       Keys.WORKOUT_AVG_SPM_KEY: avgSPM,
       Keys.WORKOUT_LAST_HR_KEY: endHeartRate,
       Keys.WORKOUT_AVG_HR_KEY: avgHeartRate,
