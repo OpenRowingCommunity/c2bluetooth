@@ -26,6 +26,7 @@ class Keys {
 
   static const WORKOUT_MACHINE_TYPE_KEY = "workout.machine_type";
   static const WORKOUT_DRAG_FACTOR_KEY = "workout.drag_factor";
+  static const WORKOUT_DISTANCE_KEY = "workout.distance";
   static const WORKOUT_TOTAL_DISTANCE_KEY = "workout.distance.total";
   static const WORKOUT_TIMESTAMP_KEY = "workout.timestamp";
   static const WORKOUT_SPM_KEY = "workout.stroke_rate";
