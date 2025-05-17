@@ -79,8 +79,7 @@ class WorkoutSummaryPacket extends TimestampedData {
   }
 }
 
-class WorkoutSummaryPacket2 extends TimestampedData {
-  IntervalType intervalType;
+class WorkoutSummaryPacket1 extends TimestampedData {
   int intervalSize;
   int intervalCount;
   int totalCalories;
@@ -90,26 +89,25 @@ class WorkoutSummaryPacket2 extends TimestampedData {
   int avgCalories;
 
   static Set<String> get datapointIdentifiers =>
-      WorkoutSummaryPacket2.zero().asMap().keys.toSet();
+      WorkoutSummaryPacket1.zero().asMap().keys.toSet();
 
-  WorkoutSummaryPacket2.fromBytes(Uint8List data)
-      : intervalType = IntervalTypeExtension.fromInt(data.elementAt(4)),
-        intervalSize = CsafeIntExtension.fromBytes(data.sublist(5, 7),
+  WorkoutSummaryPacket1.fromBytes(Uint8List data)
+      : intervalSize = CsafeIntExtension.fromBytes(data.sublist(4, 6),
             endian: Endian.little),
-        intervalCount = data.elementAt(7),
-        totalCalories = CsafeIntExtension.fromBytes(data.sublist(8, 10),
+        intervalCount = data.elementAt(6),
+        totalCalories = CsafeIntExtension.fromBytes(data.sublist(7, 9),
             endian: Endian.little),
-        watts = CsafeIntExtension.fromBytes(data.sublist(10, 12),
+        watts = CsafeIntExtension.fromBytes(data.sublist(9, 11),
             endian: Endian.little),
-        totalRestDistance = CsafeIntExtension.fromBytes(data.sublist(12, 15),
+        totalRestDistance = CsafeIntExtension.fromBytes(data.sublist(11, 13),
             endian: Endian.little),
-        intervalRestTime = CsafeIntExtension.fromBytes(data.sublist(15, 17),
+        intervalRestTime = CsafeIntExtension.fromBytes(data.sublist(13, 16),
             endian: Endian.little),
-        avgCalories = CsafeIntExtension.fromBytes(data.sublist(17, 19),
+        avgCalories = CsafeIntExtension.fromBytes(data.sublist(16, 18),
             endian: Endian.little),
         super.fromBytes(data);
 
-  WorkoutSummaryPacket2.zero() : this.fromBytes(Uint8List(19));
+  WorkoutSummaryPacket1.zero() : this.fromBytes(Uint8List(18));
 
   Map<String, dynamic> asMap() {
     // workout.heart_rate
@@ -124,6 +122,44 @@ class WorkoutSummaryPacket2 extends TimestampedData {
       // "workout.interval_rest_distance": ,
       Keys.WORKOUT_REST_TIME_KEY: intervalRestTime,
       Keys.WORKOUT_AVG_CALORIES_KEY: avgCalories
+    });
+    return map;
+  }
+}
+
+class WorkoutSummaryPacket2 extends TimestampedData {
+  int avgPace;
+  GameId gameID;
+  int verifier;
+  int gameScore;
+  MachineType machineType;
+
+  static Set<String> get datapointIdentifiers =>
+      WorkoutSummaryPacket2.zero().asMap().keys.toSet();
+
+  WorkoutSummaryPacket2.zero() : this.fromBytes(Uint8List(10));
+
+  WorkoutSummaryPacket2.fromBytes(Uint8List data)
+      : avgPace = CsafeIntExtension.fromBytes(data.sublist(4, 6),
+            endian: Endian.little),
+        gameID = GameIdExtension.fromInt(data.elementAt(6) & 0x0F),
+        verifier = (data.elementAt(6) & 0xF0) >> 4,
+        gameScore = CsafeIntExtension.fromBytes(data.sublist(7, 9),
+            endian: Endian.little),
+        machineType = MachineTypeExtension.fromInt(data.elementAt(9)),
+        super.fromBytes(data);
+
+  Map<String, dynamic> asMap() {
+    // workout.heart_rate
+    // workout.interval_rest_distance
+    Map<String, dynamic> map = super.asMap();
+    map.addAll({
+      Keys.SUMMARY_AVG_PACE_KEY: avgPace,
+      Keys.STATE_GAME_ID_KEY: gameID,
+      Keys.STATE_WORKOUT_VERIFICATION_KEY: verifier,
+      // "workout.interval_rest_distance": ,
+      Keys.STATE_GAME_SCORE_KEY: gameScore,
+      Keys.WORKOUT_MACHINE_TYPE_KEY: machineType
     });
     return map;
   }
