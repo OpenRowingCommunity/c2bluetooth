@@ -19,6 +19,18 @@ void main() {
       // expect(CsafeIntExtension.fromBytes(bytes, Endian.little), 2147483648);
     });
 
+    test('converting a date from a verifiable source from bytes', () {
+      // https://www.c2forum.com/viewtopic.php?t=93684
+      //  DateH     DateL     TimeH    TimeL
+      // 00011101 10010100  00010000 00001001
+      // final bytes = Uint8List.fromList([29, 148, 16, 9]);
+      final bytes = Uint8List.fromList([148, 29, 9, 16]);
+
+      expect(Concept2DateExtension.fromBytes(bytes),
+          DateTime(2014, 4, 25, 16, 09));
+      // 25th April 2014 @ 16:09 (4:09pm)
+    });
+
     test('converting a date in 2022 from bytes', () {
       final bytes = Uint8List.fromList([133, 44, 14, 14]);
       expect(
