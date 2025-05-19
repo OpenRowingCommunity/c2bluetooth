@@ -1,6 +1,7 @@
 # c2bluetooth
 
 [![Dart](https://github.com/CrewLAB/c2bluetooth/actions/workflows/dart.yml/badge.svg)](https://github.com/CrewLAB/c2bluetooth/actions/workflows/dart.yml)
+[![Matrix](https://img.shields.io/matrix/c2bluetooth:matrix.org?label=chat%20on%20matrix)](https://matrix.to/#/#c2bluetooth:matrix.org)
 
 C2Bluetooth is a flutter package designed to provide an easy API for accessing data from Concept2 PM5 Indoor fitness machines via bluetooth. This library implements the [Concept2 Performance Monitor Bluetooth Smart Communications Interface Definition](https://www.concept2.com/files/pdf/us/monitors/PM5_BluetoothSmartInterfaceDefinition.pdf) Specification ([newer versions](https://www.c2forum.com/viewtopic.php?f=15&t=193697#p527068) are also available). It also relies heavily on the [CSAFE specification](https://web.archive.org/web/20060718175014/http://www.fitlinxx.com/csafe/specification.htm) from FitLinxx.
 
@@ -122,8 +123,37 @@ To Be Implemented/Documented
 To Be Implemented/Documented
 #### Workout Summary data
 
-To be implemented.
+Workout summary data can be `monitorForWorkoutSummary()`. This is a stream that returns a `WorkoutSummary` object that allows you to access the data from a completed workout (this includes programmed pieces as well as "Just row" pieces that are longer than 1 minute)
 
+```dart
+myErg.monitorForWorkoutSummary().listen((workoutSummary) {
+  //do whatever here
+});
+```
+
+Each workout summary is a flutter object that contains the following fields:
+- `timestamp`
+- `workTime`
+- `workDistance`
+- `avgSPM`
+- `endHeartRate`
+- `avgHeartRate`
+- `minHeartRate`
+- `maxHeartRate`
+- `avgDragFactor`
+- `recoveryHeartRate`
+- `workoutType`
+- `avgPace`
+- `intervalType`
+- `intervalSize`
+- `intervalCount`
+- `totalCalories`
+- `watts`
+- `totalRestDistance`
+- `intervalRestTime`
+- `avgCalories`
+
+The `recoveryHeartRate` field is one that the erg sends after the rower has been resting for 1 minute. If the workout is cancelled or the erg is turned off before the end of this minute, the data may never arrive. See #10. This is likely to change later if a better solution is found. See #11.
 
 
 
@@ -139,5 +169,7 @@ If you are interested in making contributions to this library, please check out 
 
 ![The crewLAB logo](docs/images/crewlablogo.png)
 
-This library is supported by [CrewLAB](https://www.crewlab.io/). If you would like to license this library for use in a proprietary app, please reach out via our [support page](https://www.crewlab.io/support).
 
+This library was created for the rowing community with support and feedback from [CrewLAB](https://www.crewlab.io/).
+
+This library is licensed in a way that can be used within proprietary apps, as long as any changes you or your company make to this library are released and publicly accessible. Full legal details are available in the [LICENSE](./LICENSE) file.
