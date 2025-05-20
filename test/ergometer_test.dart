@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:c2bluetooth/c2bluetooth.dart';
 import 'package:c2bluetooth/src/dataplex.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -45,12 +46,18 @@ void main() {
           id: any(named: 'id'),
           connectionTimeout: any(named: 'connectionTimeout'),
         ),
-      ).thenAnswer((_) => deviceConnectionController.stream);
+      ).thenAnswer((c) {
+        debugPrint("connectToDevice(${c.namedArguments})");
+        return deviceConnectionController.stream;
+      });
       when(() => mockBle.connectedDeviceStream)
-          .thenAnswer((_) => deviceConnectionController.stream);
+          .thenAnswer((d) => deviceConnectionController.stream);
       when(() =>
               mockBle.subscribeToCharacteristic(any<QualifiedCharacteristic>()))
-          .thenAnswer((_) => characteristicController.stream);
+          .thenAnswer((q) {
+        debugPrint("subscribeToCharacteristic(${q.positionalArguments})");
+        return characteristicController.stream;
+      });
     });
     tearDownAll(() {
       deviceConnectionController.close();
