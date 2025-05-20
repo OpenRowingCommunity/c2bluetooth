@@ -36,9 +36,6 @@ class Ergometer {
   /// Connect to this erg and discover the services and characteristics that it offers
   /// this returns a stream of [ErgometerConnectionState] events to enable monitoring the erg's connection state and disconnecting.
   Stream<ErgometerConnectionState> connectAndDiscover() {
-    //having this first might cause problems
-    _csafeClient = Csafe(_readCsafe, _writeCsafe);
-
     //this may cause problems if the device goes out of range between scenning and trying to connect. maybe use connectToAdvertisingDevice instead to mitigate this and prevent a hang on android
 
     //if no services are specified in the `servicesWithCharacteristicsToDiscover` parameter, then full service discovery will be performed
@@ -47,6 +44,7 @@ class Ergometer {
         .handleError((error) =>
             throw C2ConnectionException('Error while connecting', error));
     _dataplex = new Dataplex(_peripheral, _flutterReactiveBle);
+    _csafeClient = Csafe(_readCsafe, _writeCsafe);
     return getMonitorConnectionState;
   }
 
