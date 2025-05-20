@@ -134,7 +134,7 @@ void main() {
             id: device.id,
             connectionTimeout: any(named: 'connectionTimeout'),
           )).called(1);
-      // Subscribed only to the initial subscriptions:
+      // Subscribed only to this subscription:
       // - Identifiers.C2_ROWING_CONTROL_SERVICE_UUID
       verify(() => mockBle.subscribeToCharacteristic(any(
               that: isA<QualifiedCharacteristic>().having(
@@ -236,7 +236,7 @@ void main() {
       await result;
       await connection.cancel();
       // Subscribed only to the subscriptions:
-      // - (init) Identifiers.C2_ROWING_CONTROL_SERVICE_UUID
+      // - (connect) Identifiers.C2_ROWING_CONTROL_SERVICE_UUID
       // - (createStream) Identifiers.C2_ROWING_MULTIPLEXED_INFORMATION_CHARACTERISTIC_UUID
       final subscribedCharacteristics =
           verify(() => mockBle.subscribeToCharacteristic(captureAny()))
