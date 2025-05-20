@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:c2bluetooth/c2bluetooth.dart';
+import 'package:c2bluetooth/constants.dart' as Identifiers;
 import 'package:c2bluetooth/src/dataplex.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -133,12 +134,15 @@ void main() {
             id: device.id,
             connectionTimeout: any(named: 'connectionTimeout'),
           )).called(1);
-      // Subscribed to the two defaut subscriptions:
-      // - Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID,
-      // - Identifiers.C2_ROWING_MULTIPLEXED_INFORMATION_CHARACTERISTIC_UUID,
-      verify(() =>
-              mockBle.subscribeToCharacteristic(any<QualifiedCharacteristic>()))
-          .called(2);
+      // Subscribed only to the initial subscriptions:
+      // - Identifiers.C2_ROWING_CONTROL_SERVICE_UUID
+      verify(() => mockBle.subscribeToCharacteristic(any(
+              that: isA<QualifiedCharacteristic>().having(
+                  (e) => e.characteristicId,
+                  'characteristicId',
+                  Uuid.parse(
+                      Identifiers.C2_ROWING_PM_TRANSMIT_CHARACTERISTIC_UUID)))))
+          .called(1);
     });
     test('Monitor for distance data', () async {
       final fakeData = Stream<List<int>>.fromIterable([
@@ -231,6 +235,18 @@ void main() {
           ]));
       await result;
       await connection.cancel();
+      // Subscribed only to the subscriptions:
+      // - (init) Identifiers.C2_ROWING_CONTROL_SERVICE_UUID
+      // - (createStream) Identifiers.C2_ROWING_MULTIPLEXED_INFORMATION_CHARACTERISTIC_UUID
+      final subscribedCharacteristics =
+          verify(() => mockBle.subscribeToCharacteristic(captureAny()))
+              .captured;
+      expect(subscribedCharacteristics[0].characteristicId,
+          Uuid.parse(Identifiers.C2_ROWING_PM_TRANSMIT_CHARACTERISTIC_UUID));
+      expect(
+          subscribedCharacteristics[1].characteristicId,
+          Uuid.parse(Identifiers
+              .C2_ROWING_MULTIPLEXED_INFORMATION_CHARACTERISTIC_UUID));
     });
   });
 }
