@@ -102,7 +102,7 @@ void main() {
         0x3E, // packet ID
         0x0A, // operational state: 10 (0x0A) => Idle
         0x00, // workout verification: 0 => ?
-        0x05, 0x00, // screen number: 5 => PREPARETORACESTART
+        0x01, 0x00, // screen number: 1 => HOME SCREEN
         0x02, 0x00, // last error: 2 ?
         0x00, // calibration mode: 0
         0x00, // calibration state: 0
@@ -116,8 +116,7 @@ void main() {
       expect(map[Keys.STATE_OPERATIONAL_STATE_KEY],
           equals(OperationalState.OPERATIONALSTATE_IDLE));
       expect(map[Keys.STATE_WORKOUT_VERIFICATION_KEY], equals(0));
-      expect(map[Keys.STATE_SCREEN_NUMBER_KEY],
-          equals(WorkoutScreenValue.PREPARETORACESTART));
+      expect(map[Keys.STATE_SCREEN_NUMBER_KEY], equals(1));
       expect(map[Keys.STATE_LAST_ERROR_KEY], equals(2));
       expect(map[Keys.STATE_CALIBRATION_MODE_KEY], equals(0));
       expect(map[Keys.STATE_CALIBRATION_KEY], equals(0));
