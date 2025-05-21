@@ -101,6 +101,7 @@ class CsafePMSetIntervalType extends Concept2Command {
     //     shouldThrow: true);
   }
 }
+
 /// A CSAFE command to set a horizontal distance goal
 ///
 /// This extends upon the Csafe version of the command in order to add checks for Concept2-specified limits.
