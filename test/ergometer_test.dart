@@ -145,77 +145,34 @@ void main() {
           .called(1);
     });
     test('Monitor for distance data', () async {
+      List<int> Function(int) distance_packet_fn = (distance) => [
+            0x31,
+            0,
+            0,
+            0,
+            distance * 10,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ];
       final fakeData = Stream<List<int>>.fromIterable([
-        // Each StatusData1 is 18 bytes
-        [
-          0x31,
-          0,
-          0,
-          0,
-          30,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ], // 3 m
-        [
-          0x31,
-          0,
-          0,
-          0,
-          40,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ], // 4 m
-        [
-          0x31,
-          0,
-          0,
-          0,
-          50,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ], // 5 m
+        // Each StatusData1 is 18 bytes,
+        distance_packet_fn(3), // 3 m
+        distance_packet_fn(4), // 4 m
+        distance_packet_fn(5), // 5 m
       ]);
       final erg = Ergometer(device, bleClient: mockBle);
       final StreamSubscription connection =
