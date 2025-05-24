@@ -1,108 +1,130 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:c2bluetooth/c2bluetooth.dart';
-import '../internal/commands.dart';
-import '../internal/datatypes.dart';
+import 'package:c2bluetooth/exceptions/c2bluetooth_exceptions.dart';
+import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
+import 'package:c2bluetooth/src/commands.dart';
+import 'package:c2bluetooth/src/datatypes.dart';
+import 'package:c2bluetooth/src/dataplex.dart';
 import 'package:csafe_fitness/csafe_fitness.dart';
-import '../helpers.dart';
+import 'package:c2bluetooth/helpers.dart';
 import 'workout.dart';
 import 'package:c2bluetooth/constants.dart' as Identifiers;
-import 'package:flutter_ble_lib_ios_15/flutter_ble_lib.dart';
-import 'package:rxdart/rxdart.dart';
 
 enum ErgometerConnectionState { connecting, connected, disconnected }
 
 class Ergometer {
-  Peripheral _peripheral;
+  final FlutterReactiveBle _flutterReactiveBle;
+  DiscoveredDevice _peripheral;
   Csafe? _csafeClient;
 
-  /// Get the name of this erg. i.e. "PM5" + serial number
-  ///
-  /// Returns "Unknown" if the erg does not report a name
-  String get name => _peripheral.name ?? "Unknown";
+  late final Dataplex _dataplex;
 
-  /// Create an Ergometer from a FlutterBleLib peripheral object
+  /// Get the name of this erg. i.e. "PM5" + serial number
+  String get name => _peripheral.name;
+  Stream<ConnectionStateUpdate>? _connection;
+
+  /// Create an [Ergometer] from a discovered bluetooth device object
   ///
-  /// This is mainly intended for internal use
-  Ergometer(this._peripheral);
+  /// This is intended only for internal use by [ErgBleManager.startErgScan].
+  /// Consider this method a private API that is subject to unannounced breaking
+  /// changes. There are likely much better methods to use for whatever you are trying to do.
+  Ergometer(this._peripheral, {required FlutterReactiveBle bleClient})
+      : _flutterReactiveBle = bleClient;
 
   /// Connect to this erg and discover the services and characteristics that it offers
-  Future<void> connectAndDiscover() async {
-    await _peripheral.connect();
-    await _peripheral.discoverAllServicesAndCharacteristics();
+  /// this returns a stream of [ErgometerConnectionState] events to enable monitoring the erg's connection state and disconnecting.
+  Stream<ErgometerConnectionState> connectAndDiscover() {
+    //this may cause problems if the device goes out of range between scenning and trying to connect. maybe use connectToAdvertisingDevice instead to mitigate this and prevent a hang on android
 
+    //if no services are specified in the `servicesWithCharacteristicsToDiscover` parameter, then full service discovery will be performed
+    _connection = _flutterReactiveBle
+        .connectToDevice(id: _peripheral.id)
+        .handleError((error) =>
+            throw C2ConnectionException('Error while connecting', error));
+    _dataplex = new Dataplex(_peripheral, _flutterReactiveBle);
     _csafeClient = Csafe(_readCsafe, _writeCsafe);
+    return getMonitorConnectionState;
   }
 
-  /// Disconnect from this erg or cancel the connection
-  Future<void> disconnectOrCancel() async {
-    return _peripheral.disconnectOrCancelConnection();
+  /// Deprecation notice: disconnect does not exists on FlutterReactiveBle library
+  @Deprecated("Destroy the Ergometer object to disconnect")
+  void disconnectOrCancel() {
+    throw NoSuchMethodError;
   }
 
-  /// Returns a stream of [WorkoutSummary] objects upon completion of any programmed piece or a "just row" piece that is longer than 1 minute.
-  Stream<WorkoutSummary> monitorForWorkoutSummary() {
-    Stream<Uint8List> ws1 = _peripheral
-        .monitorCharacteristic(Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID,
-            Identifiers.C2_ROWING_END_OF_WORKOUT_SUMMARY_CHARACTERISTIC_UUID)
-        .asyncMap((datapoint) => datapoint.read());
+  /// Subscribe to a stream of data from the erg
+  ///  (ex: general.distance, stroke.drive_length, ...)
+  Stream<Map<String, dynamic>> monitorForData(
+      Set<String> datapointIdentifiers) {
+    return _dataplex.createStream(datapointIdentifiers);
+  }
 
-    Stream<Uint8List> ws2 = _peripheral
-        .monitorCharacteristic(Identifiers.C2_ROWING_PRIMARY_SERVICE_UUID,
-            Identifiers.C2_ROWING_END_OF_WORKOUT_SUMMARY_CHARACTERISTIC2_UUID)
-        .asyncMap((datapoint) => datapoint.read());
-
-    return Rx.zip2(ws1, ws2, (Uint8List ws1Result, Uint8List ws2Result) {
-      List<int> combinedList = ws1Result.toList();
-      combinedList.addAll(ws2Result.toList());
-      return WorkoutSummary.fromBytes(Uint8List.fromList(combinedList));
-    });
+  // Ensure compatibility
+  @Deprecated("Use getMonitorConnectionState getter")
+  Stream<ErgometerConnectionState> monitorConnectionState() {
+    return getMonitorConnectionState;
   }
 
   /// Expose a stream of events to enable monitoring the erg's connection state
   /// This acts as a wrapper around the state provided by the internal bluetooth library to aid with swapping it out later.
-  Stream<ErgometerConnectionState> monitorConnectionState() {
-    return _peripheral.observeConnectionState().asyncMap((connectionState) {
-      switch (connectionState) {
-        case PeripheralConnectionState.connecting:
-          return ErgometerConnectionState.connecting;
-        case PeripheralConnectionState.connected:
-          return ErgometerConnectionState.connected;
-        case PeripheralConnectionState.disconnecting:
-          return ErgometerConnectionState.disconnected;
-        case PeripheralConnectionState.disconnected:
-          return ErgometerConnectionState.disconnected;
-        default:
-          return ErgometerConnectionState.disconnected;
-      }
-    });
-  }
+  Stream<ErgometerConnectionState> get getMonitorConnectionState =>
+      _connection!.asyncMap((connectionStateUpdate) {
+        switch (connectionStateUpdate.connectionState) {
+          case DeviceConnectionState.connecting:
+            return ErgometerConnectionState.connecting;
+          case DeviceConnectionState.connected:
+            return ErgometerConnectionState.connected;
+          case DeviceConnectionState.disconnecting:
+            return ErgometerConnectionState.disconnected;
+          default:
+            return ErgometerConnectionState.disconnected;
+        }
+      });
 
-  /// A read function for the PM over bluetooth.
+  /// An internal read function for accessing the PM's CSAFE API over bluetooth.
   ///
-  /// Intended for passing to the csafe_fitness library to allow it to read data from the erg
+  /// Intended for passing to the csafe_fitness library to allow it to read response data  from the erg
   Stream<Uint8List> _readCsafe() {
-    return _peripheral
-        .monitorCharacteristic(Identifiers.C2_ROWING_CONTROL_SERVICE_UUID,
-            Identifiers.C2_ROWING_PM_TRANSMIT_CHARACTERISTIC_UUID)
+    var csafeRxCharacteristic = QualifiedCharacteristic(
+        serviceId: Uuid.parse(Identifiers.C2_ROWING_CONTROL_SERVICE_UUID),
+        characteristicId:
+            Uuid.parse(Identifiers.C2_ROWING_PM_TRANSMIT_CHARACTERISTIC_UUID),
+        deviceId: _peripheral.id);
+
+    return _flutterReactiveBle
+        .subscribeToCharacteristic(csafeRxCharacteristic)
+        .asyncMap((datapoint) => Uint8List.fromList(datapoint))
         .asyncMap((datapoint) {
-      print("reading data: ${datapoint.value}");
-      return datapoint.value;
+      print("reading data: $datapoint");
+      return datapoint;
     });
   }
 
-  /// A write function for the PM over bluetooth.
+  /// An internal write function for accessing the PM's CSAFE API over bluetooth.
   ///
-  /// Intended for passing to the csafe_fitness library to allow it to write data to the erg
-  Future<Characteristic> _writeCsafe(Uint8List value) {
-    return _peripheral.writeCharacteristic(
-        Identifiers.C2_ROWING_CONTROL_SERVICE_UUID,
-        Identifiers.C2_ROWING_PM_RECEIVE_CHARACTERISTIC_UUID,
-        value,
-        true);
-    //.asyncMap((datapoint) => datapoint.read());
+  /// Intended for passing to the csafe_fitness library to allow it to write commands to the erg
+  void _writeCsafe(Uint8List value) {
+    var csafeTxCharacteristic = QualifiedCharacteristic(
+        serviceId: Uuid.parse(Identifiers.C2_ROWING_CONTROL_SERVICE_UUID),
+        characteristicId:
+            Uuid.parse(Identifiers.C2_ROWING_PM_RECEIVE_CHARACTERISTIC_UUID),
+        deviceId: _peripheral.id);
+
+    // return _peripheral.writeCharacteristic(
+    //     Identifiers.C2_ROWING_CONTROL_SERVICE_UUID,
+    //     Identifiers.C2_ROWING_PM_RECEIVE_CHARACTERISTIC_UUID,
+    //     value,
+    //     true);
+    // //.asyncMap((datapoint) => datapoint.read());
+
+    _flutterReactiveBle.writeCharacteristicWithResponse(csafeTxCharacteristic,
+        value: value);
   }
 
-  @Deprecated("This is a temporary function for development/experimentation and will be gone very soon")
+  @Deprecated(
+      "This is a temporary function for development/experimentation and will be gone very soon")
   void configure2kWorkout() async {
     //Workout workout
     await _csafeClient!.sendCommands([
@@ -141,7 +163,7 @@ class Ergometer {
 
   /// Program a workout into the PM with particular parameters
   ///
-  ///Currently only the more basic of workout types are supported, such as basic single intervals, single distance, and single time pieces
+  /// Currently only the more basic of workout types are supported, such as basic single intervals, single distance, and single time pieces
   void configureWorkout(Workout workout, [bool startImmediately = true]) async {
     //Workout workout
 

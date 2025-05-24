@@ -6,11 +6,11 @@
 C2Bluetooth is a flutter package designed to provide an easy API for accessing data from Concept2 PM5 Indoor fitness machines via bluetooth. This library implements the [Concept2 Performance Monitor Bluetooth Smart Communications Interface Definition](https://www.concept2.com/files/pdf/us/monitors/PM5_BluetoothSmartInterfaceDefinition.pdf) Specification ([newer versions](https://www.c2forum.com/viewtopic.php?f=15&t=193697#p527068) are also available). It also relies heavily on the [CSAFE specification](https://web.archive.org/web/20060718175014/http://www.fitlinxx.com/csafe/specification.htm) from FitLinxx.
 
 ## Demo
+This package comes with a demo app in the `example/` directory.
 
-![A demo showing the distance completed after a workout](docs/images/demo/demo1-small.jpg)
+See the [`example/README.md`](example/README.md) for more detailed information about the demo app and how to use it. 
 
-This is a relatively old screenshot of the included example app using an older version of the library to display the completed distance from a short 20-second test workout. Many improvements to expose more datapoints have been made since this screenshot was taken.
-## Key Features
+## Key Library Features
 
 Currently this library supports a few basic features such as:
 - retrieving workout summary information from the erg after a workout
@@ -45,7 +45,6 @@ Similar to how the underlying bluetooth library works, pretty much everything be
 
 ```dart
 ErgBleManager bleManager = ErgBleManager();
-bleManager.init(); //ready to go!
 ```
 ### Scanning for devices
 Next, you need to start scanning for available devices. This uses a Stream to return an instance of the `Ergometer` class for each erg found. Each of these instances represents an erg and should be stored for later reuse as these act as the base upon which everything else (retrieving data, sending workouts .etc) is based.
@@ -55,27 +54,51 @@ Next, you need to start scanning for available devices. This uses a Stream to re
 ```dart
 Ergometer myErg;
 
-bleManager.startErgScan().listen((erg) {
+StreamSubscription<Ergometer> ergScanStream = bleManager.startErgScan().listen((erg) {
 	//your code for detecting an erg here.
-  myErg = erg
+
+  //you can store the erg instance somewhere
+  myErg = erg;
+
+  //or connect to it (see later examples)
+
+  //or stop scanning
+  ergScanStream.cancel();
+
+  return erg;
 });
 ```
 This block of code is where you can do things like:
  - determine what erg(s) you want to work with (this can be based on name, user choice, or basicaly anything)
  - store the erg instance somewhere more permanent, like the `myErg` variable to allow you to be able to access it after you stop scanning.
- - call `bleManager.stopErgScan()` if you know you are done scanning early. As an example, one way to immediately connect to the first erg found is to unconditionally call `stopErgScan` within this function so the scan stops after the first erg is received. Don't forget to close the stream too!
+ - cancel the stream if you are done scanning.
 
 
 ### Connecting and disconnecting
-Once you have the `Ergometer` instance for the erg you want to connect to, you can call `connectAndDiscover()` on it to connect.
+Once you have the `Ergometer` instance for the erg you want to connect to, you can call `connectAndDiscover()` on it to connect. This will provide you with a stream indicating the connection state of the erg.
 
 ```dart
-await myErg.connectAndDiscover();
+StreamSubscription<Ergometer> ergConnectionStream = myErg.connectAndDiscover().listen((event) {
+  if(event == ErgometerConnectionState.connected) {
+    //do stuff here once the erg is connected
+  } else if (event == ErgometerConnectionState.disconnected) {
+    //handle disconnection here
+  }
+}, onError: (Object error) {
+  // Handle a possible error
+  if (error is C2ConnectionException) {
+    //handle connection errors
+  } else if (error is C2BluetoothException) {
+    print("C2Bluetooth error: ${error.message}");
+  } else {
+    print("Unknown error: $error");
+  }
+});
 ```
 
-When you are done, make sure to disconnect from your erg:
+When you are done, disconnect from your erg by cancelling the stream:
 ```dart
-await myErg.disconnectOrCancel();
+ergConnectionStream.cancel();
 ```
 
 ### Getting data from the erg

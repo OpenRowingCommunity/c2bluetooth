@@ -1,5 +1,5 @@
 import 'package:c2bluetooth/c2bluetooth.dart';
-import '../internal/datatypes.dart';
+import '../src/datatypes.dart';
 import 'package:csafe_fitness/csafe_fitness.dart';
 
 //TODO: validate data as a big endian IntegerWithUnits-like type with DurationType as the unit
@@ -11,5 +11,6 @@ Validator validateC2SplitGoal() {
           (data is Concept2IntegerWithUnits) &&
           (data.unit == DurationType.DISTANCE ||
               data.unit == DurationType.TIME),
-      (data) => ArgumentError("Value provided must be in either a distance or a time unit"));
+      (data) => ArgumentError(
+          "Value provided must be in either a distance or a time unit"));
 }

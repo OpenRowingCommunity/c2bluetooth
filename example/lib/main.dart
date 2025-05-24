@@ -1,213 +1,160 @@
 import 'dart:async';
+import 'dart:io';
 
-import 'package:c2bluetooth/c2bluetooth.dart';
-import 'package:c2bluetooth/models/workout.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:c2bluetooth/c2bluetooth.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(const MaterialApp(home: QuickstartPage()));
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class QuickstartPage extends StatefulWidget {
+  const QuickstartPage({super.key});
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: SimpleErgView(),
-    );
-  }
+  State<QuickstartPage> createState() => _QuickstartPageState();
 }
 
-class SimpleErgView extends StatefulWidget {
-  @override
-  _SimpleErgViewState createState() => _SimpleErgViewState();
-}
-
-class _SimpleErgViewState extends State<SimpleErgView> {
-  String displayText = "hi";
-  String displayText2 = "hi";
-  String displayText3 = "hi";
-
-  ErgBleManager bleManager = ErgBleManager();
-
-  Ergometer? targetDevice;
-  StreamSubscription<Ergometer>? scanSub;
+class _QuickstartPageState extends State<QuickstartPage> {
+  final ErgBleManager _bleManager = ErgBleManager();
+  AppState _state = AppState.idle;
+  StreamSubscription<ErgometerConnectionState>? _connection;
+  double? _workDistance;
 
   @override
   void initState() {
     super.initState();
-    unawaited(
-      bleManager.init().then((_) => startScan()),
-    );
+    _initBle();
   }
 
-  Future<void> startScan() async {
+  /// Ask once for permissions before init
+  Future<void> _initBle() async {
+    final perms = [
+      Permission.location, // Android: BLE scan needs location
+      if (Platform.isAndroid) Permission.bluetoothScan,
+      if (Platform.isAndroid) Permission.bluetoothConnect,
+      if (Platform.isIOS) Permission.bluetooth, // iOS
+    ];
+    final statuses = await perms.request();
+    if (!statuses.values.every((s) => s.isGranted)) {
+      setState(() => _state = AppState.permissionDenied);
+      return;
+    }
+  }
+
+  Future<void> _startBleFlow() async {
+    setState(() => _state = AppState.scanning);
+
+    // Scan, take first ergometer
+    final erg = await _bleManager.startErgScan().first;
+
+    // Connect & discover
+    _connection = erg.connectAndDiscover().listen((state) {
+      switch (state) {
+        case ErgometerConnectionState.connected:
+          setState(() => _state = AppState.connected);
+          break;
+        case ErgometerConnectionState.connecting:
+          setState(() => _state = AppState.connecting);
+          break;
+        case ErgometerConnectionState.disconnected:
+          _workDistance = null;
+          setState(() => _state = AppState.idle);
+          break;
+      }
+    });
+    // Wait for workout summary
+    final summary = await erg.monitorForData({Keys.ELAPSED_DISTANCE_KEY}).first;
+    _workDistance = await summary[Keys.ELAPSED_DISTANCE_KEY];
+
+    setState(() => _state = AppState.done);
+  }
+
+  void _disconnectBle() {
+    _connection?.cancel();
     setState(() {
-      displayText = "Start Scanning";
-    });
-
-    scanSub = bleManager.startErgScan().listen((erg) {
-      //Scan one peripheral and stop scanning
-      print("Scanned Peripheral ${erg.name}");
-
-      stopScan();
-      targetDevice = erg;
-      connectToDevice();
-    });
-  }
-
-  stopScan() {
-    scanSub?.cancel();
-    scanSub = null;
-    bleManager.stopErgScan();
-  }
-
-  connectToDevice() async {
-    if (targetDevice == null) return;
-
-    setState(() {
-      displayText = "Device Connecting";
-    });
-
-    await targetDevice!.connectAndDiscover();
-
-    // if (!connected) {
-    //   targetDevice!
-    //       .observeConnectionState(
-    //           emitCurrentValue: true, completeOnDisconnect: true)
-    //       .listen((connectionState) {
-    //     print(
-    //         "Peripheral ${targetDevice!.name} connection state is $connectionState");
-    //   });
-    //   try {
-    //     await targetDevice!.connect();
-    //   } catch (BleError) {
-    //     print("a");
-    //   }
-    //   print('CONNECTING');
-    // } else {
-    //   print('DEVICE Already CONNECTED');
-    // }
-    // setState(() {
-    //   displayText = "Device Connected";
-    // });
-    // discoverServices();
-    subscribeToStreams();
-  }
-
-  setup2kH() async {
-    if (targetDevice == null) return;
-
-    targetDevice?.configure2kWorkout();
-  }
-
-  setup10kH() async {
-    if (targetDevice == null) return;
-
-    targetDevice?.configure10kWorkout();
-  }
-
-  setup2k() async {
-    if (targetDevice == null) return;
-
-    targetDevice?.configureWorkout(Workout.single(WorkoutGoal.meters(2000)));
-  }
-
-  setup10k() async {
-    if (targetDevice == null) return;
-
-    targetDevice?.configureWorkout(Workout.single(WorkoutGoal.meters(10000)));
-  }
-
-  disconnectFromDevice() async {
-    if (targetDevice == null) return;
-
-    // targetDevice!.disconnect();
-    await targetDevice?.disconnectOrCancel();
-
-    setState(() {
-      displayText = "Device Disconnected";
-    });
-  }
-
-  subscribeToStreams() async {
-    if (targetDevice == null) return;
-
-    setState(() {
-      displayText = "Setting up streams";
-    });
-
-    targetDevice!.monitorForWorkoutSummary().listen((summary) {
-      setState(() {
-        displayText = "distance: ${summary.workDistance}";
-        displayText2 = "datetime: ${summary.timestamp}";
-        displayText3 = "sr: ${summary.avgSPM}";
-      });
+      _state = AppState.idle;
+      _workDistance = null;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    String message;
+    String hint;
+    VoidCallback? action;
+    IconData icon;
+
+    switch (_state) {
+      case AppState.idle:
+        message = 'Disconnected';
+        action = _startBleFlow;
+        icon = Icons.bluetooth_searching;
+        hint = 'Tap button to start scanning';
+        break;
+      case AppState.permissionDenied:
+        message = 'Permissions denied';
+        action = null;
+        icon = Icons.block;
+        hint = 'Restart app and grant them';
+        break;
+      case AppState.scanning:
+        message = 'Scanning…';
+        action = null;
+        icon = Icons.wifi_tethering;
+        hint = 'Scanning for the first erg around';
+        break;
+      case AppState.connecting:
+        message = 'Connecting…';
+        action = null;
+        icon = Icons.bluetooth_connected;
+        hint = 'Wait a second';
+        break;
+      case AppState.connected:
+        message = 'Connected';
+        action = _disconnectBle;
+        icon = Icons.link_off;
+        hint = 'You can try a rowing session or disconnect at any time';
+        break;
+      case AppState.done:
+        message = '🏁 Done! Distance: ${_workDistance}';
+        action = null;
+        icon = Icons.flag;
+        hint = 'This data was recovered from the ergometer subscription';
+        break;
+    }
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text("hello"),
+      appBar: AppBar(title: Center(child: const Text('c2bluetooth example'))),
+      body: Column(
+        children: [
+          Expanded(
+            flex: 1,
+            child: SvgPicture.asset(
+              'assets/images/logo.svg',
+              width: 150.0,
+              height: 150.0,
+            ),
+          ),
+          Expanded(
+              flex: 3,
+              child: Container(
+                  child: Column(
+                children: [
+                  Center(
+                      child: Text(message,
+                          style: TextStyle(fontSize: 50),
+                          textAlign: TextAlign.center)),
+                  Center(child: Text(hint, textAlign: TextAlign.center)),
+                ],
+              ))),
+        ],
       ),
-      body: Column(children: [
-        Center(
-          child: Text(
-            displayText,
-            style: TextStyle(fontSize: 24, color: Colors.blue),
-          ),
-        ),
-        Center(
-          child: Text(
-            displayText2,
-            style: TextStyle(fontSize: 24, color: Colors.blue),
-          ),
-        ),
-        Center(
-          child: Text(
-            displayText3,
-            style: TextStyle(fontSize: 24, color: Colors.blue),
-          ),
-        ),
-        Center(
-          child: TextButton(
-              onPressed: setup2kH, child: Text("Configure a 2k (hardcoded)")),
-        ),
-        Center(
-          child: TextButton(
-              onPressed: setup10kH, child: Text("Configure a 10k (hardcoded)")),
-        ),
-        Center(
-          child: TextButton(onPressed: setup2k, child: Text("Configure a 2k")),
-        ),
-        Center(
-          child:
-              TextButton(onPressed: setup10k, child: Text("Configure a 10k")),
-        ),
-      ]),
+      floatingActionButton: FloatingActionButton(
+        onPressed: action,
+        child: Icon(icon),
+      ),
     );
   }
-
-  @override
-  void dispose() {
-    disconnectFromDevice();
-    bleManager
-        .destroy(); //remember to release native resources when you're done!
-    super.dispose();
-  }
 }
+
+enum AppState { idle, permissionDenied, scanning, connecting, connected, done }

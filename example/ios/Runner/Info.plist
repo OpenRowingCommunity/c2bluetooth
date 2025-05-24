@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CADisableMinimumFrameDurationOnPhone</key>
-	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -13,7 +11,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>fresh_example</string>
+	<string>c2bluetooth_example</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -43,14 +41,16 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
     <key>NSBonjourServices</key>
     <array>
         <string>_dartobservatory._tcp</string>
     </array>
     <key>NSBluetoothAlwaysUsageDescription</key>
-    <string>The app uses bluetooth to find, connect and transfer data between different devices</string>
+    <string>The app uses bluetooth to connect and pull data from Concept2 Ergometer PM5 monitors</string>
     <key>NSBluetoothPeripheralUsageDescription</key>
-    <string>The app uses bluetooth to find, connect and transfer data between different devices</string>
+    <string>The app uses bluetooth to connect and pull data from Concept2 Ergometer PM5 monitor</string>
     <key>UIBackgroundModes</key>
     <array>
     <string>bluetooth-central</string>

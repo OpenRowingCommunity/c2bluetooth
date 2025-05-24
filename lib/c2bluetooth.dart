@@ -6,4 +6,4 @@ library c2bluetooth;
 export 'models/ergblemanager.dart';
 export 'models/ergometer.dart';
 export 'enums.dart';
-export 'data/workoutsummary.dart';
+export 'src/packets/keys.dart';

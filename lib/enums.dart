@@ -34,10 +34,10 @@ enum MachineType {
 
 extension MachineTypeExtension on MachineType {
   static Map _machineTypeValues = {
-    MachineType.STATIC_D: 1,
-    MachineType.STATIC_C: 2,
-    MachineType.STATIC_A: 3,
-    MachineType.STATIC_B: 4,
+    MachineType.STATIC_D: 0,
+    MachineType.STATIC_C: 1,
+    MachineType.STATIC_A: 2,
+    MachineType.STATIC_B: 3,
     MachineType.STATIC_E: 5,
     MachineType.STATIC_SIMULATOR: 7,
     MachineType.STATIC_DYNAMIC: 8,
@@ -105,8 +105,8 @@ enum DurationType {
 extension DurationTypeExtension on DurationType {
   static Map _durationTypes = {
     DurationType.TIME: 0x00,
-    DurationType.DISTANCE: 0x40,
-    DurationType.CALORIES: 0x80,
+    DurationType.CALORIES: 0x40,
+    DurationType.DISTANCE: 0x80,
     DurationType.WATTMIN: 0xC0,
   };
 
@@ -156,7 +156,6 @@ enum IntervalType {
   WATTMINUTE,
   WATTMINUTERESTUNDEFINED,
   NONE //overridden to 255 with the extenstion below
-
 }
 
 extension IntervalTypeExtension on IntervalType {
@@ -247,84 +246,124 @@ extension ScreenTypeExtension on ScreenType {
 
 enum WorkoutScreenValue {
   NONE,
+
   /// None value (0).
   PREPARETOROWWORKOUT,
+
   /// Prepare to workout type (1).
   TERMINATEWORKOUT,
+
   /// Terminate workout type (2).
   REARMWORKOUT,
+
   /// Rearm workout type (3).
   REFRESHLOGCARD,
+
   /// Refresh local copies of logcard structures(4).
   PREPARETORACESTART,
+
   /// Prepare to race start (5).
   GOTOMAINSCREEN,
+
   /// Goto to main screen (6).
   LOGCARDBUSYWARNING,
+
   /// Log device busy warning (7).
   LOGCARDSELECTUSER,
+
   /// Log device select user (8).
   RESETRACEPARAMS,
+
   /// Reset race parameters (9).
   CABLETESTSLAVE,
+
   /// Cable test slave indication(10).
   FISHGAME,
+
   /// Fish game (11).
   DISPLAYPARTICIPANTINFO,
+
   /// Display participant info (12).
   DISPLAYPARTICIPANTINFOCONFIRM,
+
   /// Display participant info w/ confirmation  (13).
   CHANGEDISPLAYTYPETARGET,
+
   /// Display type set to target (20).
   CHANGEDISPLAYTYPESTANDARD,
+
   /// Display type set to standard (21).
   CHANGEDISPLAYTYPEFORCEVELOCITY,
+
   /// Display type set to forcevelocity (22).
   CHANGEDISPLAYTYPEPACEBOAT,
+
   /// Display type set to Paceboat (23).
   CHANGEDISPLAYTYPEPERSTROKE,
+
   /// Display type set to perstroke (24).
   CHANGEDISPLAYTYPESIMPLE,
+
   /// Display type set to simple (25).
   CHANGEUNITSTYPETIMEMETERS,
+
   /// Units type set to timemeters (30).
   CHANGEUNITSTYPEPACE,
+
   /// Units type set to pace (31).
   CHANGEUNITSTYPEWATTS,
+
   /// Units type set to watts (32).
   CHANGEUNITSTYPECALORICBURNRATE,
+
   /// Units type set to caloric burn rate(33).
   TARGETGAMEBASIC,
+
   /// Gasic target game (34).
   TARGETGAMEADVANCED,
+
   /// Advanced target game (35).
   DARTGAME,
+
   /// Dart game (36).
   GOTOUSBWAITREADY,
+
   /// USB wait ready (37).
   TACHCABLETESTDISABLE,
+
   /// Tach cable test disable (38).
   TACHSIMDISABLE,
+
   /// Tach simulator disable (39).
   TACHSIMENABLERATE1,
+
   /// Tach simulator enable, rate = 1:12 (40).
   TACHSIMENABLERATE2,
+
   /// Tach simulator enable, rate = 1:35 (41).
   TACHSIMENABLERATE3,
+
   /// Tach simulator enable, rate = 1:42 (42).
   TACHSIMENABLERATE4,
+
   /// Tach simulator enable, rate = 3:04 (43).
   TACHSIMENABLERATE5,
+
   /// Tach simulator enable, rate = 3:14 (44).
   TACHCABLETESTENABLE,
+
   /// Tach cable test enable (45).
   CHANGEUNITSTYPECALORIES,
+
   /// Units type set to calories(46).
   VIRTUALKEY_A,
+
   /// Virtual key select A (47).
   VIRTUALKEY_B,
+
   /// Virtual key select B (48).
   VIRTUALKEY_C,
+
   /// Virtual key select C (49).
   VIRTUALKEY_D,
   VIRTUALKEY_E,
@@ -390,4 +429,75 @@ extension WorkoutScreenValueExtension on WorkoutScreenValue {
   //TODO: error if values not found
   static WorkoutScreenValue fromInt(int i) =>
       _racingScreenValues.map((key, value) => MapEntry(value, key))[i];
+}
+
+enum OperationalState {
+  /// Reset state (0).
+  OPERATIONALSTATE_RESET,
+
+  /// Ready state (1).
+  OPERATIONALSTATE_READY,
+
+  /// Workout state (2).
+  OPERATIONALSTATE_WORKOUT,
+
+  /// Warm-up state (3).
+  OPERATIONALSTATE_WARMUP,
+
+  /// Race state (4).
+  OPERATIONALSTATE_RACE,
+
+  /// Power-off state (5).
+  OPERATIONALSTATE_POWEROFF,
+
+  /// Pause state (6).
+  OPERATIONALSTATE_PAUSE,
+
+  /// Invoke boot loader state (7).
+  OPERATIONALSTATE_INVOKEBOOTLOADER,
+
+  /// Power-off ship state (8).
+  OPERATIONALSTATE_POWEROFF_SHIP,
+
+  /// Idle charge state (9).
+  OPERATIONALSTATE_IDLE_CHARGE,
+
+  /// Idle state (10).
+  OPERATIONALSTATE_IDLE,
+
+  /// Manufacturing test state (11).
+  OPERATIONALSTATE_MFGTEST,
+
+  /// Firmware update state (12).
+  OPERATIONALSTATE_FWUPDATE,
+
+  /// Drag factor state (13).
+  OPERATIONALSTATE_DRAGFACTOR,
+
+  /// Drag factor calibration state (100).
+  OPERATIONALSTATE_DFCALIBRATION // = 100
+}
+
+extension OperationalStateExtension on OperationalState {
+  static Map _operationalStateValues = {
+    OperationalState.OPERATIONALSTATE_RESET: 0,
+    OperationalState.OPERATIONALSTATE_READY: 1,
+    OperationalState.OPERATIONALSTATE_WORKOUT: 2,
+    OperationalState.OPERATIONALSTATE_WARMUP: 3,
+    OperationalState.OPERATIONALSTATE_RACE: 4,
+    OperationalState.OPERATIONALSTATE_POWEROFF: 5,
+    OperationalState.OPERATIONALSTATE_PAUSE: 6,
+    OperationalState.OPERATIONALSTATE_INVOKEBOOTLOADER: 7,
+    OperationalState.OPERATIONALSTATE_POWEROFF_SHIP: 8,
+    OperationalState.OPERATIONALSTATE_IDLE_CHARGE: 9,
+    OperationalState.OPERATIONALSTATE_IDLE: 10,
+    OperationalState.OPERATIONALSTATE_MFGTEST: 11,
+    OperationalState.OPERATIONALSTATE_FWUPDATE: 12,
+    OperationalState.OPERATIONALSTATE_DRAGFACTOR: 13,
+    OperationalState.OPERATIONALSTATE_DFCALIBRATION: 100,
+  };
+  int get value => _operationalStateValues[this];
+  //TODO: error if values not found
+  static OperationalState fromInt(int i) =>
+      _operationalStateValues.map((key, value) => MapEntry(value, key))[i];
 }

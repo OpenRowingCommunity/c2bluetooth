@@ -4,7 +4,7 @@ version: 0.1.6
 repository: https://github.com/CrewLAB/c2bluetooth
 
 environment:
-  sdk: ">=2.15.0 <3.0.0"
+  sdk: '>=3.2.0 <4.0.0'
   flutter: ">=1.17.0"
 
 dependencies:
@@ -12,13 +12,15 @@ dependencies:
   flutter:
     sdk: flutter
   
-  flutter_ble_lib_ios_15: ^2.5.2
   csafe_fitness: ^0.1.0
   rxdart: ^0.27.3
+  flutter_reactive_ble: ^5.0.2
 
 dev_dependencies:
+  csv: ^5.0.1
   flutter_test:
     sdk: flutter
+  mocktail: ^1.0.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

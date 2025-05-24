@@ -1,4 +1,4 @@
-import '../internal/datatypes.dart';
+import '../src/datatypes.dart';
 import 'package:csafe_fitness/csafe_fitness.dart';
 import 'package:equatable/equatable.dart';
 
@@ -7,15 +7,14 @@ import 'package:c2bluetooth/enums.dart';
 
 /// Represents a Workout that can be performed on a Concept2 Rowing machine
 class Workout {
-
   //TODO: add a fromConcept2Type factory to take a concept2 workoutType enum and make a workout using it
 
   bool get hasSplits => splitLength != null && !isInterval;
 
   bool get hasTargetPace => targetPacePer500 != null;
 
-  /// Determine if this workout is an intervals workout or not. 
-  /// 
+  /// Determine if this workout is an intervals workout or not.
+  ///
   /// rests.length should be a mostly adequate test, but checking for goal length also helps fix the edge case of undefined rest intervals
   bool get isInterval => rests.length > 0 || goals.length > 1;
 
