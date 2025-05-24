@@ -10,7 +10,7 @@ import 'keys.dart';
 /// Represents a summary of a completed workout
 ///
 /// This takes care of processesing the raw byte data from workout summary characteristics into easily accessible fields. This class also takes care of things like byte endianness, combining multiple high and low bytes .etc, allowing applications to access things in terms of flutter native types.
-class WorkoutSummaryPacket extends TimestampedData {
+class WorkoutSummary extends TimestampedData {
   Duration elapsedTime;
   double workDistance;
   int avgSPM;
@@ -24,10 +24,10 @@ class WorkoutSummaryPacket extends TimestampedData {
   double avgPace;
 
   static Set<String> get datapointIdentifiers =>
-      WorkoutSummaryPacket.zero().asMap().keys.toSet();
+      WorkoutSummary.zero().asMap().keys.toSet();
 
   /// Construct a WorkoutSummary from the bytes returned from the erg
-  WorkoutSummaryPacket.fromBytes(Uint8List data)
+  WorkoutSummary.fromBytes(Uint8List data)
       : elapsedTime = Concept2DurationExtension.fromBytes(data.sublist(4, 7)),
         workDistance = CsafeIntExtension.fromBytes(data.sublist(7, 10),
                 endian: Endian.little) /
@@ -45,7 +45,7 @@ class WorkoutSummaryPacket extends TimestampedData {
             10,
         super.fromBytes(data);
 
-  WorkoutSummaryPacket.zero() : this.fromBytes(Uint8List(20));
+  WorkoutSummary.zero() : this.fromBytes(Uint8List(20));
 
   Map<String, dynamic> asMap() {
     //     workout.date
@@ -79,7 +79,7 @@ class WorkoutSummaryPacket extends TimestampedData {
   }
 }
 
-class WorkoutSummaryPacket1 extends TimestampedData {
+class WorkoutSummary1 extends TimestampedData {
   int intervalSize;
   int intervalCount;
   int totalCalories;
@@ -89,9 +89,9 @@ class WorkoutSummaryPacket1 extends TimestampedData {
   int avgCalories;
 
   static Set<String> get datapointIdentifiers =>
-      WorkoutSummaryPacket1.zero().asMap().keys.toSet();
+      WorkoutSummary1.zero().asMap().keys.toSet();
 
-  WorkoutSummaryPacket1.fromBytes(Uint8List data)
+  WorkoutSummary1.fromBytes(Uint8List data)
       : intervalSize = CsafeIntExtension.fromBytes(data.sublist(4, 6),
             endian: Endian.little),
         intervalCount = data.elementAt(6),
@@ -107,7 +107,7 @@ class WorkoutSummaryPacket1 extends TimestampedData {
             endian: Endian.little),
         super.fromBytes(data);
 
-  WorkoutSummaryPacket1.zero() : this.fromBytes(Uint8List(18));
+  WorkoutSummary1.zero() : this.fromBytes(Uint8List(18));
 
   Map<String, dynamic> asMap() {
     // workout.heart_rate
@@ -127,7 +127,7 @@ class WorkoutSummaryPacket1 extends TimestampedData {
   }
 }
 
-class WorkoutSummaryPacket2 extends TimestampedData {
+class WorkoutSummary2 extends TimestampedData {
   int avgPace;
   GameId gameID;
   int verifier;
@@ -135,11 +135,11 @@ class WorkoutSummaryPacket2 extends TimestampedData {
   MachineType machineType;
 
   static Set<String> get datapointIdentifiers =>
-      WorkoutSummaryPacket2.zero().asMap().keys.toSet();
+      WorkoutSummary2.zero().asMap().keys.toSet();
 
-  WorkoutSummaryPacket2.zero() : this.fromBytes(Uint8List(10));
+  WorkoutSummary2.zero() : this.fromBytes(Uint8List(10));
 
-  WorkoutSummaryPacket2.fromBytes(Uint8List data)
+  WorkoutSummary2.fromBytes(Uint8List data)
       : avgPace = CsafeIntExtension.fromBytes(data.sublist(4, 6),
             endian: Endian.little),
         gameID = GameIdExtension.fromInt(data.elementAt(6) & 0x0F),

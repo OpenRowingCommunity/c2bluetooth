@@ -36,17 +36,17 @@ class Dataplex {
     ...StrokeData2.datapointIdentifiers,
     ...SegmentData1.datapointIdentifiers,
     ...SegmentData2.datapointIdentifiers,
-    ...WorkoutSummaryPacket.datapointIdentifiers,
-    ...WorkoutSummaryPacket2.datapointIdentifiers,
+    ...WorkoutSummary.datapointIdentifiers,
+    ...WorkoutSummary2.datapointIdentifiers,
     ...ForceCurveData.datapointIdentifiers
   };
 
   /// A map of incoming UUID's to the data keys they support.
   Map<String, Set<String>> characteristicToDataKeyMap = {
     Identifiers.C2_ROWING_END_OF_WORKOUT_SUMMARY_CHARACTERISTIC_UUID:
-        WorkoutSummaryPacket.datapointIdentifiers,
+        WorkoutSummary.datapointIdentifiers,
     Identifiers.C2_ROWING_END_OF_WORKOUT_SUMMARY_CHARACTERISTIC2_UUID:
-        WorkoutSummaryPacket2.datapointIdentifiers,
+        WorkoutSummary2.datapointIdentifiers,
   };
 
   Dataplex(
