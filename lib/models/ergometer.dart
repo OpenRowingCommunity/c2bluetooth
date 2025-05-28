@@ -15,6 +15,7 @@ enum ErgometerConnectionState { connecting, connected, disconnected }
 class Ergometer {
   final FlutterReactiveBle _flutterReactiveBle;
   DiscoveredDevice _peripheral;
+  Stream<ConnectionStateUpdate>? _connection;
   Csafe? _csafeClient;
 
   /// Get the name of this erg. i.e. "PM5" + serial number
@@ -37,7 +38,7 @@ class Ergometer {
     //this may cause problems if the device goes out of range between scenning and trying to connect. maybe use connectToAdvertisingDevice instead to mitigate this and prevent a hang on android
 
     //if no services are specified in the `servicesWithCharacteristicsToDiscover` parameter, then full service discovery will be performed
-    _flutterReactiveBle.connectToDevice(id: _peripheral.id);
+    _connection = _flutterReactiveBle.connectToDevice(id: _peripheral.id);
     return getMonitorConnectionState;
   }
 
@@ -92,8 +93,7 @@ class Ergometer {
   /// Expose a stream of events to enable monitoring the erg's connection state
   /// This acts as a wrapper around the state provided by the internal bluetooth library to aid with swapping it out later.
   Stream<ErgometerConnectionState> get getMonitorConnectionState =>
-      _flutterReactiveBle.connectedDeviceStream
-          .asyncMap((connectionStateUpdate) {
+      _connection!.asyncMap((connectionStateUpdate) {
         switch (connectionStateUpdate.connectionState) {
           case DeviceConnectionState.connecting:
             return ErgometerConnectionState.connecting;
