@@ -1,10 +1,10 @@
+import 'dart:typed_data';
+
 import 'package:c2bluetooth/helpers.dart';
 import 'package:c2bluetooth/models/workout.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  
-
   group("guessReasonableSplit - ", () {
     test("test with reasonable distance", () {
       expect(guessReasonableSplit(WorkoutGoal.meters(2000)),
@@ -84,6 +84,32 @@ void main() {
     test('When watts is 55555, should be 0:18.5', () {
       var result = wattsToSplit(55555);
       expect(result, '0:18.5');
+    });
+  });
+  group('timeFromBytes -', () {
+    test('should convert PM date bytes to DateTime', () {
+      final bytes = Uint8List.fromList([156, 42, 1, 14]);
+      expect(timeFromBytes(bytes), DateTime(2021, 12, 9, 14, 1));
+    });
+
+    test('should convert another valid byte sequence', () {
+      final bytes = Uint8List.fromList([241, 45, 1, 14]);
+      expect(timeFromBytes(bytes), DateTime(2022, 1, 31, 14, 1));
+    });
+  });
+
+  group('durationToSplit -', () {
+    test('converts a 2:05 duration', () {
+      expect(durationToSplit(Duration(minutes: 2, seconds: 5)), '2:05.0');
+    });
+
+    test('handles seconds only', () {
+      expect(durationToSplit(Duration(seconds: 30)), '0:30.0');
+    });
+
+    test('handles fractional seconds', () {
+      expect(
+          durationToSplit(Duration(minutes: 1, milliseconds: 900)), '1:00.9');
     });
   });
 }
