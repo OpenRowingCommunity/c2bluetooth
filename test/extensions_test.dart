@@ -40,12 +40,12 @@ void main() {
   });
 
   group("Concept2DurationExtension - ", () {
-    // TODO: need bytes to use as test case
-    // test('converting a duration from bytes', () {
-    //   // TODO: fixme, my endianness is backwards
-    //   final bytes = Uint8List.fromList([42, 156, 1, 14]); //date 10908
-    //   expect(
-    //       Concept2DurationExtension.fromBytes(bytes), DateTime(2021, 12, 9, 14, 1));
-    // });
+    test('converts a duration from bytes and back again', () {
+      // 1 minute, 30.5 seconds -> 90500 ms -> 9050 hundred of a second
+      final bytes = Uint8List.fromList([90, 35, 0]);
+      final duration = Concept2DurationExtension.fromBytes(bytes);
+      expect(duration, Duration(minutes: 1, seconds: 30, milliseconds: 500));
+      expect(duration.toBytes(), bytes);
+    });
   });
 }
