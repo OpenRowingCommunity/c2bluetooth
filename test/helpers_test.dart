@@ -35,10 +35,13 @@ void main() {
     test('3:00.2', () {
       expect(parseDuration("3:00.2"), Duration(minutes: 3, milliseconds: 200));
     });
-    // TODO: Update errors for splitToWatts()
-    // test('When invalid split format, should throw error', () {
-    //   expect(() => splitToWatts('0'), throwsFormatException);
-    // });
+    test('throws FormatException on malformed string', () {
+      expect(() => parseDuration('foo'), throwsFormatException);
+    });
+
+    test('throws RangeError on negative values', () {
+      expect(() => parseDuration('-1:00.0'), throwsRangeError);
+    });
   });
 
   group('splitToWatts -', () {
@@ -59,10 +62,12 @@ void main() {
       var result = splitToWatts(Duration(minutes: 3));
       expect(result, 60);
     });
-    // TODO: Update errors for splitToWatts()
-    // test('When invalid split format, should throw error', () {
-    //   expect(() => splitToWatts('0'), throwsFormatException);
-    // });
+    test('throws RangeError when split is non-positive', () {
+      expect(() => splitToWatts(Duration.zero), throwsRangeError);
+    });
+    test('throws RangeError when split is negative', () {
+      expect(() => splitToWatts(Duration(seconds: -5)), throwsRangeError);
+    });
   });
   group('wattsToSplit -', () {
     test('When watts is 179, should be 2:05.0', () {
@@ -84,6 +89,9 @@ void main() {
     test('When watts is 55555, should be 0:18.5', () {
       var result = wattsToSplit(55555);
       expect(result, '0:18.5');
+    });
+    test('throws RangeError when watts is negative', () {
+      expect(() => wattsToSplit(-10), throwsRangeError);
     });
   });
   group('timeFromBytes -', () {
