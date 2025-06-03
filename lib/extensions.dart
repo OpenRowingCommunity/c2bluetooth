@@ -19,14 +19,18 @@ extension Concept2DateExtension on DateTime {
   }
 
   Uint8List toBytes() {
-    List<int> bytes = [];
+    int yearOffset = year - 2000;
 
-    // int yearoffset = (year - 2000);
-    // bytes.add( (day & 0x0F)<<4 | month & 0x0F);
+    int dateValue = (yearOffset << 9) | (day << 4) | month;
 
-    // int day_year_byte = (day & 0x1F) | ;
+    Uint8List dateBytes =
+        dateValue.toBytes(fillBytes: 2, endian: Endian.little);
 
-    return Uint8List.fromList(bytes);
+    return Uint8List.fromList([
+      ...dateBytes,
+      minute,
+      hour,
+    ]);
   }
 }
 

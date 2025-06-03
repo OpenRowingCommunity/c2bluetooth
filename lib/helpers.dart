@@ -10,14 +10,17 @@ import 'models/workout.dart';
 /// Concept2's structure is date LO, Date HI, Time LO, Time HI
 /// see also https://www.c2forum.com/viewtopic.php?f=15&t=200769
 DateTime timeFromBytes(Uint8List bytes) {
-  int date = CsafeIntExtension.fromBytes(bytes.sublist(0, 2));
+  int date =
+      CsafeIntExtension.fromBytes(bytes.sublist(0, 2), endian: Endian.little);
 
   int month = date & 0x0F;
   int day = (date >> 4) & 0x1F;
   int year = (date >> 9) & 0x7f;
 
-  int minutes = CsafeIntExtension.fromBytes(bytes.sublist(2, 3));
-  int hours = CsafeIntExtension.fromBytes(bytes.sublist(3, 4));
+  int minutes =
+      CsafeIntExtension.fromBytes(bytes.sublist(2, 3), endian: Endian.little);
+  int hours =
+      CsafeIntExtension.fromBytes(bytes.sublist(3, 4), endian: Endian.little);
 
   return DateTime(year + 2000, month, day, hours, minutes);
 }
@@ -44,17 +47,34 @@ WorkoutGoal? guessReasonableSplit(WorkoutGoal goal) {
 
 //https://stackoverflow.com/questions/54852585/how-to-convert-a-duration-like-string-to-a-real-duration-in-flutter
 Duration parseDuration(String s) {
+  final parts = s.split(':');
+  if (parts.length < 2 || parts.length > 3) {
+    throw const FormatException('Invalid duration format');
+  }
+
+  final secString = parts.last;
+  final sec = double.tryParse(secString);
+  if (sec == null) {
+    throw const FormatException('Invalid seconds value');
+  }
+
+  final minString = parts[parts.length - 2];
+  final minutes = int.tryParse(minString);
+  if (minutes == null) {
+    throw const FormatException('Invalid minutes value');
+  }
+
   int hours = 0;
-  int minutes = 0;
-  int micros;
-  List<String> parts = s.split(':');
-  if (parts.length > 2) {
-    hours = int.parse(parts[parts.length - 3]);
+  if (parts.length == 3) {
+    hours = int.tryParse(parts.first) ??
+        (throw const FormatException('Invalid hours value'));
   }
-  if (parts.length > 1) {
-    minutes = int.parse(parts[parts.length - 2]);
+
+  if (hours < 0 || minutes < 0 || sec < 0) {
+    throw RangeError('Duration values must be non-negative');
   }
-  micros = (double.parse(parts[parts.length - 1]) * 1000000).toInt();
+
+  final micros = (sec * Duration.microsecondsPerSecond).round();
   return Duration(hours: hours, minutes: minutes, microseconds: micros);
 }
 
@@ -73,6 +93,9 @@ String durationToSplit(Duration d) {
 // source: https://www.concept2.com/indoor-rowers/training/calculators/watts-calculator
 
 double splitToWatts(Duration split) {
+  if (split.inMilliseconds <= 0) {
+    throw RangeError('split must be positive');
+  }
   double secondsperMeter =
       split.inMilliseconds / Duration.millisecondsPerSecond;
   var rawWatts = (2.8 / pow(secondsperMeter / 500, 3));
@@ -82,6 +105,9 @@ double splitToWatts(Duration split) {
 // pace = ³√(2.80/watts); pace = seconds per meter
 // source: https://www.concept2.com/indoor-rowers/training/calculators/watts-calculator
 String wattsToSplit(double watts) {
+  if (watts < 0) {
+    throw RangeError('watts must be non-negative');
+  }
   if (watts == 0) {
     return "0:00.0";
   }
